@@ -6,6 +6,8 @@ const {
   register, login
 } = require("../controllers/authController")
 
+// router.get("/emailcheck", emailCheck)
+
 router.post("/register", register);
 
 router.post("/login", login)

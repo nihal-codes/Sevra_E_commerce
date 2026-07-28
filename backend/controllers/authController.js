@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const generateToken = require("../utils/GenerateToken")
+const SendMail = require("../utils/SendEmail");
 
 const User = require("../models/Users");
 const KEY = process.env.JWT_SECRET;
@@ -16,10 +18,13 @@ const register = async (req, res) => {
       })
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const vToken = crypto.randomBytes(32).toString("hex"); // generates a random 32 bit token.
     const newUser = new User({
       fullName: fullName, email: email,
       password: hashedPassword,
-      role: "user"
+      role: "user",
+      verificationToken: vToken,
+      verificationExpires: Date.now() + 1000*60*30 // expires in 30 minutes, 1000 used for milliseconds 
     })
     await newUser.save();
     res.status(201).json({
