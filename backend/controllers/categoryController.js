@@ -61,7 +61,7 @@ const putCategory = async(req, res) => {
         name: name
       }, 
       { 
-        new: true
+        after: true
       }
     )
     res.status(200).json({

@@ -12,7 +12,7 @@ const Login = () => {
       console.log(response.data)
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token)
-          navigate("/admin/category")
+          navigate("/category")
       }
     }
     catch (err) {

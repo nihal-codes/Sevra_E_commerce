@@ -1,6 +1,7 @@
 import api from "../api/api"
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
+import DialogBox from "../pages/DialogBox";
 
 const AdminSubCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,6 @@ const AdminSubCategory = () => {
     try {
       const response = await api.get("/subcategories")
       setSubCategories(response.data.subCategories)
-      console.log(response.data.subCategories)
     }
     catch (err) {
       console.log(err.response.data)
@@ -89,19 +89,15 @@ const AdminSubCategory = () => {
 
   const handleUpdateBox = (id) => {
     setSubCategoryId(id);
-    showUpdateBox(true);
+    showUpdateBox(!updateBox);
   }
 
   return (
     <>
-      <div className=" w-fit">
-        {categories.map((category) => (
-          <div key={category._id} className="flex flex-row  gap-4 ">
-            <button onClick={() => handleInputBox(category._id)} className="flex border p-1 rounded m-2">{category.name}</button>
-          </div>
-        ))}
-      </div>
-
+    <div className="flex justify-between">
+        {(updateBox || inputBox) && 
+          <div className="absolute inset-0 bg-black/50"></div>
+        }      
       <div>
         {subCategories.map((subCategory) => (
           <div key={subCategory._id} className="flex w-80 m-2 rounded-lg p-2 border items-center justify-between">
@@ -114,21 +110,46 @@ const AdminSubCategory = () => {
         ))}
       </div>
 
-      <div>
-        {updateBox === true && 
-          <div className="flex flex-col border rounded-lg w-fit m-2 gap-4 p-4">
-            <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Enter new name" className="border w-fit p-1 rounded"/>
+      <button className="border rounded p-1" onClick={() => showInputBox(!inputBox)}>
+        Add SubCategory
+      </button>
+
+      {updateBox === true &&  
+        <DialogBox>
+          <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Enter new name" className="border w-fit p-1 rounded"/>
+          <div className="flex gap-4">
             <button onClick={() => handlePutSubCategory(subCategoryId, newName)}>Done</button>
-          </div>}
-      </div>
+            <button onClick={() => showUpdateBox(false)}>Cancel</button>
+          </div>
+        </DialogBox>
+      }
 
 
       {inputBox === true && 
-      <form onSubmit={handleSubmit(handleAddSubCategory)} className="border w-fit flex flex-col gap-4 p-4 rounded-lg">
-        <input type="text" {...register("name")} placeholder="Add new Sub category" className="border p-1 rounded"/>
+      <DialogBox>
+        <div>
+          <select value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className=" border p-1 rounded"> 
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <input type="submit" value={isSubmitting ? "Adding Sub Category" : "Add Sub Category"} disabled={isSubmitting} className="border w-fit p-1 rounded"/>
-      </form>}
+
+        <form onSubmit={handleSubmit(handleAddSubCategory)} className="border w-fit flex flex-col gap-4 p-4 rounded-lg">
+          <input type="text" {...register("name")} placeholder="Add new Sub category" className="border p-1 rounded"/>
+
+          <input type="submit" value={isSubmitting ? "Adding Sub Category" : "Add Sub Category"} disabled={isSubmitting} className="border w-fit p-1 rounded"/>
+          <button onClick={() => showInputBox(false)}>Cancel</button>
+        </form>
+      </DialogBox>
+      }
+      </div>
     </>
   )
 }

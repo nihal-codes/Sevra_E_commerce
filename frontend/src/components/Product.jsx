@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import api from "../api/api"
+import DialogBox from "../pages/DialogBox";
 
 const AdminProduct = () => {
   const [subCategories, setSubCategories] = useState([])
@@ -93,14 +94,11 @@ const AdminProduct = () => {
 
   return (
     <>
-      <div className="flex ">
-        {subCategories.map((subCategory) => (
-          <div key={subCategory._id} className="m-2">
-            <button onClick={() => handleInputBox(subCategory._id)} className="p-1 border rounded ">{subCategory.name}
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="flex justify-between">
+
+        {(updateBox || inputBox) && 
+          <div className="absolute inset-0 bg-black/50"></div>
+        }
 
       <div>
         {products.map((product) => (
@@ -119,27 +117,46 @@ const AdminProduct = () => {
         ))}
       </div>
 
-      {updateBox === true && 
-        <div className="flex flex-col gap-4 p-2 border rounded-lg w-fit">
+      <button onClick={() => showInputBox(true)} className="border p-1 rounded h-fit">
+        Add product
+      </button>
+
+      {updateBox && 
+        <DialogBox>
           <input type="text" placeholder="Enter new name" onChange={(e) => setNewName(e.target.value)} className="w-fit border rounded p-1"/>
           <input type="text" placeholder="Enter new price" onChange={(e) => setNewPrice(e.target.value)} className="w-fit border rounded p-1"/>
-
-          <button onClick={() => putProduct(productId)}>Done</button>
-        </div>
+          <div className="flex gap-4">
+            <button onClick={() => putProduct(productId)}>Done</button>
+            <button onClick={() => showUpdateBox(false)}>Cancel</button>
+          </div>
+        </DialogBox>
       }
 
-      {inputBox === true && 
-      <form onSubmit={handleSubmit(postProducts)} className="flex flex-col w-fit  p-2 gap-4 border rounded-lg m-2">
-        <input type="text" {...register("name")} placeholder="Enter product name" className="border p-1 rounded"/>
-        <input type="text" {...register("brand")} placeholder="Enter brand name" className="border p-1 rounded"/>
-        <input type="text" {...register("price")} placeholder="Enter price" className="border p-1 rounded"/>
-        <input type="text" {...register("discount")} placeholder="Enter discount" className="border p-1 rounded"/>
-        <input type="text" {...register("stock")} placeholder="Enter stock" className="border p-1 rounded"/>
-        <input type="text" {...register("minOrderQuantity")} placeholder="Enter min order quantity" className="border p-1 rounded"/>
-        <input type="text" {...register("returnPolicy")} placeholder="Enter return policy" className="border p-1 rounded"/>
+      {inputBox && 
+      <DialogBox>
+        <div>
+          <select value={subCategoryId} onChange={(e) => setSubCategoryId(e.target.value)} className="border p-1 rounded">
+            <option value="">Select subcategory</option>
+            {subCategories.map((subCategory) => (
+              <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
+            ))}
+          </select>
+        </div>
+        <form onSubmit={handleSubmit(postProducts)} className="flex flex-col w-fit  p-2 gap-4 border rounded-lg m-2">
+          <input type="text" {...register("name")} placeholder="Enter product name" className="border p-1 rounded"/>
+          <input type="text" {...register("brand")} placeholder="Enter brand name" className="border p-1 rounded"/>
+          <input type="text" {...register("price")} placeholder="Enter price" className="border p-1 rounded"/>
+          <input type="text" {...register("discount")} placeholder="Enter discount" className="border p-1 rounded"/>
+          <input type="text" {...register("stock")} placeholder="Enter stock" className="border p-1 rounded"/>
+          <input type="text" {...register("minOrderQuantity")} placeholder="Enter min order quantity" className="border p-1 rounded"/>
+          <input type="text" {...register("returnPolicy")} placeholder="Enter return policy" className="border p-1 rounded"/>
 
-        <input type="submit" value={isSubmitting ?  "Adding Product" : "Add product"} disabled={isSubmitting}/>
-      </form>}
+          <input type="submit" value={isSubmitting ?  "Adding Product" : "Add product"} disabled={isSubmitting}/>
+          <button onClick={() => showInputBox(false)}>Cancel</button>
+        </form>
+      </DialogBox>
+      }
+    </div>
     </>
   )
 }
