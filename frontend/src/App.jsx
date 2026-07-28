@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import Admin from "./components/Admin"
-import AdminCategory from "./components/AdminCategory"
-import AdminSubCategory from "./components/AdminSubCategory"
-import AdminProduct from "./components/AdminProduct"
+import Category from "./components/Category"
+import SubCategory from "./components/SubCategory"
+import Product from "./components/Product"
 import UserReview from "./components/UserReview"
-import AdminSideBar from "./components/AdminSideBar"
+import SideBar from "./components/SideBar"
 import Login from "./components/Login"
 import Register from "./components/Register"
 
@@ -17,36 +17,30 @@ const router = createBrowserRouter([
       </>
   },
   {
-    path: "/admin",
-    element:
-    <>
-        <AdminSideBar />  
-        <Admin />
-      </>,
-    children: [
-      {
-        path: "category",
-        element: 
-          <>
-            <AdminCategory />
-          </>
-      },
-      {
-        path: "subcategory",
-        element: 
-          <>
-            <AdminSubCategory />
-          </>
-      },
-      {
-        path: "product",
-        element: 
-          <>
-            <AdminProduct />
-          </>
-      }
-    ]
+    path: "category",
+    element: 
+      <>
+        <SideBar />
+        <Category />
+      </>
   },
+  {
+    path: "subcategory",
+    element: 
+      <>
+        <SideBar />
+        <SubCategory />
+      </>
+  },
+  {
+    path: "product",
+    element: 
+      <>
+        <SideBar />
+        <Product />
+      </>
+  },
+
   {
     path: "/register",
     element:<Register />
