@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import api from "../api/api"
-import DialogBox from "../pages/DialogBox";
+import DialogBox from "./DialogBox"
 
 const Product = () => {
   const [subCategories, setSubCategories] = useState([])
@@ -97,7 +97,8 @@ const Product = () => {
     <div className="flex justify-between">
 
         {(updateBox || inputBox) && 
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 bg-black/50" 
+          onClick={() => showInputBox(false)}></div>
         }
 
       <div>

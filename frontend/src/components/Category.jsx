@@ -2,7 +2,7 @@ import api from "../api/api"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-import DialogBox from "../pages/DialogBox"
+import DialogBox from "./DialogBox"
 
 const Category = () => {
   const navigate = useNavigate();

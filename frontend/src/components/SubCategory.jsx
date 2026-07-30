@@ -1,7 +1,7 @@
 import api from "../api/api"
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"
-import DialogBox from "../pages/DialogBox";
+import DialogBox from "./DialogBox"
 
 const SubCategory = () => {
   const [categories, setCategories       ] = useState([]);

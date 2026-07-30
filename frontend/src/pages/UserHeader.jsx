@@ -6,7 +6,7 @@ const UserHeader = () => {
         <div className="flex gap-4">
           <button>Cart</button>
           <button>SignUp/SignIn</button>
-          <button>Account</button>
+          <button>Settings</button>
         </div>
       </div>
     </>
