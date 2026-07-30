@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const UserReview = () => {
-  const [products, setProducts] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [productId, setProductId] = useState("")
-  const [reviewId, setReviewId] = useState("")
-  const [inputBox, showInputBox] = useState(false)
-  const [updateBox, showUpdateBox] = useState(false)
-  const [newRating, setNewRating] = useState("")
+  const [products, setProducts    ] = useState([]);
+  const [reviews, setReviews      ] = useState([]);
+  const [productId, setProductId  ] = useState("")
+  const [reviewId, setReviewId    ] = useState("")
+  const [inputBox, showInputBox   ] = useState(false)
+  const [updateBox, showUpdateBox ] = useState(false)
+  const [newRating, setNewRating  ] = useState("")
 
   const { register, handleSubmit, formState: {isSubmitting}} = useForm();
 
@@ -27,8 +27,7 @@ const UserReview = () => {
       const response = await api.get("/reviews")
       setReviews(response.data.reviews)
       console.log(response.data.reviews)
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err.response.data)
     }
   }

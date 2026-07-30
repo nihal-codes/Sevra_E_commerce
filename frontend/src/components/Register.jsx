@@ -13,8 +13,7 @@ const Register = () => {
       if (response.status === 201) {
           navigate("/login")
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err.response.data)
       if(err.response.status === 500) {
         navigate("/login")

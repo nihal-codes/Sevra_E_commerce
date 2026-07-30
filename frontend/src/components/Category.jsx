@@ -4,14 +4,15 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import DialogBox from "../pages/DialogBox"
 
-const AdminCategory = () => {
+const Category = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([])
-  const [newCategory, setNewCategory] = useState("")
-  const [inputBox, showInputBox] = useState(false)  
-  const [updateBox, showUpdateBox] = useState(false)
-  const [id, setId] = useState("")
-  const [role, setRole] = useState("")
+  const [categories, setCategories   ] = useState([])
+  const [newCategory, setNewCategory ] = useState("")
+  const [inputBox, showInputBox      ] = useState(false)  
+  const [updateBox, showUpdateBox    ] = useState(false)
+  const [id, setId                   ] = useState("")
+  const [role, setRole               ] = useState("")
+
   const { register, handleSubmit, formState: { isSubmitting }} = useForm();
   
   const getCategories = async() => {
@@ -32,6 +33,7 @@ const AdminCategory = () => {
     try {
       const response = await api.post("/categories", data)
       await getCategories();
+      showInputBox(false)
       console.log(response)
     } catch (err) {
       console.log(err.response.data)
@@ -78,9 +80,9 @@ const AdminCategory = () => {
         {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50"></div>
         }
-        <div className="flex flex-col ">
+        <div className="flex overflow-x-auto scrollbar-none gap-4 m-2">
           {categories.map((category) => (
-            <div key={category._id} className="flex gap-2 w-80 items-center justify-between mb-2 border rounded p-2 ">
+            <div key={category._id} className="flex w-30 h-30 lg:w-fit lg: gap-10 items-center justify-between mb-2 border rounded p-2 ">
               <p className="">{category.name}</p>
               {role === "admin" && 
                 <div className="flex gap-1">
@@ -91,9 +93,10 @@ const AdminCategory = () => {
           ))}
         </div>
 
+        {role === "admin" && 
         <button className="border rounded p-1" onClick={handleInputBox}>
           Add Category
-        </button>
+        </button>}
         
         {updateBox === true && role === "admin" && 
           <DialogBox>
@@ -126,4 +129,4 @@ const AdminCategory = () => {
   )
 }
 
-export default AdminCategory;
+export default Category;

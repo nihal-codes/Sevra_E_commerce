@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"
 import DialogBox from "../pages/DialogBox";
 
-const AdminSubCategory = () => {
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
-  const [categoryId, setCategoryId] = useState("")
-  const [subCategoryId, setSubCategoryId] = useState("")
-  const [inputBox, showInputBox] = useState(false)
-  const [updateBox, showUpdateBox] = useState(false)
-  const [newName, setNewName] = useState("")
+const SubCategory = () => {
+  const [categories, setCategories       ] = useState([]);
+  const [subCategories, setSubCategories ] = useState([]);
+  const [categoryId, setCategoryId       ] = useState("")
+  const [subCategoryId, setSubCategoryId ] = useState("")
+  const [inputBox, showInputBox          ] = useState(false)
+  const [updateBox, showUpdateBox        ] = useState(false)
+  const [newName, setNewName             ] = useState("")
+  const [role, setRole                   ] = useState("")
 
   const { register, handleSubmit, formState: {isSubmitting}} = useForm();
 
@@ -18,6 +19,7 @@ const AdminSubCategory = () => {
     try {
       const response = await api.get("/categories")
       setCategories(response.data.categories)
+      setRole(response.data.role)
     } catch (err) {
       console.log(err.response.data)
     }
@@ -94,25 +96,28 @@ const AdminSubCategory = () => {
 
   return (
     <>
-    <div className="flex justify-between">
+    <div className="flex justify-between overflow-x-auto scrollbar-none">
         {(updateBox || inputBox) && 
           <div className="absolute inset-0 bg-black/50"></div>
         }      
-      <div>
+      <div className="flex items-center justify-center">
         {subCategories.map((subCategory) => (
-          <div key={subCategory._id} className="flex w-80 m-2 rounded-lg p-2 border items-center justify-between">
+          <div key={subCategory._id} className="flex items-center justify-center w-30 h-30 lg:w-fit lg:gap-10 m-2 rounded-lg p-2 border ">
             <p>{subCategory.name}</p>
-            <div className="flex gap-4">
+            {role === "admin" && 
+            <div className="flex gap-2">
               <button className="border p-1 rounded" onClick={() => handleUpdateBox(subCategory._id)}>Update</button>
               <button className="border p-1 rounded" onClick={() => handleDeleteSubCategory(subCategory._id)}>Delete</button>
             </div>
+            }
           </div>
         ))}
       </div>
 
-      <button className="border rounded p-1" onClick={() => showInputBox(!inputBox)}>
+      {role === "admin" && 
+        <button className="border rounded p-1" onClick={() => showInputBox(!inputBox)}>
         Add SubCategory
-      </button>
+      </button>}
 
       {updateBox === true &&  
         <DialogBox>
@@ -154,4 +159,4 @@ const AdminSubCategory = () => {
   )
 }
 
-export default AdminSubCategory;
+export default SubCategory;

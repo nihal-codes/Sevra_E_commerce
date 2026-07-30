@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const generateToken = require("../utils/GenerateToken")
 const SendMail = require("../utils/SendEmail");
 
+
 const User = require("../models/Users");
 const KEY = process.env.JWT_SECRET;
 
@@ -56,6 +57,7 @@ const login = async (req, res) => {
     }
     return res.status(200).json({
       token: generateToken(existingUser._id),
+      role: existingUser.role,
       message: "Login Successful"
     })
   }

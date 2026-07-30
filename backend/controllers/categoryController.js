@@ -1,4 +1,6 @@
 const Category = require("../models/Category")
+const SubCategory = require("../models/Sub_category")
+const Product = require("../models/Product")
 
 const getCategories = async(req, res) => {
   const { role } = req.user;
@@ -78,7 +80,25 @@ const putCategory = async(req, res) => {
 
 const deleteCategory = async (req, res) => {
   const { id } = req.params
+  const existingSubCategories = await SubCategory.find({
+    categoryId: id
+  });
+  let existingProducts = [];
+  for (let i = 0; i < existingSubCategories.length; i++){
+    existingProducts.push(await Product.find({
+      subCategoryId: existingSubCategories[i]._id
+    }))
+  }
   try {
+    for (let i = 0; i < existingSubCategories.length; i++){
+      await SubCategory.findByIdAndDelete(existingSubCategories[i]._id)
+    }
+    for (const productSC of existingProducts){
+      for (const product of productSC){
+        await Product.findByIdAndDelete(product._id);
+      }
+    }
+    
     const deleted = await Category.findByIdAndDelete(id)
     if (!deleted) {
       return res.status(404).json({

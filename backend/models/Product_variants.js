@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const productVariantsSchema = new mongoose.Schema({
-  model: {
+  size: {
     type: String
   },
   colour: {
-    type: Colour
+    type: String
   },
   productId: {
     type: String

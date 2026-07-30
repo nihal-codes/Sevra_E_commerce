@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../api/api"
 import DialogBox from "../pages/DialogBox";
 
-const AdminProduct = () => {
+const Product = () => {
   const [subCategories, setSubCategories] = useState([])
   const [products, setProducts] = useState([])
   const [subCategoryId, setSubCategoryId] = useState("")
@@ -109,17 +109,20 @@ const AdminProduct = () => {
               <p>{product.price}</p>
               <p>{product.discount}</p>
             </div>
+            {role === "admin" && 
             <div className="flex gap-4">
               <button onClick={() => handleUpdateBox(product._id) } className="border rounded p-1">Update</button>
               <button onClick={() => deleteProduct(product._id) } className="border rounded p-1">Delete</button>
             </div>
+            }
           </div>
         ))}
       </div>
 
+      {role === "admin" && 
       <button onClick={() => showInputBox(true)} className="border p-1 rounded h-fit">
         Add product
-      </button>
+      </button>}
 
       {updateBox && 
         <DialogBox>
@@ -161,4 +164,4 @@ const AdminProduct = () => {
   )
 }
 
-export default AdminProduct;
+export default Product;

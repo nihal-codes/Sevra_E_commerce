@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import Admin from "./components/Admin"
+import Admin from "./pages/Admin"
 import Category from "./components/Category"
 import SubCategory from "./components/SubCategory"
 import Product from "./components/Product"
@@ -8,12 +8,21 @@ import UserReview from "./components/UserReview"
 import SideBar from "./components/SideBar"
 import Login from "./components/Login"
 import Register from "./components/Register"
+import Home from "./pages/Home"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:
       <>
+        <Home />
+      </>
+  },
+  {
+    path: "/admin",
+    element:
+      <>
+        <Admin />
       </>
   },
   {
