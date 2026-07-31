@@ -6,14 +6,10 @@ const getCategories = async(req, res) => {
   const { role } = req.user;
   try {
     const categories = await Category.find()
-    if (categories.length === 0) {
-      return res.status(404).json({
-        message: "No categories found"
-      })
-    }
     res.status(200).json({
-      categories: categories,
-      role: role
+      message: categories.length ? "Categories fetched Successfully" : "No categories found",
+      categories,
+      role
     })
   } catch(err) {
     return res.status(500).json({

@@ -25,7 +25,10 @@ const productSchema = new mongoose.Schema({
   },
   subCategoryId: {
     type: String
-  }
+  },
+  categoryId: {
+    type: String
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);

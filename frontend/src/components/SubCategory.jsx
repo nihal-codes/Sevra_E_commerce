@@ -32,6 +32,7 @@ const SubCategory = () => {
     }
     catch (err) {
       console.log(err.response.data)
+      setRole(err.response.data.role)
     }
   }
 

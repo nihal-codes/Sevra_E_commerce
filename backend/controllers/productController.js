@@ -1,9 +1,17 @@
+const Category = require("../models/Category");
 const SubCategory = require("../models/Sub_category");
 const Product = require("../models/Product");
 
 const getProducts = async(req, res) => {
   const { role } = req.user;
   try {
+    const categories = await Category.find();
+    if (categories.length === 0) {
+      return res.status(404).json({
+        message: "Categories not found"
+      })
+    }
+
     const subcategories = await SubCategory.find();
     if (subcategories.length === 0) {
       return res.status(404).json({
@@ -11,15 +19,12 @@ const getProducts = async(req, res) => {
       })
     }
     const products = await Product.find();
-    if (products.length === 0) {
-      return res.status(404).json({
-        message: "No products found"
-      })
-    }
+    
     res.status(200).json({
-      subCategories: subcategories,
-      products: products,
-      role: role
+      message: products.length ? "Products fetched successfully" : "No products found",
+      subcategories,
+      products,
+      role,
     })
   } catch (err) {
     res.status(500).json({

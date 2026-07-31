@@ -18,10 +18,13 @@ const Category = () => {
   const getCategories = async() => {
     try {
       const response = await api.get("/categories")
+      if (response.data.categories.length === 0) {
+        console.log("No category found")
+      }
       setCategories(response.data.categories)
       setRole(response.data.role)
     } catch (err) {
-      console.log(err.response?.data)
+      console.log(err.response.data)
     }
   }
 
@@ -78,7 +81,7 @@ const Category = () => {
       <div className="flex justify-between">
 
         {(updateBox || inputBox) && 
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
         <div className="flex overflow-x-auto scrollbar-none gap-4 m-2">
           {categories.map((category) => (
