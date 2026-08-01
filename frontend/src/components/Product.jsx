@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import api from "../api/api"
 import DialogBox from "./DialogBox"
+import useCategoryStore from "../store/CategoryStore";
 
 const Product = () => {
   const [categories, setCategories       ] = useState([]);
@@ -124,6 +125,10 @@ const Product = () => {
     }
   }, [subCategoryId, subCategories]);
 
+  const selectedCategory = useCategoryStore(
+    (state) => state.selectedCategory
+  )
+
   return (
     <>
     <div className="flex justify-between">
@@ -140,15 +145,21 @@ const Product = () => {
             )
           )
           &&
-          (<div>
+          (<div key={category._id}>
+            
             <h2>{category.name}</h2>
+            
             {subCategories
             .filter(sub => sub.categoryId === category._id)
             .map((subCategory) => 
-              (products.some(product => product.subCategoryId === subCategory._id))
+              
+              (products.some(
+                product => product.subCategoryId === subCategory._id)
+              )
               &&
               (<div key={subCategory._id}>
                 <h2>{subCategory.name}</h2>
+
                 {products
                 .filter(product => product.subCategoryId === subCategory._id)
                 .map(product => (
@@ -159,17 +170,22 @@ const Product = () => {
                       <p>{product.price}</p>
                       <p>{product.discount}</p>
                     </div>
+
                     {role === "admin" && 
                     <div className="flex gap-4">
                       <button onClick={() => handleUpdateBox(product._id) } className="border rounded p-1">Update</button>
                       <button onClick={() => deleteProduct(product._id) } className="border rounded p-1">Delete</button>
                     </div>}
+
                   </div>
                 ))}
+
               </div>
             ))}
+
           </div>
         ))}
+
       </div>
 
       {role === "admin" && 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import DialogBox from "./DialogBox"
+import useCategoryStore from "../store/CategoryStore"
 
 const Category = () => {
   const navigate = useNavigate();
@@ -83,9 +84,14 @@ const Category = () => {
         {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
+
         <div className="flex overflow-x-auto scrollbar-none gap-4 m-2">
           {categories.map((category) => (
-            <div key={category._id} className="flex w-30 h-30 lg:w-fit lg: gap-10 items-center justify-between mb-2 border rounded p-2 ">
+            <div key={category._id} className="flex w-30 h-30 lg:w-fit lg: gap-10 items-center justify-between mb-2 border rounded p-2"
+            onClick={() => {
+              navigate(`/products?category=${category._id}`)
+              
+              }}>
               <p className="">{category.name}</p>
               {role === "admin" && 
                 <div className="flex gap-1">

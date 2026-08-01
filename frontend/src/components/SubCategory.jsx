@@ -2,6 +2,7 @@ import api from "../api/api"
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"
 import DialogBox from "./DialogBox"
+import { useNavigate } from "react-router-dom";
 
 const SubCategory = () => {
   const [categories, setCategories       ] = useState([]);
@@ -12,6 +13,8 @@ const SubCategory = () => {
   const [updateBox, showUpdateBox        ] = useState(false)
   const [newName, setNewName             ] = useState("")
   const [role, setRole                   ] = useState("")
+
+  const navigate = useNavigate()
 
   const { register, handleSubmit, formState: {isSubmitting}} = useForm();
 
@@ -103,7 +106,8 @@ const SubCategory = () => {
         }      
       <div className="flex items-center justify-center">
         {subCategories.map((subCategory) => (
-          <div key={subCategory._id} className="flex items-center justify-center w-30 h-30 lg:w-fit lg:gap-10 m-2 rounded-lg p-2 border ">
+          <div key={subCategory._id} className="flex items-center justify-center w-30 h-30 lg:w-fit lg:gap-10 m-2 rounded-lg p-2 border"
+          onClick={() => navigate(`/products?subcategory=${subCategory._id}`)}>
             <p>{subCategory.name}</p>
             {role === "admin" && 
             <div className="flex gap-2">

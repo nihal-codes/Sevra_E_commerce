@@ -4,11 +4,11 @@ import Admin from "./pages/Admin"
 import Category from "./components/Category"
 import SubCategory from "./components/SubCategory"
 import Product from "./components/Product"
-import UserReview from "./components/UserReview"
-import SideBar from "./components/SideBar"
-import Login from "./components/Login"
-import Register from "./components/Register"
+import UserReview from "./pages/UserReview"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 import Home from "./pages/Home"
+import FilteredProducts from "./pages/FilteredProducts"
 
 const router = createBrowserRouter([
   {
@@ -26,30 +26,30 @@ const router = createBrowserRouter([
       </>
   },
   {
-    path: "category",
+    path: "/category",
     element: 
       <>
-        <SideBar />
         <Category />
       </>
   },
   {
-    path: "subcategory",
+    path: "/subcategory",
     element: 
       <>
-        <SideBar />
         <SubCategory />
       </>
   },
   {
-    path: "product",
+    path: "/product",
     element: 
       <>
-        <SideBar />
         <Product />
       </>
   },
-
+  {
+    path: "/products",
+    element: <FilteredProducts />
+  },
   {
     path: "/register",
     element:<Register />
