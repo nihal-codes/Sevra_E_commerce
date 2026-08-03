@@ -10,12 +10,12 @@ const ProductDescription = () => {
   const [userId, setUserId     ] = useState("")
   
   const { id } = useParams();
+  console.log(id)
 
   const getProduct = async() => {
     try {
       const response = await api.get(`/products/${id}`)
       setUserId(response.data._id)
-      
       setProduct(response.data.product)
     }
     catch (err) {
@@ -23,7 +23,6 @@ const ProductDescription = () => {
     }
   }
   
-console.log(userId)
 
   useEffect(() => {
     getProduct();
@@ -58,6 +57,12 @@ console.log(userId)
         orderStatus: false
       })
       console.log(response.data)
+      if (response.status === 200) {
+        toast.error("Already added in cart")        
+      }
+      if (response.status === 201) {
+        toast.success("Added to cart successfully")
+      }
     } catch (err) {
       console.log(err.response.data)
     }

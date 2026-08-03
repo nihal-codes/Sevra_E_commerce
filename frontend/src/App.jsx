@@ -10,6 +10,7 @@ import Register from "./pages/Register"
 import Home from "./pages/Home"
 import FilteredProducts from "./pages/FilteredProducts"
 import ProductDescription from "./pages/ProductDescription"
+import Cart from "./pages/Cart"
 import { Toaster } from "react-hot-toast"
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/products",
     element: <FilteredProducts />
+  },
+  {
+    path: "/cart",
+    element: <Cart />
   },
   {
     path: "/register",

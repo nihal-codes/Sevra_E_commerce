@@ -32,10 +32,10 @@ const postToCart = async(req, res) => {
     }
 
     const existingCartOrder = await Cart.find({
+      productId: productId,
       userId: id,
-      productId: productId
     });
-    if (existingCartOrder) {
+    if (existingCartOrder.length === 1) {
       return res.status(200).json({
         message: "Already added in cart"
       })

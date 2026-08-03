@@ -11,8 +11,8 @@ const verifyToken = require("../middleware/VerifyToken")
 router.use(verifyToken);
 
 router.get("/", getOrders);
-router.post("/", postOrders);
-router.put("/:id", putOrders);
-router.delete("/:id", deleteOrders);
+router.post("/", postOrder);
+router.put("/:id", putOrder);
+router.delete("/:id", deleteOrder);
 
 module.exports = router;
