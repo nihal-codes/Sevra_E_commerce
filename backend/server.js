@@ -9,6 +9,7 @@ const categoryRoutes = require("./routes/categoryRoute");
 const subCategoryRoutes = require("./routes/subCategoryRoute");
 const productRouter = require("./routes/productRoute");
 const reviewRouter = require("./routes/reviewRoute")
+const cartRouter = require("./routes/cartRoutes")
 
 const app = express()
 
@@ -21,7 +22,8 @@ app.use("/", authRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/subcategories", subCategoryRoutes);
 app.use("/products", productRouter);
-app.use("/reviews", reviewRouter)
+app.use("/reviews", reviewRouter);
+app.use("/cart", cartRouter)
 
 const PORT = process.env.PORT
 

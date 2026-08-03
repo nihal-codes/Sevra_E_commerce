@@ -1,16 +1,23 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-  order_quantity: {
+  quantity: {
     type: Number
   },
-  status: {
-    type: Boolean
+  deliveredStatus: {
+    type: Boolean,
+    default: false,
   },
   userId: {
     type: String
   },
   productId:{
+    type: String
+  },
+  orderedStatus:{
+    type: Boolean
+  },
+  location: {
     type: String
   },
 });

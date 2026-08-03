@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../api/api"
 import DialogBox from "./DialogBox"
 import useCategoryStore from "../store/CategoryStore";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
   const [categories, setCategories       ] = useState([]);
@@ -16,6 +17,8 @@ const Product = () => {
   const [role, setRole                   ] = useState("");
   const [inputBox, showInputBox          ] = useState(false);
   const [updateBox, showUpdateBox        ] = useState(false);
+
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
@@ -65,7 +68,7 @@ const Product = () => {
         price: data.price, 
         discount: data.discount,
         stock: data.stock, 
-        minOrdeQuantity: data.minOrdeQuantity, 
+        minOrderQuantity: data.minOrderQuantity,  //motherfucker
         returnPolicy: data.returnPolicy, 
         subCategoryId: subCategoryId,
         categoryId: categoryId
@@ -160,25 +163,28 @@ const Product = () => {
               (<div key={subCategory._id}>
                 <h2>{subCategory.name}</h2>
 
-                {products
-                .filter(product => product.subCategoryId === subCategory._id)
-                .map(product => (
-                  <div key={product._id} className="flex justify-between items-center w-120 border-2 rounded-lg p-2 m-2">
-                    <div className="flex gap-4 border p-2 rounded-lg w-fit">
-                      <p>{product.name}</p>
-                      <p>{product.brand}</p>
-                      <p>{product.price}</p>
-                      <p>{product.discount}</p>
+                <div className="flex overflow-x-auto">
+                  {products
+                  .filter(product => product.subCategoryId === subCategory._id)
+                  .map(product => (
+                    <div key={product._id} className=" w border-2 rounded-lg p-2 m-2">
+                      <div className="flex flex-col items-center justify-center gap-4 border p-2 rounded-lg w-fit"
+                      onClick={() => navigate(`/product/${product._id}`)}>
+                        <p className="text-2xl">{product.name}</p>
+                        <p className="text-sm">{product.brand}</p>
+                        <p className="text-xl">{product.price}</p>
+                        <p className="text-sm">{product.discount}</p>
+                      </div>
+
+                      {role === "admin" && 
+                      <div className="flex gap-4">
+                        <button onClick={() => handleUpdateBox(product._id) } className="border rounded p-1">Update</button>
+                        <button onClick={() => deleteProduct(product._id) } className="border rounded p-1">Delete</button>
+                      </div>}
+
                     </div>
-
-                    {role === "admin" && 
-                    <div className="flex gap-4">
-                      <button onClick={() => handleUpdateBox(product._id) } className="border rounded p-1">Update</button>
-                      <button onClick={() => deleteProduct(product._id) } className="border rounded p-1">Delete</button>
-                    </div>}
-
-                  </div>
-                ))}
+                  ))}
+                </div>
 
               </div>
             ))}

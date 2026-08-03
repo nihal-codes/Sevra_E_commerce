@@ -33,8 +33,25 @@ const getProducts = async(req, res) => {
   }
 }
 
+const getProduct = async(req, res) => {
+  const { id } = req.params
+  const { _id } = req.user
+
+  try {
+    const product = await Product.findById(id)
+    res.status(200).json({
+      product: product,
+      _id
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    })
+  }
+}
+
 const postProducts = async(req, res) => {
-  const { name, brand, price, discount, stock, minOrderQuantity, returnPolicy,  subCategoryId} = req.body;
+  const { name, brand, price, discount, stock, minOrderQuantity, returnPolicy,  subCategoryId, categoryId} = req.body;
   try {
     const existingSubCategory = await SubCategory.findById(subCategoryId);
     if (!existingSubCategory) {
@@ -107,5 +124,5 @@ const deleteProduct = async(req, res) => {
 }
 
 module.exports = {
-  getProducts, postProducts, putProduct, deleteProduct
+  getProducts, getProduct, postProducts, putProduct, deleteProduct
 }

@@ -4,11 +4,13 @@ import Admin from "./pages/Admin"
 import Category from "./components/Category"
 import SubCategory from "./components/SubCategory"
 import Product from "./components/Product"
-import UserReview from "./pages/UserReview"
+import Reviews from "./pages/Reviews"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import FilteredProducts from "./pages/FilteredProducts"
+import ProductDescription from "./pages/ProductDescription"
+import { Toaster } from "react-hot-toast"
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
       </>
   },
   {
+    path: "/product/:id",
+    element: <ProductDescription />
+  },
+  {
     path: "/products",
     element: <FilteredProducts />
   },
@@ -69,6 +75,7 @@ const App = () => {
   const [tab, setTab] = useState("category")
   return (
     <>
+      <Toaster />
       <RouterProvider router={router} />
     </>
   )
