@@ -3,14 +3,15 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import Button from "../components/button"
 import toast from "react-hot-toast"
+import Buy from "./Buy"
 
 const ProductDescription = () => {
   const [product, setProduct   ] = useState([])
   const [quantity, setQuantity ] = useState(0)
   const [userId, setUserId     ] = useState("")
+  const [buyWindow, setBuyWindow ] = useState(false)
   
   const { id } = useParams();
-  console.log(id)
 
   const getProduct = async() => {
     try {
@@ -67,7 +68,7 @@ const ProductDescription = () => {
       console.log(err.response.data)
     }
   }
-  
+
   return (
     <>  
       <div className="flex flex-col gap-4 p-2 border rounded w-fit">
@@ -86,11 +87,19 @@ const ProductDescription = () => {
         <div className="flex rounded gap-4 p-2">
 
           <Button name="Buy"
-          onClick={() => console.log("clicked")}/>
+          onClick={() => setBuyWindow(true)}/>
           <Button name="Add to Cart"
           onClick={() => handleAddToCart()}/>
         </div>
       </div>
+        {buyWindow === true && 
+          <Buy 
+            productId={id}
+            userId={userId}
+            quantity={quantity}  
+            oldStock={product.stock}
+          />
+        }
     </>
   )
 }

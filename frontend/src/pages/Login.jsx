@@ -33,12 +33,14 @@ const Login = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(login)} className="flex flex-col border rounded w-fit p-2 gap-4">
-        <input className="border p-1 rounded " type="email" placeholder="Enter email" {...register("email")} />
-        <input className="border p-1 rounded " type="password" placeholder="Enter password" {...register("password")} />
+      <div className="flex items-center justify-center h-screen bg-(--bl)">
+        <form onSubmit={handleSubmit(login)} className="flex flex-col bg-(--bl) border rounded w-fit p-2 gap-4">
+          <input className="border p-1 rounded " type="email" placeholder="Enter email" {...register("email")} />
+          <input className="border p-1 rounded " type="password" placeholder="Enter password" {...register("password")} />
 
-        <input type="submit" value={isSubmitting ? "Logging In" : "Login"} disabled={isSubmitting}/>
-      </form>
+          <input type="submit" value={isSubmitting ? "Logging In" : "Login"} disabled={isSubmitting}/>
+        </form>
+      </div>
     </>
   )
 }

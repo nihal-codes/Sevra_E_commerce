@@ -1,1 +1,7 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+:root {
+  --bl:  "#8D84D6";
+  --lb:  "#D6F6F2";
+  --vlb: "#F2F7FB";
+}
