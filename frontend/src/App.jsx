@@ -13,6 +13,7 @@ import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
 import Sign from "./pages/SignPage"
 import { Toaster } from "react-hot-toast"
+import 'remixicon/fonts/remixicon.css'
 
 const router = createBrowserRouter([
   {

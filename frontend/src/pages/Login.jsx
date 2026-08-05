@@ -7,6 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   // const [role, setRole] = useState("")
   const { register, handleSubmit, formState: {isSubmitting} } = useForm();
+  const [password, showPassword ] = useState(true)
 
   const login = async(data) => {
     try {
@@ -33,13 +34,23 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center ">
-        <form onSubmit={handleSubmit(login)} className="flex flex-col border rounded w-fit p-2 bg-white gap-4">
+      <div className="flex flex-col items-center justify-center ">
+        <form onSubmit={handleSubmit(login)} className="flex flex-col border rounded-lg border-(--oatmeal) bg-transparent w-fit p-4  gap-4">
           <h1 className="text-xl ">Sign In</h1>
-          <input className="border p-1 rounded " type="email" placeholder="Enter email" {...register("email")} />
-          <input className="border p-1 rounded " type="password" placeholder="Enter password" {...register("password")} />
 
-          <input type="submit" value={isSubmitting ? "Logging In" : "Login"} disabled={isSubmitting}/>
+          <div className="flex border shadow items-center border-(--oatmeal) rounded-lg p-2 gap-2">
+            <i className="ri-mail-line opacity-50 "></i>
+            <input className="outline-none " type="email" placeholder="Email" {...register("email")} />
+          </div>
+          <div className="flex border shadow items-center border-(--oatmeal) rounded-lg p-2 gap-2">
+            <i className="ri-lock-password-line opacity-50 "></i>
+            <input className="outline-none" type={password ?"text" :"password" } placeholder="Password" {...register("password")} />
+            <button type="button" onClick={() => showPassword(!password)}>{password === true ? <i className="ri-eye-line"></i> : <i className="ri-eye-close-line"></i>
+            }</button>
+            
+          </div>
+
+          <input type="submit" value={"Login"} disabled={isSubmitting} className=" border border-(--oatmeal) w-fit rounded-full shadow-lg transition-all duration-150 hover:bg-(--oatmeal) active:scale-102 px-2 py-1"/>
         </form>
       </div>
     </>
