@@ -33,8 +33,9 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center h-screen bg-(--bl)">
-        <form onSubmit={handleSubmit(login)} className="flex flex-col bg-(--bl) border rounded w-fit p-2 gap-4">
+      <div className="flex items-center justify-center ">
+        <form onSubmit={handleSubmit(login)} className="flex flex-col border rounded w-fit p-2 bg-white gap-4">
+          <h1 className="text-xl ">Sign In</h1>
           <input className="border p-1 rounded " type="email" placeholder="Enter email" {...register("email")} />
           <input className="border p-1 rounded " type="password" placeholder="Enter password" {...register("password")} />
 

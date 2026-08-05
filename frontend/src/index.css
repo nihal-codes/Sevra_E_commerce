@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --bl:  "#8D84D6";
-  --lb:  "#D6F6F2";
-  --vlb: "#F2F7FB";
+  --bg: #EEE9DF;
+  --oatmeal: #C9C1B1;
+  --fblue: #2C3B4D;
+  --ablue: #1B2632;
+  --flame: #FFB162;
+  --truffle: #A35139;
 }

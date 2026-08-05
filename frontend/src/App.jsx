@@ -11,6 +11,7 @@ import Home from "./pages/Home"
 import FilteredProducts from "./pages/FilteredProducts"
 import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
+import Sign from "./pages/SignPage"
 import { Toaster } from "react-hot-toast"
 
 const router = createBrowserRouter([
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element:<Login />
+  },
+  {
+    path: "/signup",
+    element: <Sign />
   },
   {
     path: "*",
