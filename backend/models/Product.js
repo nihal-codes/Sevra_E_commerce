@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema({
   categoryId: {
     type: String
   },
+  image: {
+    type: String
+  },
+  imagePublicId: String,
 });
 
 const Product = mongoose.model("Product", productSchema);

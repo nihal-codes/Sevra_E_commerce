@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { isSubmitting }} = useForm();
-  const [password, showPassword] = useState(true)
+  const [password, showPassword] = useState(false)
 
   const reg = async(data) => {
     try {

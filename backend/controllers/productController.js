@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const SubCategory = require("../models/Sub_category");
 const Product = require("../models/Product");
+const uploadImage = require("../utils/UploadImage")
 
 const getProducts = async(req, res) => {
   const { role } = req.user;
@@ -59,7 +60,20 @@ const postProducts = async(req, res) => {
         message: "No sub category found"
       })
     }
-    const newProduct = new Product(req.body)
+    let imageUrl = "";
+    let publicId = "";
+
+    if (req.file){
+      const uploaded = await uploadImage(req.file.buffer)
+      imageUrl = uploaded.secure_url;
+      publicId =  uploaded.public_id;
+    }
+
+    const newProduct = new Product({
+      ...req.body,
+      image: imageUrl,
+      imagePublicId: publicId
+    })
     const savedProduct = await newProduct.save();
 
     res.status(201).json({

@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   // const [role, setRole] = useState("")
   const { register, handleSubmit, formState: {isSubmitting} } = useForm();
-  const [password, showPassword ] = useState(true)
+  const [password, showPassword ] = useState(false)
 
   const login = async(data) => {
     try {

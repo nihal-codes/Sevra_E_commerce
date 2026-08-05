@@ -17,6 +17,7 @@ const Product = () => {
   const [role, setRole                   ] = useState("");
   const [inputBox, showInputBox          ] = useState(false);
   const [updateBox, showUpdateBox        ] = useState(false);
+  const [image, setImage                 ] = useState(null);
 
   const navigate = useNavigate();
 
@@ -62,17 +63,24 @@ const Product = () => {
   
   const postProducts = async(data) => {
     try {
-      const response = await api.post("/products", {
-        name: data.name, 
-        brand: data.brand, 
-        price: data.price, 
-        discount: data.discount,
-        stock: data.stock, 
-        minOrderQuantity: data.minOrderQuantity,  //motherfucker
-        returnPolicy: data.returnPolicy, 
-        subCategoryId: subCategoryId,
-        categoryId: categoryId
-      });
+      const formData = new FormData();
+
+      formData.append("name", data.name)
+      formData.append("brand", data.brand)
+      formData.append("price", data.price)
+      formData.append("discount", data.discount)
+      formData.append("stock", data.stock)
+      formData.append("minOrderQuantity", data.minOrderQuantity)
+      formData.append("returnPolicy", data.returnPolicy)
+      formData.append("subCategoryId", subCategoryId)
+      formData.append("categoryId", categoryId)
+      formData.append("image", image)
+
+      const response = await api.post("/products", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
       getSubCategories();
       getProducts();
       showInputBox(false);
@@ -168,12 +176,17 @@ const Product = () => {
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
                     <div key={product._id} className=" w border-2 rounded-lg p-2 m-2">
-                      <div className="flex flex-col items-center justify-center gap-4 border p-2 rounded-lg w-fit"
+                      <div className="flex items-center justify-center gap-4 border p-2 rounded-lg w-fit"
                       onClick={() => navigate(`/product/${product._id}`)}>
-                        <p className="text-2xl">{product.name}</p>
-                        <p className="text-sm">{product.brand}</p>
-                        <p className="text-xl">{product.price}</p>
-                        <p className="text-sm">{product.discount}</p>
+                        <div className="h-40 w-30 object-fit">
+                          <img src={product.image} alt={product.name} className="" />
+                        </div>
+                        <div>
+                          <p className="text-2xl">{product.name}</p>
+                          <p className="text-sm">{product.brand}</p>
+                          <p className="text-xl">{product.price}</p>
+                          <p className="text-sm">{product.discount}</p>
+                        </div>
                       </div>
 
                       {role === "admin" && 
@@ -228,6 +241,7 @@ const Product = () => {
           <input type="text" {...register("stock")} placeholder="Enter stock" className="border p-1 rounded"/>
           <input type="text" {...register("minOrderQuantity")} placeholder="Enter min order quantity" className="border p-1 rounded"/>
           <input type="text" {...register("returnPolicy")} placeholder="Enter return policy" className="border p-1 rounded"/>
+          <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/>
 
           <input type="submit" value={isSubmitting ?  "Adding Product" : "Add product"} disabled={isSubmitting}/>
           <button onClick={() => showInputBox(false)}>Cancel</button>
