@@ -15,9 +15,9 @@ const Product = () => {
   const [newName, setNewName             ] = useState("");
   const [newPrice, setNewPrice           ] = useState("");
   const [role, setRole                   ] = useState("");
+  const [image, setImage                 ] = useState(null);
   const [inputBox, showInputBox          ] = useState(false);
   const [updateBox, showUpdateBox        ] = useState(false);
-  const [image, setImage                 ] = useState(null);
 
   const navigate = useNavigate();
 
@@ -158,7 +158,6 @@ const Product = () => {
           &&
           (<div key={category._id}>
             
-            <h2>{category.name}</h2>
             
             {subCategories
             .filter(sub => sub.categoryId === category._id)
@@ -169,7 +168,7 @@ const Product = () => {
               )
               &&
               (<div key={subCategory._id}>
-                <h2>{subCategory.name}</h2>
+                <h2>{category.name} {subCategory.name}</h2>
 
                 <div className="flex overflow-x-auto">
                   {products

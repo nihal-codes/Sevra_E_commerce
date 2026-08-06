@@ -101,22 +101,26 @@ const SubCategory = () => {
   return (
     <>
     <div className="flex justify-between overflow-x-auto scrollbar-none">
-        {(updateBox || inputBox) && 
-          <div className="absolute inset-0 bg-black/50"></div>
-        }      
-      <div className="flex items-center justify-center">
-        {subCategories.map((subCategory) => (
-          <div key={subCategory._id} className="flex items-center justify-center w-30 h-30 lg:w-fit lg:gap-10 m-2 rounded-lg p-2 border"
-          onClick={() => navigate(`/products?subcategory=${subCategory._id}`)}>
-            <p>{subCategory.name}</p>
-            {role === "admin" && 
-            <div className="flex gap-2">
-              <button className="border p-1 rounded" onClick={() => handleUpdateBox(subCategory._id)}>Update</button>
-              <button className="border p-1 rounded" onClick={() => handleDeleteSubCategory(subCategory._id)}>Delete</button>
+      {(updateBox || inputBox) && 
+        <div className="absolute inset-0 bg-black/50"></div>
+      }      
+      <div className="flex flex-col">
+        {role === "user" && <h1>Shop by sub category</h1> }
+        <div className="flex items-center justify-center">
+          {subCategories.map((subCategory) => (
+            <div key={subCategory._id} 
+            className={role === "user" ? "flex items-center w-30 m-2 rounded p-2 border" : ""}
+            onClick={() => navigate(`/products?subcategory=${subCategory._id}`)}>
+              <p>{subCategory.name}</p>
+              {role === "admin" && 
+              <div className="flex gap-2">
+                <button className="border p-1 rounded" onClick={() => handleUpdateBox(subCategory._id)}>Update</button>
+                <button className="border p-1 rounded" onClick={() => handleDeleteSubCategory(subCategory._id)}>Delete</button>
+              </div>
+              }
             </div>
-            }
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {role === "admin" && 
