@@ -4,6 +4,8 @@ import api from "../api/api"
 import DialogBox from "./DialogBox"
 import useCategoryStore from "../store/CategoryStore";
 import { useNavigate } from "react-router-dom";
+import ProductCard from "./ProductCard";
+
 
 const Product = () => {
   const [categories, setCategories       ] = useState([]);
@@ -142,14 +144,14 @@ const Product = () => {
 
   return (
     <>
-    <div className="flex justify-between">
+    <div className="flex justify-between bg-(--bg)">
 
         {(updateBox || inputBox) && 
           <div className="absolute inset-0 bg-black/50" 
           onClick={() => showInputBox(false)}></div>
         }
 
-      <div>
+      <div className="mx-8 flex flex-col items-start">
         {categories.map(category => 
           (subCategories.some(sub => sub.categoryId === category._id
             && products.some(product => product.subCategoryId === sub._id)
@@ -168,25 +170,21 @@ const Product = () => {
               )
               &&
               (<div key={subCategory._id}>
-                <h2>{category.name} {subCategory.name}</h2>
+                <h2 className="font-semibold text-lg mb-2">{category.name}<i class="ri-arrow-right-s-line"></i>{subCategory.name}</h2>
 
-                <div className="flex overflow-x-auto">
+                <div className="flex gap-4 overflow-x-auto mb-6">
                   {products
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
-                    <div key={product._id} className=" w border-2 rounded-lg p-2 m-2">
-                      <div className="flex items-center justify-center gap-4 border p-2 rounded-lg w-fit"
-                      onClick={() => navigate(`/product/${product._id}`)}>
-                        <div className="h-40 w-30 object-fit">
-                          <img src={product.image} alt={product.name} className="" />
-                        </div>
-                        <div>
-                          <p className="text-2xl">{product.name}</p>
-                          <p className="text-sm">{product.brand}</p>
-                          <p className="text-xl">{product.price}</p>
-                          <p className="text-sm">{product.discount}</p>
-                        </div>
-                      </div>
+                    <div key={product._id} className="border-2 rounded-lg p-2 ">
+                      <ProductCard 
+                        image={product.image}
+                        name={product.name}
+                        brand={product.brand}
+                        price={product.price}
+                        onClick={() => navigate(`/product/${product._id}`)}
+                        
+                      />
 
                       {role === "admin" && 
                       <div className="flex gap-4">

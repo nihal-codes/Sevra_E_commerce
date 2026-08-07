@@ -8,10 +8,12 @@ const Home = () => {
 
   return (
     <>
-      <UserHeader />
-      <Category />
-      <SubCategory />
-      <Product />
+      <div className="flex flex-col gap-4 bg-(--bg)">
+        <UserHeader />
+        <Category />
+        <SubCategory />
+        <Product />
+      </div>
     </>
   )
 }

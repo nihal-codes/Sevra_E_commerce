@@ -100,18 +100,18 @@ const SubCategory = () => {
 
   return (
     <>
-    <div className="flex justify-between overflow-x-auto scrollbar-none">
+    <div className="flex justify-between bg-(--bg) ">
       {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50"></div>
       }      
-      <div className="flex flex-col">
-        {role === "user" && <h1>Shop by sub category</h1> }
-        <div className="flex items-center justify-center">
+      <div className="flex flex-col mx-8 gap-2">
+        {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold">Shop by sub category</h1> }
+        <div className="flex overflow-x-auto scrollbar-none gap-4">
           {subCategories.map((subCategory) => (
             <div key={subCategory._id} 
-            className={role === "user" ? "flex items-center w-30 m-2 rounded p-2 border" : ""}
+            className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2" : ""}
             onClick={() => navigate(`/products?subcategory=${subCategory._id}`)}>
-              <p>{subCategory.name}</p>
+              <p className="text-lg">{subCategory.name}</p>
               {role === "admin" && 
               <div className="flex gap-2">
                 <button className="border p-1 rounded" onClick={() => handleUpdateBox(subCategory._id)}>Update</button>

@@ -1,12 +1,18 @@
 import api from "../api/api";
-import { useState,useEffect } from "react";
 import useCategoryStore from "../store/CategoryStore";
+import Category from "../components/Category";
+import SubCategory from "../components/SubCategory";
+import ProductCard from "../components/ProductCard";
+import UserHeader from "./UserHeader";
 import { useSearchParams } from "react-router-dom"
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FilteredProducts = () => {
   const [categories, setCategories ] = useState([])
   const [products, setProducts     ] = useState([])
-  
+
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams()
   const categoryID = searchParams.get("category")
   const subCategoryID = searchParams.get("subcategory")
@@ -45,15 +51,24 @@ const FilteredProducts = () => {
 
   return (
     <>
-      <div>
+      <div className="min-h-screen bg-(--bg) flex flex-col gap-4">
+        <UserHeader />
+        <div className=" flex items-center pr-8 justify-between">
+          <Category />
+          <button className="mb-2 border border-(--oatmeal) shadow rounded-lg p-2 h-fit" onClick={() => navigate("/")}>Home</button>
+        </div>
+        <SubCategory />
         
-        <div>
+        <div className="flex gap-4 overflow-x-auto mb-6 ">
           {filteredProducts.map(filteredProduct => (
-            <div key={filteredProduct._id} className="flex gap-4 border p-2 rounded-lg w-fit">
-              <p>{filteredProduct.name}</p>
-              <p>{filteredProduct.brand}</p>
-              <p>{filteredProduct.price}</p>
-              <p>{filteredProduct.discount}</p>
+            <div key={filteredProduct._id} className="border rounded p-4">
+              <ProductCard 
+                image={filteredProduct.image}
+                name={filteredProduct.name}
+                brand={filteredProduct.brand}
+                price={filteredProduct.price}
+                onClick={() => navigate(`/product/${product._id}`)}
+              />
             </div>
           ))}
           

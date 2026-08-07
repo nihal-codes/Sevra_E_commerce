@@ -79,19 +79,19 @@ const Category = () => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between bg-(--bg)">
 
         {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
-        <div className="flex flex-col">
-          {role === "user" && <h1>Shop by category</h1> }
-          <div className="flex overflow-x-auto scrollbar-none gap-4 m-2">
+        <div className="flex flex-col mx-8 gap-2">
+          {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold"><span className="font-extrabold text-(--truffle)">|</span> Shop by Category</h1> }
+          <div className="flex overflow-x-auto scrollbar-none gap-4 ">
             {categories.map((category) => (
               <div key={category._id} 
-              className={role === "user" ? "flex w-30 gap-10 items-center justify-between mb-2 border rounded p-2" : ""}
-              onClick={() => {navigate(`/products?category=${category._id}`)}}>
-                <p className="">{category.name}</p>
+              className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2 cursor-pointer" : ""}
+              onClick={() => {navigate(`/products?category=${category._id}`);}}>
+                <p className="text-lg">{category.name}</p>
                 {role === "admin" && 
                   <div className="flex gap-1">
                     <button onClick={() => {handleDeleteCategory(category._id)}} className="border p-1 rounded">Delete</button>

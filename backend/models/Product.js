@@ -33,6 +33,7 @@ const productSchema = new mongoose.Schema({
     type: String
   },
   imagePublicId: String,
+  rating: Number
 });
 
 const Product = mongoose.model("Product", productSchema);

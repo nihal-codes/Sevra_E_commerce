@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom"
 import Button from "../components/button"
 import toast from "react-hot-toast"
 import Buy from "./Buy"
+import UserHeader from "./UserHeader"
+import ProductCard from "../components/ProductCard"
 
 const ProductDescription = () => {
   const [product, setProduct   ] = useState([])
