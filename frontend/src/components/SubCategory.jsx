@@ -13,6 +13,7 @@ const SubCategory = () => {
   const [updateBox, showUpdateBox        ] = useState(false)
   const [newName, setNewName             ] = useState("")
   const [role, setRole                   ] = useState("")
+  const [selectedSubcategory, setSelectedSubcategory ] = useState("")
 
   const navigate = useNavigate()
 
@@ -100,18 +101,28 @@ const SubCategory = () => {
 
   return (
     <>
-    <div className="flex justify-between bg-(--bg) ">
+    <div className="flex justify-between ">
       {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50"></div>
       }      
-      <div className="flex flex-col mx-8 gap-2">
-        {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold"><span className="font-extrabold text-(--truffle)">|</span> Shop by Subcategory</h1> }
-        <div className="flex overflow-x-auto scrollbar-none gap-4">
+      <div className="flex flex-col overflow-x-auto mx-16 gap-4 ">
+        {role === "user" && 
+            <div className="flex gap-2 items-center">
+              <div className="bg-(--truffle) w-1 h-5 rounded"></div>
+              <h1 className="text-(--ablue) text-lg  font-bold">Shop by Subcategory</h1> 
+            </div>}
+        <div className="flex overflow-x-scroll scrollbar-none gap-4">
           {subCategories.map((subCategory) => (
             <div key={subCategory._id} 
-            className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2" : ""}
-            onClick={() => navigate(`/?subcategory=${subCategory._id}`)}>
-              <p className="text-lg">{subCategory.name}</p>
+            className={selectedSubcategory === subCategory.name 
+            ? "mb-2  rounded-lg p-3 font-semibold text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer shrink-0 "  
+            : "flex w-48 gap-10 font-semibold items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer shrink-0 transition-all duration-200 hover:bg-(--oatmeal)"}
+
+            onClick={() => {
+              navigate(`/?subcategory=${subCategory._id}`);
+              setSelectedSubcategory(subCategory.name)
+            }}>
+              <p className="">{subCategory.name}</p>
               {role === "admin" && 
               <div className="flex gap-2">
                 <button className="border p-1 rounded" onClick={() => handleUpdateBox(subCategory._id)}>Update</button>

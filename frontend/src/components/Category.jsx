@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import DialogBox from "./DialogBox"
 import useCategoryStore from "../store/CategoryStore"
+import Product from "./Product"
 
-const Category = () => {
+const Category = ({clearFilter}) => {
   const navigate = useNavigate();
   const [categories, setCategories   ] = useState([])
   const [newCategory, setNewCategory ] = useState("")
@@ -13,6 +14,7 @@ const Category = () => {
   const [updateBox, showUpdateBox    ] = useState(false)
   const [id, setId                   ] = useState("")
   const [role, setRole               ] = useState("")
+  const [selectedCategory, setSelectedCategory ] = useState("")
 
   const { register, handleSubmit, formState: { isSubmitting }} = useForm();
   
@@ -79,21 +81,37 @@ const Category = () => {
 
   return (
     <>
-      <div className="flex justify-between bg-(--bg)">
+      <div className="flex justify-between">
 
         {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
-        <div className="flex flex-col mx-8 gap-2">
-          {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold"><span className="font-extrabold text-(--truffle)">|</span> Shop by Category</h1> }
+        <div className="flex flex-col mx-16 gap-4">
+          {role === "user" && 
+            <div className="flex gap-2 items-center">
+              <div className="bg-(--truffle) w-1 h-5 rounded"></div>
+              <h1 className="text-(--ablue) text-lg  font-bold">Shop by Category</h1> 
+            </div>}
           <div className="flex gap-4">
-            <button className="mb-2 border border-(--oatmeal) shadow rounded-lg p-2 h-fit text-lg" onClick={() => navigate("/")}>Home</button>
+            <button 
+            className={selectedCategory === "home" 
+            ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 font-semibold py-4" 
+            : "mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 h-fit text-(--ablue) font-semibold w-48"} 
+            onClick={() => {
+              navigate("/");
+              setSelectedCategory("home")
+            }}>Home</button>
             <div className="flex overflow-x-auto scrollbar-none gap-4 ">
               {categories.map((category) => (
                 <div key={category._id} 
-                className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2 cursor-pointer" : ""}
-                onClick={() => {navigate(`/?category=${category._id}`);}}>
-                  <p className="text-lg">{category.name}</p>
+                className={selectedCategory === category.name 
+                  ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer font-semibold"  
+                  : "flex w-48 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer font-semibold transition-all duration-200 hover:bg-(--oatmeal) "}
+                onClick={() => {
+                  navigate(`/?category=${category._id}`);
+                  setSelectedCategory(category.name);
+                }}>
+                  <p className="">{category.name}</p>
                   {role === "admin" && 
                     <div className="flex gap-1">
                       <button onClick={() => {handleDeleteCategory(category._id)}} className="border p-1 rounded">Delete</button>

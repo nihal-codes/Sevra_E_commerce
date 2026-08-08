@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/api";
-
+import ProductCard from "../components/ProductCard";
 
 const Cart = () => {
 
@@ -50,10 +50,15 @@ const Cart = () => {
     <>
       <div>
         {filteredProducts.map(product => (
-          <div key={product._id} className="flex gap-4 border rounded p-2 w-fit">
-            <p>{product.name}</p>
-            <p>{product.brand}</p>
-            <p>{product.price}</p>
+          <div key={product._id} className="flex gap-4 p-2 w-fit">
+            <ProductCard 
+              image={product.image}
+              name={product.name}
+              brand={product.brand}
+              price={product.price}
+              rating={product.rating}
+              onClick={() => navigate(`/product/${product._id}`)}
+            />
           </div>
         ))}
       </div>

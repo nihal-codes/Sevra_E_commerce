@@ -8,7 +8,6 @@ import Reviews from "./pages/Reviews"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
-import FilteredProducts from "./pages/FilteredProducts"
 import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
 import Sign from "./pages/SignPage"
@@ -54,10 +53,6 @@ const router = createBrowserRouter([
   {
     path: "/product/:id",
     element: <ProductDescription />
-  },
-  {
-    path: "/products",
-    element: <FilteredProducts />
   },
   {
     path: "/cart",

@@ -20,6 +20,7 @@ const Product = () => {
   const [image, setImage                 ] = useState(null);
   const [inputBox, showInputBox          ] = useState(false);
   const [updateBox, showUpdateBox        ] = useState(false);
+  const inputStyling = "border border-(--oatmeal) p-2 rounded-lg shadow outline-none";
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();          
@@ -147,14 +148,18 @@ const Product = () => {
 
   return (
     <>
-    <div className="flex justify-between bg-(--bg)">
+    <div className="flex justify-between">
 
-        {(updateBox || inputBox) && 
-          <div className="absolute inset-0 bg-black/50" 
-          onClick={() => showInputBox(false)}></div>
-        }
+      {(updateBox || inputBox) && 
+        <div className="absolute inset-0 bg-black/50" 
+        onClick={() => {
+          showInputBox(false);
+          showUpdateBox(false);
+          }}>
+        </div>
+      }
 
-      <div className="mx-8 flex flex-col items-start">
+      <div className="mx-16 flex flex-col items-start">
         {categories
           .filter(category => !categoryFilter || category._id === categoryFilter) // ← added
         .map(category => 
@@ -176,9 +181,17 @@ const Product = () => {
               )
               &&
               (<div key={subCategory._id}>
-                <h2 className="font-semibold text-lg mb-2">{category.name}<i class="ri-arrow-right-s-line"></i>{subCategory.name}</h2>
+                <div className="flex gap-2 items-center  mb-4">
+                  <h2 className="font-bold text-lg ">
+                    {category.name}
+                  </h2>
+                  <i className="ri-arrow-right-s-line translate-y-px text-lg font-bold"></i>
+                  <h2 className="font-bold text-lg ">
+                    {subCategory.name}
+                  </h2>
+                </div>
 
-                <div className="flex gap-2 overflow-x-auto mb-2 -ml-3">
+                <div className="flex gap-2 overflow-x-auto mb-2 -ml-3 ">
                   {products
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
@@ -188,16 +201,17 @@ const Product = () => {
                         name={product.name}
                         brand={product.brand}
                         price={product.price}
-                        onClick={() => navigate(`/product/${product._id}`)}
-                        
+                        rating={product.rating}
+                        onClick={role === "user" && (() => navigate(`/product/${product._id}`))}
+                        children={
+                          role === "admin" && 
+                          <div className="flex gap-2">
+                            <button onClick={() => handleUpdateBox(product._id) } className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue)">Update</button>
+                            <button onClick={() => deleteProduct(product._id) } className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue)">Delete</button>
+                          </div>
+                        }
+                        role={role}
                       />
-
-                      {role === "admin" && 
-                      <div className="flex gap-4">
-                        <button onClick={() => handleUpdateBox(product._id) } className="border rounded p-1">Update</button>
-                        <button onClick={() => deleteProduct(product._id) } className="border rounded p-1">Delete</button>
-                      </div>}
-
                     </div>
                   ))}
                 </div>
@@ -209,19 +223,20 @@ const Product = () => {
         ))}
 
       </div>
-
+        
       {role === "admin" && 
-      <button onClick={() => showInputBox(true)} className="border p-1 rounded h-fit">
+      <button onClick={() => showInputBox(true)} className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) h-fit mr-12 mt-4">
         Add product
       </button>}
 
       {updateBox && 
         <DialogBox>
-          <input type="text" placeholder="Enter new name" onChange={(e) => setNewName(e.target.value)} className="w-fit border rounded p-1"/>
-          <input type="text" placeholder="Enter new price" onChange={(e) => setNewPrice(e.target.value)} className="w-fit border rounded p-1"/>
+          <h2 className="font-bold text-lg text-(--ablue)">Update Box</h2>
+          <input type="text" placeholder="Enter new name" onChange={(e) => setNewName(e.target.value)} className={inputStyling}/>
+          <input type="text" placeholder="Enter new price" onChange={(e) => setNewPrice(e.target.value)} className={inputStyling}/>
           <div className="flex gap-4">
-            <button onClick={() => putProduct(productId)}>Done</button>
-            <button onClick={() => showUpdateBox(false)}>Cancel</button>
+            <button onClick={() => putProduct(productId)} className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) w-29.5">Done</button>
+            <button onClick={() => showUpdateBox(false)} className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) w-29.5">Cancel</button>
           </div>
         </DialogBox>
       }
@@ -229,25 +244,43 @@ const Product = () => {
       {inputBox && 
       <DialogBox>
         <div>
-          <select value={subCategoryId} onChange={(e) => setSubCategoryId(e.target.value)} className="border p-1 rounded">
+          <select 
+            value={subCategoryId} 
+            onChange={(e) => setSubCategoryId(e.target.value)} 
+            className=" border border-(--oatmeal) shadow p-1 rounded-lg">
             <option value="">Select subcategory</option>
             {subCategories.map((subCategory) => (
               <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
             ))}
           </select>
         </div>
-        <form onSubmit={handleSubmit(postProducts)} className="flex flex-col w-fit  p-2 gap-4 border rounded-lg m-2">
-          <input type="text" {...register("name")} placeholder="Enter product name" className="border p-1 rounded"/>
-          <input type="text" {...register("brand")} placeholder="Enter brand name" className="border p-1 rounded"/>
-          <input type="text" {...register("price")} placeholder="Enter price" className="border p-1 rounded"/>
-          <input type="text" {...register("discount")} placeholder="Enter discount" className="border p-1 rounded"/>
-          <input type="text" {...register("stock")} placeholder="Enter stock" className="border p-1 rounded"/>
-          <input type="text" {...register("minOrderQuantity")} placeholder="Enter min order quantity" className="border p-1 rounded"/>
-          <input type="text" {...register("returnPolicy")} placeholder="Enter return policy" className="border p-1 rounded"/>
-          <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/>
-
-          <input type="submit" value={isSubmitting ?  "Adding Product" : "Add product"} disabled={isSubmitting}/>
-          <button onClick={() => showInputBox(false)}>Cancel</button>
+        <form onSubmit={handleSubmit(postProducts)} className="flex flex-col w-fit  p-2 gap-3 m-2">
+          <input type="text" {...register("name")} placeholder="Enter product name" className={inputStyling}/>
+          <input type="text" {...register("brand")} placeholder="Enter brand name" className={inputStyling}/>
+          <input type="text" {...register("price")} placeholder="Enter price" className={inputStyling}/>
+          <input type="text" {...register("discount")} placeholder="Enter discount" className={inputStyling}/>
+          <input type="text" {...register("stock")} placeholder="Enter stock" className={inputStyling}/>
+          <input type="text" {...register("minOrderQuantity")} placeholder="Enter min order quantity" className={inputStyling}/>
+          <input type="text" {...register("returnPolicy")} placeholder="Enter return policy" className={inputStyling}/>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={(e) => setImage(e.target.files[0])} 
+            className="
+              block w-full text-sm text-(--ablue)
+              border border-(--oatmeal) rounded-lg shadow p-2
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-lg file:border-0
+              file:text-sm file:font-semibold
+              file:bg-(--ablue) file:text-white
+              hover:file:bg-(--fblue)
+              file:cursor-pointer file:transition-colors file:duration-150
+            "
+          />
+          <div className="flex gap-4 justify-center">
+            <input type="submit" value={isSubmitting ?  "Adding Product" : "Add product"} disabled={isSubmitting} className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) w-39"/>
+            <button onClick={() => showInputBox(false)} className="rounded-lg py-2 px-4.5 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) w-39">Cancel</button>
+          </div>
         </form>
       </DialogBox>
       }

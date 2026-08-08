@@ -7,8 +7,10 @@ const Admin = () => {
   
   return (
     <>
-      <AdminHeader />
-      <Product />
+      <div className="flex flex-col bg-(--bg) min-h-screen">
+        <AdminHeader />
+        <Product />
+      </div>
     </>
   )
 }
