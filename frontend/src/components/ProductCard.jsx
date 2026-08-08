@@ -1,7 +1,7 @@
 const ProductCard = ({image, name, brand, rating, price, onClick}) => {
   return (
     <>
-      <div className="flex gap-6" onClick={onClick}>
+      <div className="flex gap-6 border p-2 rounded-lg border-(--oatmeal) shadow-lg " onClick={onClick}>
         <div className="">
           <img src={image} alt={name} className="h-40 w-32 rounded"/>
         </div>

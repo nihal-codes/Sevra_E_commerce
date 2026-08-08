@@ -5,7 +5,7 @@ import DialogBox from "./DialogBox"
 import useCategoryStore from "../store/CategoryStore";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
-
+import { useSearchParams } from "react-router-dom";
 
 const Product = () => {
   const [categories, setCategories       ] = useState([]);
@@ -22,6 +22,9 @@ const Product = () => {
   const [updateBox, showUpdateBox        ] = useState(false);
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();          
+  const categoryFilter = searchParams.get("category");
+  const subCategoryFilter = searchParams.get("subcategory");
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
@@ -152,7 +155,9 @@ const Product = () => {
         }
 
       <div className="mx-8 flex flex-col items-start">
-        {categories.map(category => 
+        {categories
+          .filter(category => !categoryFilter || category._id === categoryFilter) // ← added
+        .map(category => 
           (subCategories.some(sub => sub.categoryId === category._id
             && products.some(product => product.subCategoryId === sub._id)
             )
@@ -163,6 +168,7 @@ const Product = () => {
             
             {subCategories
             .filter(sub => sub.categoryId === category._id)
+            .filter(sub => !subCategoryFilter || sub._id === subCategoryFilter) // ← added
             .map((subCategory) => 
               
               (products.some(
@@ -172,11 +178,11 @@ const Product = () => {
               (<div key={subCategory._id}>
                 <h2 className="font-semibold text-lg mb-2">{category.name}<i class="ri-arrow-right-s-line"></i>{subCategory.name}</h2>
 
-                <div className="flex gap-4 overflow-x-auto mb-6">
+                <div className="flex gap-2 overflow-x-auto mb-2 -ml-3">
                   {products
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
-                    <div key={product._id} className="border-2 rounded-lg p-2 ">
+                    <div key={product._id} className="pb-6 px-3 ">
                       <ProductCard 
                         image={product.image}
                         name={product.name}

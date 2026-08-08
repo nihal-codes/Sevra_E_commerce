@@ -105,12 +105,12 @@ const SubCategory = () => {
         <div className="absolute inset-0 bg-black/50"></div>
       }      
       <div className="flex flex-col mx-8 gap-2">
-        {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold">Shop by sub category</h1> }
+        {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold"><span className="font-extrabold text-(--truffle)">|</span> Shop by Subcategory</h1> }
         <div className="flex overflow-x-auto scrollbar-none gap-4">
           {subCategories.map((subCategory) => (
             <div key={subCategory._id} 
             className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2" : ""}
-            onClick={() => navigate(`/products?subcategory=${subCategory._id}`)}>
+            onClick={() => navigate(`/?subcategory=${subCategory._id}`)}>
               <p className="text-lg">{subCategory.name}</p>
               {role === "admin" && 
               <div className="flex gap-2">

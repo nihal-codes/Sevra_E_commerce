@@ -86,19 +86,22 @@ const Category = () => {
         }
         <div className="flex flex-col mx-8 gap-2">
           {role === "user" && <h1 className="text-(--ablue) text-lg  font-semibold"><span className="font-extrabold text-(--truffle)">|</span> Shop by Category</h1> }
-          <div className="flex overflow-x-auto scrollbar-none gap-4 ">
-            {categories.map((category) => (
-              <div key={category._id} 
-              className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2 cursor-pointer" : ""}
-              onClick={() => {navigate(`/products?category=${category._id}`);}}>
-                <p className="text-lg">{category.name}</p>
-                {role === "admin" && 
-                  <div className="flex gap-1">
-                    <button onClick={() => {handleDeleteCategory(category._id)}} className="border p-1 rounded">Delete</button>
-                    <button onClick={() => handleUpdateBox(category._id)} className="border  p-1 rounded">Update</button>
-                  </div>}
-              </div>
-            ))}
+          <div className="flex gap-4">
+            <button className="mb-2 border border-(--oatmeal) shadow rounded-lg p-2 h-fit text-lg" onClick={() => navigate("/")}>Home</button>
+            <div className="flex overflow-x-auto scrollbar-none gap-4 ">
+              {categories.map((category) => (
+                <div key={category._id} 
+                className={role === "user" ? "flex w-36 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-2 cursor-pointer" : ""}
+                onClick={() => {navigate(`/?category=${category._id}`);}}>
+                  <p className="text-lg">{category.name}</p>
+                  {role === "admin" && 
+                    <div className="flex gap-1">
+                      <button onClick={() => {handleDeleteCategory(category._id)}} className="border p-1 rounded">Delete</button>
+                      <button onClick={() => handleUpdateBox(category._id)} className="border  p-1 rounded">Update</button>
+                    </div>}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
