@@ -159,7 +159,7 @@ const Product = () => {
         </div>
       }
 
-      <div className="mx-16 flex flex-col items-start">
+      <div className="mx-16 flex flex-col items-start overflow-auto">
         {categories
           .filter(category => !categoryFilter || category._id === categoryFilter) // ← added
         .map(category => 
@@ -191,11 +191,11 @@ const Product = () => {
                   </h2>
                 </div>
 
-                <div className="flex gap-2 overflow-x-auto mb-2 -ml-3 ">
+                <div className="flex gap-2 overflow-x-auto scrollbar-none mb-2 -ml-3 ">
                   {products
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
-                    <div key={product._id} className="pb-6 px-3 ">
+                    <div key={product._id} className="pb-6 px-3 shrink-0 ">
                       <ProductCard 
                         image={product.image}
                         name={product.name}

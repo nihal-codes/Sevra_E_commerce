@@ -86,7 +86,7 @@ const Category = ({clearFilter}) => {
         {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
-        <div className="flex flex-col mx-16 gap-4">
+        <div className="flex flex-col mx-16 overflow-auto gap-4">
           {role === "user" && 
             <div className="flex gap-2 items-center">
               <div className="bg-(--truffle) w-1 h-5 rounded"></div>
@@ -95,8 +95,8 @@ const Category = ({clearFilter}) => {
           <div className="flex gap-4">
             <button 
             className={selectedCategory === "home" 
-            ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 font-semibold py-4" 
-            : "mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 h-fit text-(--ablue) font-semibold w-48"} 
+            ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 font-semibold py-4 shrink-0" 
+            : "mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 h-fit text-(--ablue) font-semibold w-48 shrink-0"} 
             onClick={() => {
               navigate("/");
               setSelectedCategory("home")
@@ -105,8 +105,8 @@ const Category = ({clearFilter}) => {
               {categories.map((category) => (
                 <div key={category._id} 
                 className={selectedCategory === category.name 
-                  ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer font-semibold"  
-                  : "flex w-48 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer font-semibold transition-all duration-200 hover:bg-(--oatmeal) "}
+                  ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer font-semibold shrink-0"  
+                  : "flex w-48 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer font-semibold transition-all duration-200 hover:bg-(--oatmeal) shrink-0"}
                 onClick={() => {
                   navigate(`/?category=${category._id}`);
                   setSelectedCategory(category.name);

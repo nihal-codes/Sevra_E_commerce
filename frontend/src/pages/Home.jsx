@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-6 bg-(--bg)">
+      <div className="flex flex-col gap-6 bg-(--bg) min-h-screen">
         <UserHeader />
         <Category />
         <SubCategory />
