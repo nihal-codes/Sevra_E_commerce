@@ -73,6 +73,7 @@ const Product = () => {
 
       formData.append("name", data.name)
       formData.append("brand", data.brand)
+      formData.append("description", data.description)
       formData.append("price", data.price)
       formData.append("discount", data.discount)
       formData.append("stock", data.stock)
@@ -247,7 +248,7 @@ const Product = () => {
           <select 
             value={subCategoryId} 
             onChange={(e) => setSubCategoryId(e.target.value)} 
-            className=" border border-(--oatmeal) shadow p-1 rounded-lg">
+            className=" border border-(--oatmeal) shadow p-1 rounded-lg outline-none">
             <option value="">Select subcategory</option>
             {subCategories.map((subCategory) => (
               <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
@@ -257,6 +258,7 @@ const Product = () => {
         <form onSubmit={handleSubmit(postProducts)} className="flex flex-col w-fit  p-2 gap-3 m-2">
           <input type="text" {...register("name")} placeholder="Enter product name" className={inputStyling}/>
           <input type="text" {...register("brand")} placeholder="Enter brand name" className={inputStyling}/>
+          <input type="text" {...register("description")} placeholder="Enter description" className={inputStyling}/>
           <input type="text" {...register("price")} placeholder="Enter price" className={inputStyling}/>
           <input type="text" {...register("discount")} placeholder="Enter discount" className={inputStyling}/>
           <input type="text" {...register("stock")} placeholder="Enter stock" className={inputStyling}/>

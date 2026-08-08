@@ -52,7 +52,7 @@ const getProduct = async(req, res) => {
 }
 
 const postProducts = async(req, res) => {
-  const { name, brand, price, discount, stock, minOrderQuantity, returnPolicy,  subCategoryId, categoryId} = req.body;
+  const { name, brand, description, price, discount, stock, minOrderQuantity, returnPolicy,  subCategoryId, categoryId} = req.body;
   try {
     const existingSubCategory = await SubCategory.findById(subCategoryId);
     if (!existingSubCategory) {
