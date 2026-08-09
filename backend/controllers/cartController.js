@@ -6,7 +6,7 @@ const getCart = async(req, res) => {
     if (!id) {
       return res.status(401).json({message: "Unauthorized"})
     }
-    const cartOrders = await Cart.find();
+    const cartOrders = await Cart.find({userId: id});
     
     res.status(200).json({
       message: cartOrders.length ? "Found" : "Not found",
@@ -26,7 +26,7 @@ const postToCart = async(req, res) => {
 
   try {
     if (!id || !productId) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "Either Product or user not found"
       })
     }

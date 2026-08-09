@@ -1,6 +1,6 @@
 import StarRating from "./StarRating";
 
-const ProductCard = ({image, name, brand, rating, price, onClick, children, role}) => {
+const ProductCard = ({image, name, brand, rating, price, onClick, children}) => {
   
   return (
     <>
@@ -13,9 +13,6 @@ const ProductCard = ({image, name, brand, rating, price, onClick, children, role
           <h2 className="text-sm text-(--ablue) font-semibold">{brand}</h2>
           <StarRating rating={rating}/>
           <h2 className="text-xl font-bold text-(--truffle) "><span>₹</span> {price}</h2>
-          {role === "user" && <button 
-          className="rounded-lg py-2 px-10 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) ">
-            <i className="ri-shopping-cart-2-line"></i> Add to Cart</button>}
           {children}
         </div>
       </div>

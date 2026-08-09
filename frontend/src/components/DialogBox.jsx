@@ -13,6 +13,7 @@ const DialogBox = ({children}) => {
       opacity-100
       text-black
       gap-4
+      
       ">
         {children}
       </div>

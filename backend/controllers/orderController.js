@@ -10,7 +10,7 @@ const getOrders = async (req, res) => {
         message: "Unauthorized"
       })
     }
-    const orders = await Order.find();
+    const orders = await Order.find({userId: id});
     
     res.status(200).json({
       message: orders.length ? "Orders fetched" : "Not found",
@@ -35,7 +35,7 @@ const postOrder = async(req, res) => {
       })  
     }
     if (!productId) {
-      return res.statua(404).json({
+      return res.status(404).json({
         message: "Product not found"
       })
     }

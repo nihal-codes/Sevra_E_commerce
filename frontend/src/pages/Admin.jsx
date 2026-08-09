@@ -1,6 +1,6 @@
 import Category from "../components/Category";
 import SubCategory from "../components/SubCategory";
-import Product from "../components/Product";
+import AdminProduct from "../components/AdminProduct";
 import AdminHeader from "./AdminHeader";
 
 const Admin = () => {
@@ -9,7 +9,7 @@ const Admin = () => {
     <>
       <div className="flex flex-col bg-(--bg) min-h-screen">
         <AdminHeader />
-        <Product />
+        <AdminProduct />
       </div>
     </>
   )
