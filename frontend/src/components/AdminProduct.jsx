@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import DialogBox from "./DialogBox"
 import ProductCard from "./ProductCard";
 import useProductCatalog from "../hooks/useProductCatalog";
+import SearchBar from "./SearchBar";
 
 const AdminProduct = () => {
   const {categories, subCategories, products, refetch } = useProductCatalog();
@@ -47,9 +48,8 @@ const AdminProduct = () => {
             "Content-Type": "multipart/form-data"
           }
         });
-      getSubCategories();
-      getProducts();
       showInputBox(false);
+      refetch();
       console.log(response)
     } catch (err) {
       console.log(err.response.data)
@@ -62,9 +62,8 @@ const AdminProduct = () => {
         name: newName,
         price: newPrice
       })
-      getSubCategories();
-      getProducts();
       showUpdateBox(false);
+      refetch();
     } catch (err) {
       console.log(err.response.data)
     }
@@ -73,8 +72,7 @@ const AdminProduct = () => {
   const deleteProduct = async(id) => {
     try {
       const response = await api.delete(`/products/${id}`)
-      getSubCategories();
-      getProducts();
+      refetch();
     }
     catch (err) {
       console.log(err.response.data)
@@ -114,7 +112,7 @@ const AdminProduct = () => {
           }}>
         </div>
       }
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <div className="flex flex-col">
             <h1 className="text-xl font-bold text-(--ablue)">Products</h1>
@@ -124,6 +122,8 @@ const AdminProduct = () => {
             <i className="ri-add-line mr-2"></i>Add product
           </button>
         </div>
+
+        <SearchBar />
 
         <div className="flex flex-col">
           <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-xs font-semibold bg-(--oatmeal) text-(--ablue) ">
@@ -154,7 +154,7 @@ const AdminProduct = () => {
                       {products
                       .filter(product => product.subCategoryId === subCategory._id)
                       .map(product => (
-                      <div>  
+                      <div key={product._id}>  
                         <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
                           <div className="flex items-center gap-4">
                             <img src={product.image} alt={product.name} className="h-16 w-16 rounded-lg"/>

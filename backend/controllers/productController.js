@@ -98,9 +98,9 @@ const putProduct = async(req, res) => {
         message: "No product found"
       })
     }
-    if (name === undefined) {name = existingProduct.name}
-    if (price === undefined) {price = existingProduct.price}
-    if (stock === undefined) {stock = existingProduct.stock}
+    if (!name) {name = existingProduct.name}
+    if (!price) {price = existingProduct.price}
+    if (!stock) {stock = existingProduct.stock}
 
     const newProduct = await Product.findByIdAndUpdate(id,
       {
