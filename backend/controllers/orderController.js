@@ -1,16 +1,26 @@
 const Product = require("../models/Product");
 const Order = require("../models/Orders");
+const User = require("../models/Users")
 
 const getOrders = async (req, res) => {
-  const { id } = req.user;
-
+  const { id, role } = req.user;
+  
   try {
     if(!id) {
       return res.status(401).json({
         message: "Unauthorized"
       })
     }
-    const orders = await Order.find({userId: id});
+
+
+    let orders;
+
+    if (role === "admin") {
+      orders = await Order.find();
+    }
+    else if (role === "user"){
+      orders = await Order.find({userId: id});
+    } 
     
     res.status(200).json({
       message: orders.length ? "Orders fetched" : "Not found",
@@ -19,7 +29,8 @@ const getOrders = async (req, res) => {
 
   } catch (err) {
     res.status(500).json({
-      message: err.message
+      message: err.message,
+      err: err
     })
   }
 }

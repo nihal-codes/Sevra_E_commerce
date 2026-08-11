@@ -4,6 +4,7 @@ import SubCategory from "../components/SubCategory";
 import AdminProduct from "../components/AdminProduct";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "../components/AdminSidebar";
+import Order from "./Orders";
 
 const Admin = () => {
   const [viewPage, setViewPage] = useState("")
@@ -15,6 +16,8 @@ const Admin = () => {
         return <Category />
       case "subcategories":
         return <SubCategory />
+      case "orders":
+        return <Order />
       
       default:
         return <AdminProduct />

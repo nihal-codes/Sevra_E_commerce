@@ -11,6 +11,7 @@ const productRouter = require("./routes/productRoute");
 const reviewRouter = require("./routes/reviewRoute")
 const cartRouter = require("./routes/cartRoutes")
 const orderRouter = require("./routes/orderRoute")
+const userRouter = require("./routes/userRoutes")
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use("/products", productRouter);
 app.use("/reviews", reviewRouter);
 app.use("/cart", cartRouter)
 app.use("/order", orderRouter)
+app.use("/users", userRouter)
 
 const PORT = process.env.PORT
 

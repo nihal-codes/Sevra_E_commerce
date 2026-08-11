@@ -27,7 +27,7 @@ const AdminSidebar = ({viewPage, setViewPage}) => {
           <Utility 
             title={"Store"} 
             items={[
-              {icon: "ri-chat-3-line", name: "Users"},
+              {icon: "ri-chat-3-line", name: "Reviews", onClick: "reviews"},
             ]}
             viewPage={viewPage}
             setViewPage={setViewPage}
@@ -35,7 +35,7 @@ const AdminSidebar = ({viewPage, setViewPage}) => {
           <Utility 
             title={"Settings"} 
             items={[
-              {icon: "ri-settings-line", name: "Order"},
+              {icon: "ri-settings-line", name: "Order", onClick: "settings"},
             ]} 
             viewPage={viewPage}
             setViewPage={setViewPage}

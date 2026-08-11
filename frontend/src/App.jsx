@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { Toaster } from "react-hot-toast"
+import 'remixicon/fonts/remixicon.css'
 import Admin from "./pages/Admin"
 import Category from "./components/Category"
 import SubCategory from "./components/SubCategory"
@@ -11,8 +13,7 @@ import Home from "./pages/Home"
 import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
 import Sign from "./pages/SignPage"
-import { Toaster } from "react-hot-toast"
-import 'remixicon/fonts/remixicon.css'
+import Order from "./pages/Orders"
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />
+  },
+  {
+    path: "/orders",
+    element: <Order />
   },
   {
     path: "/register",
