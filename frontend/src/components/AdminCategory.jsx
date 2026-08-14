@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DialogBox from "./DialogBox"
-import useCategoryCatalog from "../hooks/useCategoryCatalog"
 import SearchBar from "./SearchBar"
+import useProductCatalog from "../hooks/useProductCatalog"
 
 const AdminCategory = () => {
   const navigate = useNavigate();
-  const { categories } = useCategoryCatalog();
+  const { categories,refetchCategories } = useProductCatalog();
   const [serialNum, setSerialNum     ] = useState(1)
   const [newCategory, setNewCategory ] = useState("")
+  const [id, setId                   ] = useState("")
   const [inputBox, showInputBox      ] = useState(false)  
   const [updateBox, showUpdateBox    ] = useState(false)
-  const [id, setId                   ] = useState("")
   const [selectedCategory, setSelectedCategory ] = useState("")
 
   const { register, handleSubmit, formState: { isSubmitting }} = useForm();
@@ -21,21 +21,22 @@ const AdminCategory = () => {
   const handleAddCategory = async(data) => {
     try {
       const response = await api.post("/categories", data)
-      await getCategories();
+      console.log(response.data)
+      refetchCategories();
       showInputBox(false)
-      console.log(response)
     } catch (err) {
-      console.log(err.response.data)
+      console.log(err.response?.data)
     }
   }
 
   const handleDeleteCategory = async(id) => {
     try {
       const response = await api.delete(`/categories/${id}`)
-      await getCategories();
       console.log(response.data)
+      refetchCategories();
+
     } catch (err) {
-      console.log(err.response.data)
+      console.log(err.response?.data)
     }
   }
 
@@ -44,12 +45,12 @@ const AdminCategory = () => {
       const response = await api.put(`/categories/${id}`,{
         name: newName
       })
-      await getCategories();
+      refetchCategories();
       showUpdateBox(false)
       console.log(response.data)
       
     } catch (err) {
-      console.log(err.response.data)
+      console.log(err.response?.data)
     }
   }
 
@@ -85,7 +86,6 @@ const AdminCategory = () => {
 
             <SearchBar item={"Category"} /> 
 
-
             <div className="flex flex-col">
               <div className="grid grid-cols-[3fr_9fr_6fr] gap-80 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
                 <div>#</div>
@@ -105,8 +105,8 @@ const AdminCategory = () => {
                     </div>
                   
                     <div className="flex gap-1">
-                      <button onClick={() => {handleDeleteCategory(category._id)}} className="rounded-lg h-fit w-10 py-2 px-2 text-black transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-pencil-line"></i></button>
-                      <button onClick={() => handleUpdateBox(category._id)} className="rounded-lg h-fit w-10 py-2 px-2 text-red-700 transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-delete-bin-line"></i></button>
+                      <button onClick={() => {handleUpdateBox(category._id)}} className="rounded-lg h-fit w-10 py-2 px-2 text-black transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-pencil-line"></i></button>
+                      <button onClick={() => handleDeleteCategory(category._id)} className="rounded-lg h-fit w-10 py-2 px-2 text-red-700 transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-delete-bin-line"></i></button>
                     </div>
 
                   </div>

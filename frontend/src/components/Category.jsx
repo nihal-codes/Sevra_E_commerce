@@ -1,11 +1,11 @@
 import api from "../api/api"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import useCategoryCatalog from "../hooks/useCategoryCatalog"
+import useProductCatalog from "../hooks/useProductCatalog"
 
 const Category = () => {
   const navigate = useNavigate();
-  const { categories } = useCategoryCatalog();
+  const { categories } = useProductCatalog();
   const [newCategory, setNewCategory ] = useState("")
   const [id, setId                   ] = useState("")
   const [selectedCategory, setSelectedCategory ] = useState("")  
@@ -13,7 +13,8 @@ const Category = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div className="flex flex-col mx-16 overflow-auto gap-4">
+
+        <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
               <div className="bg-(--truffle) w-1 h-5 rounded"></div>
               <h1 className="text-(--ablue) text-lg  font-bold">Shop by Category</h1> 

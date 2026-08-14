@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AdminCategory from "../components/AdminCategory";
-import SubCategory from "../components/SubCategory";
+import AdminSubcategory from "../components/AdminSubcategory";
 import AdminProduct from "../components/AdminProduct";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "../components/AdminSidebar";
@@ -15,7 +15,7 @@ const Admin = () => {
       case "categories":
         return <AdminCategory />
       case "subcategories":
-        return <SubCategory />
+        return <AdminSubcategory />
       case "orders":
         return <Order />
       

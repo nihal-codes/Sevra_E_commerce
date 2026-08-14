@@ -7,22 +7,11 @@ const getProducts = async(req, res) => {
   const { role } = req.user;
   try {
     const categories = await Category.find();
-    if (categories.length === 0) {
-      return res.status(404).json({
-        message: "Categories not found"
-      })
-    }
-
     const subcategories = await SubCategory.find();
-    if (subcategories.length === 0) {
-      return res.status(404).json({
-        message: "Sub Categories not found"
-      })
-    }
     const products = await Product.find();
     
     res.status(200).json({
-      message: products.length ? "Products fetched successfully" : "No products found",
+      message: (!products.length || !subcategories.length || !categories.length) ? "Not found" : "Fetched successfully",
       subcategories,
       products,
       role,

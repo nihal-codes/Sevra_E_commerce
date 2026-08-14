@@ -9,7 +9,7 @@ import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
 
 const AdminProduct = () => {
-  const {categories, subCategories, products, refetch } = useProductCatalog();
+  const {categories, subCategories, products, refetchEverything } = useProductCatalog();
   const [categoryId, setCategoryId       ] = useState("");
   const [subCategoryId, setSubCategoryId ] = useState("");
   const [productId, setProductId         ] = useState("");
@@ -49,8 +49,7 @@ const AdminProduct = () => {
           }
         });
       showInputBox(false);
-      refetch();
-      console.log(response)
+      refetchEverything();
     } catch (err) {
       console.log(err.response.data)
     }
@@ -63,7 +62,7 @@ const AdminProduct = () => {
         price: newPrice
       })
       showUpdateBox(false);
-      refetch();
+      refetchEverything();
     } catch (err) {
       console.log(err.response.data)
     }
@@ -72,7 +71,7 @@ const AdminProduct = () => {
   const deleteProduct = async(id) => {
     try {
       const response = await api.delete(`/products/${id}`)
-      refetch();
+      refetchEverything();
     }
     catch (err) {
       console.log(err.response.data)
@@ -159,7 +158,7 @@ const AdminProduct = () => {
                             <div className="flex flex-col">
                               <h2 className="text-xs font-semibold">{product.name}</h2>                          
                               <h2 className="text-xs font-light">{product.brand}</h2>                          
-                              <h2 className="text-xs">{product.description}</h2>                       
+                              <h2 className="text-xs lg:w-40">{product.description}</h2>                       
                             </div>
                           </div>
 

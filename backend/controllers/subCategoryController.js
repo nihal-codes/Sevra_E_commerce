@@ -5,15 +5,10 @@ const getSubCategories = async(req, res) => {
   const { role } = req.user;
   try {
     const categories = await Category.find()
-    if (categories.length === 0){ 
-      return res.status(404).json({ 
-        message: "Categories not found"
-      })
-    }
     const subCategories = await SubCategory.find();
     
     res.status(200).json({
-      message: subCategories.length ? "Sub-Categories fetched successfully" : "Not found",
+      message: (!subCategories.length || !categories.length) ? "Not found" : "Fetched successfully",
       categories,
       subCategories,
       role, 
