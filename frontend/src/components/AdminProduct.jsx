@@ -138,14 +138,12 @@ const AdminProduct = () => {
           </div>
           <div className="flex flex-col ">
             {categories
-              // .filter(category => !categoryFilter || category._id === categoryFilter) // ← added
             .map(category => 
               (subCategories.some(sub => sub.categoryId === category._id && products.some(product => product.subCategoryId === sub._id)))
               &&
               (<div key={category._id}>
                 {subCategories
                 .filter(sub => sub.categoryId === category._id)
-                // .filter(sub => !subCategoryFilter || sub._id === subCategoryFilter) // ← added
                 .map((subCategory) => 
                   (products.some(product => product.subCategoryId === subCategory._id))
                   &&
@@ -209,11 +207,7 @@ const AdminProduct = () => {
           </div>
         </div>
 
-
-
       </div>
-
-
 
       {updateBox && 
         <DialogBox>

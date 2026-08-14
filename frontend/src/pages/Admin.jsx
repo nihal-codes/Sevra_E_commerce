@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Category from "../components/Category";
+import AdminCategory from "../components/AdminCategory";
 import SubCategory from "../components/SubCategory";
 import AdminProduct from "../components/AdminProduct";
 import AdminHeader from "./AdminHeader";
@@ -13,7 +13,7 @@ const Admin = () => {
       case "product":
         return <AdminProduct />
       case "categories":
-        return <Category />
+        return <AdminCategory />
       case "subcategories":
         return <SubCategory />
       case "orders":
