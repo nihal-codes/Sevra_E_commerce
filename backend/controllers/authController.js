@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("../utils/bcrypt");
 const crypto = require("crypto");
 const generateToken = require("../utils/GenerateToken")
 const SendMail = require("../utils/SendEmail");
