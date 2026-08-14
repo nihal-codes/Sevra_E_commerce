@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DialogBox from "./DialogBox"
 import useCategoryCatalog from "../hooks/useCategoryCatalog"
+import SearchBar from "./SearchBar"
 
 const AdminCategory = () => {
   const navigate = useNavigate();
@@ -71,8 +72,8 @@ const AdminCategory = () => {
 
         <div className="flex flex-col gap-4">
 
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-4 ">
+            <div className="flex justify-between items-center ">
               <div className="flex flex-col">
                 <h1 className="text-xl font-bold text-(--ablue)">Categories</h1>
                 <h4 className="text-xs font-light ">Manage all Categories in your store</h4>
@@ -82,25 +83,37 @@ const AdminCategory = () => {
               </button>
             </div>
 
-            <div className=" ">
-              
-              {categories.map((category) => (
-                <div key={category._id} className="grid grid-cols-[1fr_3fr_3fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
-                  <div>
-                    <h2>{serialNum}</h2>
-                  </div>
-                  <div>
-                    {category.name}
-                  </div>
-                
-                  <div className="flex gap-1">
-                    <button onClick={() => {handleDeleteCategory(category._id)}} className="rounded-lg h-fit w-10 py-2 px-2 text-black transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-pencil-line"></i></button>
-                    <button onClick={() => handleUpdateBox(category._id)} className="rounded-lg h-fit w-10 py-2 px-2 text-red-700 transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-delete-bin-line"></i></button>
-                  </div>
+            <SearchBar item={"Category"} /> 
 
-                </div>
-              ))}
+
+            <div className="flex flex-col">
+              <div className="grid grid-cols-[3fr_9fr_6fr] gap-80 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+                <div>#</div>
+                <div>Category</div>
+                <div>Actions</div>
+              </div>
+
+              <div className=" ">
+                
+                {categories.map((category) => (
+                  <div key={category._id} className="grid grid-cols-[3fr_9fr_6fr] gap-80 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
+                    <div>
+                      <h2>{serialNum}</h2>
+                    </div>
+                    <div>
+                      <h2 className="font-semibold">{category.name}</h2>
+                    </div>
+                  
+                    <div className="flex gap-1">
+                      <button onClick={() => {handleDeleteCategory(category._id)}} className="rounded-lg h-fit w-10 py-2 px-2 text-black transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-pencil-line"></i></button>
+                      <button onClick={() => handleUpdateBox(category._id)} className="rounded-lg h-fit w-10 py-2 px-2 text-red-700 transition-all duration-150 hover:bg-(--oatmeal) border border-(--oatmeal)"><i className="ri-delete-bin-line"></i></button>
+                    </div>
+
+                  </div>
+                ))}
+              </div>
             </div>
+
           </div>
         </div>
         

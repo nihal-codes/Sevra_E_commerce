@@ -123,10 +123,10 @@ const AdminProduct = () => {
           </button>
         </div>
 
-        <SearchBar />
+        <SearchBar item={"Product"} />
 
         <div className="flex flex-col">
-          <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-xs font-semibold bg-(--oatmeal) text-(--ablue) ">
+          <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
             <div>Product</div>
             <div>Category</div>
             <div>Price</div>
