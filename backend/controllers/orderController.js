@@ -50,6 +50,12 @@ const postOrder = async(req, res) => {
         message: "Product not found"
       })
     }
+    const existingUser = await User.findByIdAndUpdate(id,
+      {
+        location: location
+      }
+    );
+
     const newOrder = new Order({
       userId: id,
       productId: productId,

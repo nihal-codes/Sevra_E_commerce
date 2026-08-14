@@ -4,6 +4,7 @@ import AdminSubcategory from "../components/AdminSubcategory";
 import AdminProduct from "../components/AdminProduct";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "../components/AdminSidebar";
+import AdminUser from "../components/AdminUser";
 import Order from "./Orders";
 
 const Admin = () => {
@@ -18,6 +19,8 @@ const Admin = () => {
         return <AdminSubcategory />
       case "orders":
         return <Order />
+      case "users":
+        return <AdminUser />
       
       default:
         return <AdminProduct />

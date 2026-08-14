@@ -12,7 +12,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between ml-16">
 
         <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
