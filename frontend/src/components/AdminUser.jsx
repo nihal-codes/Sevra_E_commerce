@@ -2,7 +2,6 @@ import api from "../api/api";
 import { useState, useEffect } from "react";
 import useUserCatalog from "../hooks/useUserCatalog";
 
-
 const AdminUser = () => {
   const { orders, users } = useUserCatalog();
 
@@ -39,7 +38,7 @@ const AdminUser = () => {
                   
                   <div><h2 className="text-sm ">{user.location}</h2></div>
                   
-                  <div><h2 className="text-sm ">{order?.length}</h2></div>
+                  <div><h2 className="text-sm font-semibold">{order?.length}</h2></div>
 
                 </div>
               )

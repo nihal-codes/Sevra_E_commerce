@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import ProductCard from "../components/ProductCard";
+import useProductCatalog from "../hooks/useProductCatalog";
 
 const Cart = () => {
 
   const [savedCartOrders, setSavedCartOrders ] = useState([])
-  const [products, setProducts               ] = useState([])
+  const { products } = useProductCatalog();
   const [filteredProducts, setFilteredProducts] = useState([])
 
   const getCartOrders = async() => {
@@ -17,20 +18,9 @@ const Cart = () => {
       console.log(err.response.data)
     }
   }
-
-  const getProducts = async() => {
-    try {
-      const response = await api.get("/products")
-      setProducts(response.data.products)
-    }
-    catch (err) {
-      setRole(err.response.data.role)
-    }
-  }
   
   useEffect(() => {
     getCartOrders()
-    getProducts()
   },[])
 
   const filterProducts = () => {

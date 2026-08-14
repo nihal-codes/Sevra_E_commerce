@@ -14,7 +14,6 @@ const Product = () => {
   const {categories, subCategories, products, refetch } = useProductCatalog();
   const [categoryId, setCategoryId       ] = useState("");
   const [subCategoryId, setSubCategoryId ] = useState("");
-  const [productId, setProductId         ] = useState("");
   const inputStyling = "border border-(--oatmeal) p-2 rounded-lg shadow outline-none";
   
   useEffect(() => {
@@ -27,6 +26,24 @@ const Product = () => {
       setCategoryId(subCategory.categoryId)
     }
   }, [subCategoryId, subCategories]);
+
+  const handleAddToCart = async (id) => {
+    try {
+      const response = await api.post("/cart", {
+        productId: id,
+        orderStatus: false
+      })
+      console.log(response?.data)
+      if (response.status === 200) {
+        toast.error("Already added in cart")        
+      }
+      if (response.status === 201) {
+        toast.success("Added to cart successfully")
+      }
+    } catch (err) {
+      console.log(err.response?.data)
+    }
+  }
 
   return (
     <>
@@ -42,7 +59,6 @@ const Product = () => {
           )
           &&
           (<div key={category._id}>
-            
             
             {subCategories
             .filter(sub => sub.categoryId === category._id)
@@ -70,18 +86,19 @@ const Product = () => {
                   .map(product => (
                     <div key={product._id} className="pb-6 px-3 shrink-0 ">
                       <ProductCard 
-                        image={product.image}
-                        name={product.name}
-                        brand={product.brand}
-                        price={product.price}
-                        rating={product.rating}
-                        onClick={() => navigate(`/product/${product._id}`)}
-                        children={
+                        image    = {product.image }
+                        name     = {product.name  }
+                        brand    = {product.brand }
+                        price    = {product.price }
+                        rating   = {product.rating}
+                        onClick  = {() => navigate(`/product/${product._id}`)}
+                        children = {
                           <button 
+                            onClick={() => handleAddToCart(product._id)}
                             className="rounded-lg py-2 px-10 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) ">
                             <i className="ri-shopping-cart-2-line"></i> Add to Cart
                           </button>
-                          }   
+                        }   
                       />
                     </div>
                   ))}
