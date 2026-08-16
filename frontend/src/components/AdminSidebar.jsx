@@ -3,6 +3,14 @@ import Utility from "./SidebarContent";
 
 const AdminSidebar = ({viewPage, setViewPage}) => {
   const navigate = useNavigate();
+
+  const logout = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      localStorage.removeItem("token")
+      window.location.reload();
+    }
+  }
   
   return (
     <>
@@ -41,7 +49,7 @@ const AdminSidebar = ({viewPage, setViewPage}) => {
             setViewPage={setViewPage}
           />
         </div>
-        <button className=" text-red-700 border-y border-(--oatmeal) mb-4 py-2 pl-6  ">
+        <button className=" text-red-700 border-y border-(--oatmeal) mb-4 py-2 pl-6" onClick={() => {logout()}}>
           <div className="flex items-center rounded-lg gap-4 hover:bg-(--oatmeal)/50 px-2 py-1 mr-4 cursor-pointer transition-all duration-200 ">
             <i className="ri-logout-box-r-line "></i>
             <h2 className="text-sm font-semibold">Logout</h2>

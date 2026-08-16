@@ -134,7 +134,10 @@ const Cart = () => {
 
               <div className="flex justify-between items-center">
                 <h2 className="text-sm">Shipping</h2>
-                {totalPrice > 500 ? 
+                {savedCartOrders.length === 0 ? <h1 className="font-semibold">₹0</h1>
+                :
+                
+                totalPrice > 500 ? 
                 <h1 className="font-semibold ">₹0 <span className="line-through opacity-40 font-normal">₹80</span></h1> : 
                 <h1>₹80</h1> }
               </div>
@@ -151,7 +154,7 @@ const Cart = () => {
                 <h2 className="text-xs">Including Taxes</h2>
               </div>
               <div>
-                <h1 className="text-(--flame) text-2xl font-bold py-6">₹{totalPrice > 500 ? totalPrice + (totalPrice*3/100) : totalPrice+80+(totalPrice*3/100) }</h1>
+                <h1 className="text-(--flame) text-2xl font-bold py-6">₹{totalPrice > 500 || savedCartOrders.length === 0 ? totalPrice + (totalPrice*3/100) : totalPrice+80+(totalPrice*3/100) }</h1>
               </div>
             </div>
 
