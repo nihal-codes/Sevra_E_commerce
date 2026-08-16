@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     default: "user"
   },
   location: {
-    type: String
+    type: Array
   },
   verified: {
     type: Boolean,

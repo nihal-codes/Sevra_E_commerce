@@ -50,11 +50,21 @@ const postOrder = async(req, res) => {
         message: "Product not found"
       })
     }
-    const existingUser = await User.findByIdAndUpdate(id,
-      {
-        location: location
+    const existingUser = await User.findById(id);
+    let locationExists = false
+    const locations = existingUser.location;
+    for (let i = 0 ; i < locations.length; i++){
+      if (location === locations[i]){
+        locationExists = true
       }
-    );
+    }
+    if (!locationExists){
+      const updatedUser = await User.findByIdAndUpdate(id,
+        {
+          location: [...existingUser.location, location]
+        }
+      );
+    }
 
     const newOrder = new Order({
       userId: id,
