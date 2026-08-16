@@ -22,7 +22,7 @@ const getCart = async(req, res) => {
 
 const postToCart = async(req, res) => {
   const { id } = req.user;
-  const { productId } = req.body
+  const { productId, quantity } = req.body
 
   try {
     if (!id || !productId) {
@@ -43,7 +43,8 @@ const postToCart = async(req, res) => {
     const cartOrder = new Cart({
       userId: id,
       productId: productId,
-      orderStatus: false
+      orderStatus: false,
+      quantity: quantity
     })
     const savedCardOrder = await cartOrder.save();
     res.status(201).json({
@@ -56,10 +57,44 @@ const postToCart = async(req, res) => {
   }
 }
 
-const deleteFromCart = async(req, res) => {
+const emptyCart = async(req, res) => {
+  try {
+    const response = await Cart.deleteMany({})
 
+    console.log(response)
+    res.status(200).json({
+      message: "Cart cleared"
+    })
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message
+    })
+  }
 }
 
+const deleteFromCart = async(req, res) => {
+  const { id } = req.params
+  try {
+    const response = await Cart.findByIdAndDelete(id)
+
+    if (!response){
+      return res.status(404).json({
+        message: "No cart order found"
+      })
+    }
+
+    res.status(200).json({
+      message: "Saved Cart order deleted"
+    })
+
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message
+    })
+  }
+}
+
+
 module.exports = {
-  getCart, postToCart, deleteFromCart
+  getCart, postToCart, emptyCart, deleteFromCart
 }

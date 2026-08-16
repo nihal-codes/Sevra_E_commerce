@@ -5,7 +5,7 @@ const UserHeader = () => {
   return (
     <>
       <div className="flex justify-between p-4">
-        <img src="null" alt="Website Logo" />
+        <img src="/SevraOfficial.jpeg" alt="Website Logo" className="h-12 w-12"/>
         <div className="flex gap-4">
           <button onClick={() => navigate("/cart")}>Cart</button>
           <button>SignUp/SignIn</button>

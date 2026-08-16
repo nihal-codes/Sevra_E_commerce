@@ -59,9 +59,9 @@ const ProductDescription = () => {
   const handleAddToCart = async () => {
     try {
       const response = await api.post("/cart", {
-        userId: userId,
         productId: id,
-        orderStatus: false
+        orderStatus: false,
+        quantity: quantity
       })
       console.log(response.data)
       if (response.status === 200) {

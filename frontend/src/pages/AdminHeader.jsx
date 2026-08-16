@@ -5,7 +5,7 @@ const AdminHeader = () => {
   return (
     <>
       <div className="flex justify-between p-4">
-        <img src="null" alt="Website Logo" />
+        <img src="/SevraOfficial.jpeg" alt="Website Logo" />
         <div className="flex gap-4">
           <button>Settings</button>
         </div>
