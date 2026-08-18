@@ -225,6 +225,7 @@ const ProductDescription = () => {
             userId={userId}
             quantity={quantity}  
             oldStock={product.stock}
+            setBuyWindow={setBuyWindow}
             />
           </DialogBox>
         }

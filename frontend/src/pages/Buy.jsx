@@ -3,7 +3,7 @@ import api from "../api/api";
 import Button from "../components/button";
 import toast from "react-hot-toast";
 
-const Buy = ({productId, userId, quantity, oldStock}) => {
+const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
   const [location, setLocation ] = useState("")
   const [fetchedLocations, setFetchedLocations] = useState([])
   const [selectedLocation, setSelectedLocation] = useState("")
@@ -33,12 +33,13 @@ const Buy = ({productId, userId, quantity, oldStock}) => {
         {
           userId: userId,
           productId: productId,
-          location: location ? location : selectedLocation,
+          location: selectedLocation ? selectedLocation : location,
           quantity: quantity,
         }
       )
       console.log(response.data)
       updateStock();
+      setBuyWindow(false)
     } catch (err) {
       console.log(err.response.data)
     }
@@ -76,8 +77,8 @@ const Buy = ({productId, userId, quantity, oldStock}) => {
           <h2 className="text-center mt-2">OR</h2>
         </div>
         <div className="flex flex-col gap-2">
-          <h2>Enter a new Location</h2>
-          <input type="text" id="location" autoComplete="something" value={location} placeholder="Enter new location" onChange={(e) => setLocation(e.target.value)} className="border p-1 rounded border-(--oatmeal) shadow outline-none"/>
+          <h2 className={selectedLocation ? "opacity-40" : ""}>Enter a new Location</h2>
+          <input type="text" id="location" autoComplete="something" disabled={selectedLocation} value={location} placeholder="Enter new location" onChange={(e) => setLocation(e.target.value)} className={selectedLocation ? "border p-1 rounded border-(--oatmeal) shadow outline-none opacity-40" : "border p-1 rounded border-(--oatmeal) shadow outline-none"}/>
         </div>
         <Button name="Place Order" onClick={() => {placeOrder(); ;}}/>
       </div>
