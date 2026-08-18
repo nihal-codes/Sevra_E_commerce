@@ -1,14 +1,13 @@
 import api from "../api/api"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useProductCatalog from "../hooks/useProductCatalog"
 
-const Category = () => {
+const Category = ({filter, setFilter}) => {
   const navigate = useNavigate();
   const { categories } = useProductCatalog();
   const [newCategory, setNewCategory ] = useState("")
   const [id, setId                   ] = useState("")
-  const [selectedCategory, setSelectedCategory ] = useState("")  
 
   return (
     <>
@@ -21,22 +20,22 @@ const Category = () => {
             </div>
           <div className="flex gap-4">
             <button 
-            className={selectedCategory === "home" 
-            ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 font-semibold py-4 shrink-0" 
-            : "mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 h-fit text-(--ablue) font-semibold w-48 shrink-0"} 
+            className={"mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 h-fit text-(--ablue) font-semibold w-48 shrink-0 transition-colors duration-200 active:text-white active:bg-(--ablue) hover:bg-(--oatmeal)"} 
             onClick={() => {
               navigate("/");
-              setSelectedCategory("home")
-            }}>Home</button>
+              setFilter("home");
+            }}>
+              Clear
+            </button>
             <div className="flex overflow-x-auto scrollbar-none gap-4 ">
               {categories.map((category) => (
                 <div key={category._id} 
-                className={selectedCategory === category.name 
+                className={filter === category.name  
                   ? "mb-2 rounded-lg p-3 text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer font-semibold shrink-0"  
                   : "flex w-48 gap-10 items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer font-semibold transition-all duration-200 hover:bg-(--oatmeal) shrink-0"}
                 onClick={() => {
                   navigate(`/?category=${category._id}`);
-                  setSelectedCategory(category.name);
+                  setFilter(category.name);
                 }}>
                   <p className="">{category.name}</p>
                 </div>

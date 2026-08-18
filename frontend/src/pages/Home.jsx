@@ -5,18 +5,14 @@ import UserHeader from "./UserHeader"
 import { useState } from "react"
 
 const Home = () => {
-  const [clearFilter, SetClearFilter ]  = useState("")
-
-  const handleClearFilter = () => {
-    SetClearFilter(true)
-  }
+  const [filter, setFilter ]  = useState("")
 
   return (
     <>
       <div className="flex flex-col gap-6 bg-(--bg) min-h-screen">
         <UserHeader />
-        <Category />
-        <SubCategory />
+        <Category filter={filter} setFilter={setFilter} />
+        <SubCategory filter={filter} setFilter={setFilter} />
         <Product />
       </div>
     </>

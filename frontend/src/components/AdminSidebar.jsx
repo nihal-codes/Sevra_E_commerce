@@ -40,14 +40,6 @@ const AdminSidebar = ({viewPage, setViewPage}) => {
             viewPage={viewPage}
             setViewPage={setViewPage}
           />
-          <Utility 
-            title={"Settings"} 
-            items={[
-              {icon: "ri-settings-line", name: "Settings", onClick: "settings"},
-            ]} 
-            viewPage={viewPage}
-            setViewPage={setViewPage}
-          />
         </div>
         <button className=" text-red-700 border-y border-(--oatmeal) mb-4 py-2 pl-6" onClick={() => {logout()}}>
           <div className="flex items-center rounded-lg gap-4 hover:bg-(--oatmeal)/50 px-2 py-1 mr-4 cursor-pointer transition-all duration-200 ">

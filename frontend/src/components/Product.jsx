@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import api from "../api/api"
 import DialogBox from "./DialogBox"
 import ProductCard from "./ProductCard";
@@ -94,7 +95,10 @@ const Product = () => {
                         onClick  = {() => navigate(`/product/${product._id}`)}
                         children = {
                           <button 
-                            onClick={() => handleAddToCart(product._id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToCart(product._id);
+                            }}
                             className="rounded-lg py-2 px-10 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) ">
                             <i className="ri-shopping-cart-2-line"></i> Add to Cart
                           </button>

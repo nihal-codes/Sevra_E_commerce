@@ -5,13 +5,12 @@ import DialogBox from "./DialogBox"
 import { useNavigate } from "react-router-dom";
 import useProductCatalog from "../hooks/useProductCatalog";
 
-const SubCategory = () => {
+const SubCategory = ({filter, setFilter}) => {
   
   const navigate = useNavigate()
   const {categories, subCategories} = useProductCatalog();
   const [categoryId, setCategoryId       ] = useState("")
   const [subCategoryId, setSubCategoryId ] = useState("")
-  const [selectedSubcategory, setSelectedSubcategory ] = useState("")
 
   return (
     <>
@@ -26,13 +25,13 @@ const SubCategory = () => {
           <div className="flex overflow-x-scroll scrollbar-none gap-4">
             {subCategories.map((subCategory) => (
               <div key={subCategory._id} 
-              className={selectedSubcategory === subCategory.name 
+              className={filter === subCategory.name 
               ? "mb-2  rounded-lg p-3 font-semibold text-white bg-(--fblue) w-48 flex items-center justify-center cursor-pointer shrink-0 "  
               : "flex w-48 gap-10 font-semibold items-center justify-center mb-2 border border-(--oatmeal) shadow rounded-lg p-3 py-4 cursor-pointer shrink-0 transition-all duration-200 hover:bg-(--oatmeal)"}
 
               onClick={() => {
                 navigate(`/?subcategory=${subCategory._id}`);
-                setSelectedSubcategory(subCategory.name)
+                setFilter(subCategory.name)
               }}>
                 <p className="">{subCategory.name}</p>
               </div>
