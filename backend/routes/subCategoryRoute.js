@@ -11,14 +11,12 @@ const {
 
 const verifyToken = require("../middleware/VerifyToken")
 
-router.use(verifyToken)
-
 router.get("/", getSubCategories);
 
-router.post("/", postSubCategories);
+router.post("/",verifyToken, postSubCategories);
 
-router.put("/:id", putSubCategories);
+router.put("/:id",verifyToken, putSubCategories);
 
-router.delete("/:id", deleteSubCategories);
+router.delete("/:id",verifyToken, deleteSubCategories);
 
 module.exports = router

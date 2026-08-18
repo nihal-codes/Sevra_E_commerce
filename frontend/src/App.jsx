@@ -14,8 +14,16 @@ import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
 import Sign from "./pages/SignPage"
 import Order from "./pages/Orders"
+import Sevra from "./pages/Sevra"
 
 const router = createBrowserRouter([
+  {
+    path: "/sevra",
+    element:
+      <>
+        <Sevra />
+      </>
+  },
   {
     path: "/",
     element:

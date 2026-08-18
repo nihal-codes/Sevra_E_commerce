@@ -2,7 +2,6 @@ const Category = require("../models/Category")
 const SubCategory = require("../models/Sub_category");
 
 const getSubCategories = async(req, res) => {
-  const { role } = req.user;
   try {
     const categories = await Category.find()
     const subCategories = await SubCategory.find();
@@ -11,7 +10,6 @@ const getSubCategories = async(req, res) => {
       message: (!subCategories.length || !categories.length) ? "Not found" : "Fetched successfully",
       categories,
       subCategories,
-      role, 
     })
   } catch (err) {
     return res.status(500).json({

@@ -7,14 +7,12 @@ const {
 } = require("../controllers/categoryController")
 const verifyToken = require("../middleware/VerifyToken")
 
-router.use(verifyToken)
-
 router.get("/", getCategories)
 
-router.post("/", postCategories)
+router.post("/",verifyToken, postCategories)
 
-router.put("/:id", putCategory)
+router.put("/:id",verifyToken, putCategory)
 
-router.delete("/:id", deleteCategory)
+router.delete("/:id",verifyToken, deleteCategory)
 
 module.exports = router

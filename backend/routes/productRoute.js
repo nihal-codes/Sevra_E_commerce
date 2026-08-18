@@ -8,13 +8,14 @@ const {
   getProducts, getProduct, postProducts, putProduct, deleteProduct
 } = require("../controllers/productController")
 
-
-router.use(verifyToken);
-
 router.get("/", getProducts);
-router.get("/:id", getProduct)
-router.post("/", upload.single("image") ,postProducts);
-router.put("/:id", putProduct);
-router.delete("/:id", deleteProduct);
+
+router.get("/:id",verifyToken, getProduct)
+
+router.post("/",verifyToken, upload.single("image") ,postProducts);
+
+router.put("/:id",verifyToken, putProduct);
+
+router.delete("/:id",verifyToken, deleteProduct);
 
 module.exports = router;

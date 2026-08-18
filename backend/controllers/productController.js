@@ -4,7 +4,6 @@ const Product = require("../models/Product");
 const uploadImage = require("../utils/UploadImage")
 
 const getProducts = async(req, res) => {
-  const { role } = req.user;
   try {
     const categories = await Category.find();
     const subcategories = await SubCategory.find();
@@ -14,7 +13,6 @@ const getProducts = async(req, res) => {
       message: (!products.length || !subcategories.length || !categories.length) ? "Not found" : "Fetched successfully",
       subcategories,
       products,
-      role,
     })
   } catch (err) {
     res.status(500).json({

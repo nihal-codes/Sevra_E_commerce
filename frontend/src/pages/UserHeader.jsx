@@ -12,6 +12,7 @@ const UserHeader = () => {
         <div className="flex gap-4">
           <NavButton name={"Cart"} onClick={() => navigate("/cart")}/>
           <NavButton name={"Onboard"} onClick={() => navigate("/signup")}/>
+          <NavButton name={"Orders"} onClick={() => navigate("/")}/>
           <NavButton name={"Settings"} />
         </div>
       </div>

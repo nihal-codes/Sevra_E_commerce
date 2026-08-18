@@ -3,14 +3,12 @@ const SubCategory = require("../models/Sub_category")
 const Product = require("../models/Product")
 
 const getCategories = async(req, res) => {
-  const { role } = req.user;
   try {
     const categories = await Category.find()
     
     res.status(200).json({
       message: categories.length ? "Categories fetched Successfully" : "No categories found",
       categories,
-      role
     })
   } catch(err) {
     return res.status(500).json({
