@@ -16,10 +16,29 @@ const getUsers = async (req, res) => {
   }
 }
 
+const fetchLocation = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: "User Locations not found"
+      })
+    }
+    res.status(200).json({
+      locations: existingUser.location,
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    })
+  }
+}
+
 const deleteUser = async(req, res) => {
 
 }
 
 module.exports = {
-  getUsers, deleteUser
+  getUsers, deleteUser, fetchLocation
 }

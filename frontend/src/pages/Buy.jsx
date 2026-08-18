@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/api";
 import Button from "../components/button";
 import toast from "react-hot-toast";
 
 const Buy = ({productId, userId, quantity, oldStock}) => {
   const [location, setLocation ] = useState("")
+  const [fetchedLocations, setFetchedLocations] = useState([])
+  const [selectedLocation, setSelectedLocation] = useState("")
   
   const updateStock = async () => {
     if (oldStock-quantity < 0){
@@ -31,7 +33,7 @@ const Buy = ({productId, userId, quantity, oldStock}) => {
         {
           userId: userId,
           productId: productId,
-          location: location,
+          location: location ? location : selectedLocation,
           quantity: quantity,
         }
       )
@@ -41,11 +43,42 @@ const Buy = ({productId, userId, quantity, oldStock}) => {
       console.log(err.response.data)
     }
   }
+
+  const fetchLocations = async () => {
+    try {
+      const response = await api.get(`/users/${userId}`)
+      setFetchedLocations(response.data.locations)
+
+    } catch (err) {
+      console.log(err.response?.data)
+    }
+  }
+  useEffect(() => {
+    fetchLocations();
+  }, []);
   
   return (
     <>
-      <div className="border p-4 w-fit rounded-lg flex flex-col items-center justify-center">
-        <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} className="border p-1 rounded"/>
+      <div className=" p-4 w-fit gap-4 rounded-lg flex flex-col justify-center">
+        
+        <div className="flex flex-col gap-2">
+          <h2 className="text-">Order to a previous location</h2>
+          <select
+          value={selectedLocation}
+          onChange={(e) => setSelectedLocation(e.target.value)}
+          className=" border w-fit border-(--oatmeal) shadow p-1 rounded-lg outline-none">
+            <option value="" className="bg-(--bg) text-(--ablue)">Existing Location</option>
+            {fetchedLocations.map(location => (
+              <option key={location} value={location} className="border border-(--oatmeal) bg-(--bg) focus:bg-(--truffle) ">{location}</option>
+            ))}
+          </select>
+
+          <h2 className="text-center mt-2">OR</h2>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h2>Enter a new Location</h2>
+          <input type="text" id="location" autoComplete="something" value={location} placeholder="Enter new location" onChange={(e) => setLocation(e.target.value)} className="border p-1 rounded border-(--oatmeal) shadow outline-none"/>
+        </div>
         <Button name="Place Order" onClick={() => {placeOrder(); ;}}/>
       </div>
     </>

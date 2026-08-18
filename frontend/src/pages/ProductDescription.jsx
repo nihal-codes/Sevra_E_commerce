@@ -82,7 +82,7 @@ const ProductDescription = () => {
       <div className="relative bg-(--bg) min-h flex flex-col justify-center gap-12 items-center" >
         <button className="absolute left-4 top-0 border p-1 px-2 rounded-lg border-(--truffle)" onClick={() => navigate("/")}><i className="ri-arrow-left-line mr-1"></i>Back</button>
         {buyWindow &&   
-        <div className="absolute inset-0 bg-black/50" 
+        <div className="absolute h-screen -top-32.5 inset-0 bg-black/50" 
         onClick={() => {
           setBuyWindow(false);
           }}>
@@ -122,13 +122,13 @@ const ProductDescription = () => {
                 <ProductTag 
                   icon={"ri-money-rupee-circle-line"}
                   name={"Price"}
-                  value={product.price}
+                  value={`₹${product.price}`}
                 />
 
                 <ProductTag 
                   icon={"ri-price-tag-3-line"} 
                   name={"Discount"} 
-                  value={`${product.discount}%`}
+                  value={`₹${product.discount}`}
                 />
 
                 <ProductTag 

@@ -3,7 +3,7 @@ const Button = ({name, onClick}) => {
     <>
       <button onClick={onClick} 
       className="
-      border rounded-lg text-center shadow-lg w-30
+      border border-(--oatmeal) text-(--truffle)/ rounded-lg text-center shadow w-30
       transition-all duration-150 hover:-translate-y-px active:scale-102 p-1
       ">
         {name}
