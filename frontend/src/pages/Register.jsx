@@ -50,7 +50,7 @@ const Register = () => {
             
           </div>
 
-          <input type="submit" value={"Register"} disabled={isSubmitting} className="border border-(--oatmeal) w-fit rounded-full shadow-lg transition-all duration-150 hover:bg-(--oatmeal) active:scale-102 px-2 py-1"/>
+          <input type="submit" value={"Register"} disabled={isSubmitting} className="border border-(--oatmeal) w-fit rounded-full shadow-lg transition-all duration-150 hover:bg-(--oatmeal) active:scale-102 px-4 py-1"/>
         </form>
       </div>
     </>

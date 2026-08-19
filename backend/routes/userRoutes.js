@@ -7,10 +7,10 @@ const {
   getUsers, deleteUser, fetchLocation
 } = require("../controllers/userController")
 
-router.use(verifytoken, authorizeRole("admin"));
+router.use(verifytoken);
 
-router.get("/", getUsers);
+router.get("/", authorizeRole("admin"), getUsers);
 router.get("/:id", fetchLocation);
-router.delete("/:id", deleteUser);
+router.delete("/:id",authorizeRole("admin"), deleteUser);
 
 module.exports = router

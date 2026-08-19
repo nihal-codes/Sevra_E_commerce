@@ -11,7 +11,7 @@ const {
 
 router.get("/", getProducts);
 
-router.get("/:id", getProduct)
+router.get("/:id",verifyToken, getProduct)
 
 router.post("/",verifyToken,authorizeRole("admin"), upload.single("image") ,postProducts);
 

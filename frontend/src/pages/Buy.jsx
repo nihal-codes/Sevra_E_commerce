@@ -8,21 +8,6 @@ const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
   const [fetchedLocations, setFetchedLocations] = useState([])
   const [selectedLocation, setSelectedLocation] = useState("")
   
-  const updateStock = async () => {
-    if (oldStock-quantity < 0){
-      toast.error("Cant Place order")
-      return
-    }
-    try {
-      const response = await api.put(`/products/${productId}`, {
-        stock: oldStock-quantity
-      })
-      console.log(response.data)
-    } catch (err) {
-      console.log(err.response.data)
-    }
-  }
-
   const placeOrder = async() => {
     if (oldStock-quantity < 0){
       toast.error("Cant Place order")
@@ -37,8 +22,6 @@ const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
           quantity: quantity,
         }
       )
-      console.log(response.data)
-      updateStock();
       setBuyWindow(false)
     } catch (err) {
       console.log(err.response.data)

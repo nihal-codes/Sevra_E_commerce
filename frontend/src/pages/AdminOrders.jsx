@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useUserCatalog from "../hooks/useUserCatalog";
 import useProductCatalog from "../hooks/useProductCatalog";
 
-const Order = () => {
+const AdminOrder = () => {
   const { orders, users } = useUserCatalog();
   const { products }  = useProductCatalog();
 
@@ -62,4 +62,4 @@ const Order = () => {
   )
 }
 
-export default Order;
+export default AdminOrder;

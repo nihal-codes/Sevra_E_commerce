@@ -40,16 +40,20 @@ const postOrder = async(req, res) => {
   const { productId, quantity, location } = req.body;
 
   try {
-    if (!id) {
-      return res.status(401).json({
-        message: "Unauthorized"
-      })  
+    if (!id) {return res.status(401).json({message: "Unauthorized"})  
     }
-    if (!productId) {
-      return res.status(404).json({
-        message: "Product not found"
-      })
+    if (!productId) {return res.status(404).json({message: "Product not found"})
     }
+    if (!quantity || quantity < 1) { return res.status(400).json({message: "Invalid Quantity"})}
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      {_id: productId, stock: {$gte: quantity}},
+      {$inc: {stock: -quantity}},
+      {new: true}
+    )
+    if (!updatedProduct) { return res.status(400).json({message: "Not enough stock available"})}
+
+
     const existingUser = await User.findById(id);
     let locationExists = false
     const locations = existingUser.location;
@@ -75,14 +79,10 @@ const postOrder = async(req, res) => {
       orderedStatus: true
     })
     const savedOrder = await newOrder.save();
-    res.status(201).json({
-      message: "Order placed"
-    })
+    res.status(201).json({message: "Order placed"})
     
   } catch (err) {
-    res.status(500).json({
-      message: err.message
-    })
+    res.status(500).json({message: err.message})
   }
 }
 
