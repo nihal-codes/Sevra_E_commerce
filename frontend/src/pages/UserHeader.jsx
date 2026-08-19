@@ -12,8 +12,9 @@ const UserHeader = () => {
         <img src="/Sevra1.png" alt="Website Logo" className="h-12 "/>
         
         <div className="flex gap-4">
+          {role === "user" && <NavButton name={"Home"} onClick={() => navigate("/")}/>}
           {role === "user" && <NavButton name={"Cart"} onClick={() => navigate("/cart")}/>}
-          {role === "user" && <NavButton name={"Orders"} onClick={() => navigate("/")}/>}
+          {role === "user" && <NavButton name={"Orders"} onClick={() => navigate("/orders")}/>}
           {role === null && <NavButton name={"Onboard"} onClick={() => navigate("/signup")}/>}
           <NavButton name={"Settings"} />
         </div>

@@ -49,7 +49,7 @@ const postOrder = async(req, res) => {
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: productId, stock: {$gte: quantity}},
       {$inc: {stock: -quantity}},
-      {new: true}
+      {after: true}
     )
     if (!updatedProduct) { return res.status(400).json({message: "Not enough stock available"})}
 

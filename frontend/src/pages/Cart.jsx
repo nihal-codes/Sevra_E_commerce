@@ -76,9 +76,6 @@ const Cart = () => {
         <UserHeader />
         
         <div className="relative flex flex-col p-4 h-[83dvh] w-full mx-auto justify-between items-center bg-(--bg) ">
-          <button className="absolute left-4 top-4 border p-1 px-2 rounded-lg border-(--truffle)" onClick={() => navigate("/")}>
-              <i className="ri-arrow-left-line mr-1"></i>Back
-          </button>
           <div className="flex justify-between gap-12 ">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">

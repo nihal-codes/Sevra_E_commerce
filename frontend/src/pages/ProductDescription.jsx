@@ -80,7 +80,6 @@ const ProductDescription = () => {
       <div className="bg-(--bg) gap-8 flex flex-col min-h-screen">
       <UserHeader />
       <div className="relative bg-(--bg) min-h flex flex-col justify-center gap-12 items-center" >
-        <button className="absolute left-4 top-0 border p-1 px-2 rounded-lg border-(--truffle)" onClick={() => navigate("/")}><i className="ri-arrow-left-line mr-1"></i>Back</button>
         {buyWindow &&   
         <div className="absolute h-screen -top-32.5 inset-0 bg-black/50" 
         onClick={() => {

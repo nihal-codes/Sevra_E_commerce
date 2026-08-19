@@ -6,7 +6,7 @@ const ProtectedRoute = ({children, allowedRoles}) => {
   const role = useAuthStore((state) => state.role);
 
   if (!token) {
-    return <Navigate to="/sign" replace />
+    return <Navigate to="/signup" replace />
   }
 
   if (allowedRoles && !allowedRoles.includes(role)){

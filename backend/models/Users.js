@@ -25,10 +25,12 @@ const userSchema = new mongoose.Schema({
     default: false
   },
   verificationToken: {
-    type: String
+    type: String,
+    default: null
   },
   verificationExpires: {
-    type: Date
+    type: Date,
+    default: null
   }
 });
 

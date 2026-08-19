@@ -5,8 +5,8 @@ import { useState } from "react"
 import Login from "./pages/Login"
 import Admin from "./pages/Admin"
 import Sevra from "./pages/Sevra"
-import Order from "./pages/Orders"
 import Sign from "./pages/SignPage"
+import Orders from "./pages/Orders"
 import Reviews from "./pages/Reviews"
 import 'remixicon/fonts/remixicon.css'
 import Register from "./pages/Register"
@@ -15,21 +15,10 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
 
 const router = createBrowserRouter([
-  {
-    path: "/sevra",
-    element:
-      <>
-        <Sevra />
-      </>
-  },
-  {
-    path: "/",
-    element:<Home />
-  },
-  {
-    path: "/product/:id",
-    element: <ProductDescription />
-  },
+  {path: "/sevra", element: <Sevra />},
+  {path: "/", element:<Home />},
+  {path: "/product/:id", element: <ProductDescription />},
+  
   {
     path: "/admin",
     element: (
@@ -72,8 +61,8 @@ const router = createBrowserRouter([
   {
     path: "/orders",
     element: (
-      <ProtectedRoute allowedRoles={["user", "admin"]}>
-        <Order />
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Orders />
       </ProtectedRoute>
     )
   },
