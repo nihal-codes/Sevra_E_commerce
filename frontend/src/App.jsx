@@ -1,20 +1,18 @@
 import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { Toaster } from "react-hot-toast"
-import 'remixicon/fonts/remixicon.css'
-import Admin from "./pages/Admin"
-import Category from "./components/Category"
-import SubCategory from "./components/SubCategory"
-import Product from "./components/Product"
-import Reviews from "./pages/Reviews"
-import Login from "./pages/Login"
-import Register from "./pages/Register"
 import Home from "./pages/Home"
-import ProductDescription from "./pages/ProductDescription"
 import Cart from "./pages/Cart"
-import Sign from "./pages/SignPage"
-import Order from "./pages/Orders"
+import { useState } from "react"
+import Login from "./pages/Login"
+import Admin from "./pages/Admin"
 import Sevra from "./pages/Sevra"
+import Order from "./pages/Orders"
+import Sign from "./pages/SignPage"
+import Reviews from "./pages/Reviews"
+import 'remixicon/fonts/remixicon.css'
+import Register from "./pages/Register"
+import { Toaster } from "react-hot-toast"
+import ProtectedRoute from "./components/ProtectedRoute"
+import ProductDescription from "./pages/ProductDescription"
 
 const router = createBrowserRouter([
   {
@@ -26,50 +24,58 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element:
-      <>
-        <Home />
-      </>
-  },
-  {
-    path: "/admin",
-    element:
-      <>
-        <Admin />
-      </>
-  },
-  {
-    path: "/category",
-    element: 
-      <>
-        <Category />
-      </>
-  },
-  {
-    path: "/subcategory",
-    element: 
-      <>
-        <SubCategory />
-      </>
-  },
-  {
-    path: "/product",
-    element: 
-      <>
-        <Product />
-      </>
+    element:<Home />
   },
   {
     path: "/product/:id",
     element: <ProductDescription />
   },
   {
+    path: "/admin",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <Admin />
+      </ProtectedRoute>
+    )
+  },
+  // {
+  //   path: "/category",
+  //   element: (
+  //     <ProtectedRoute allowedRoles={["admin"]}>
+  //       <Category />
+  //     </ProtectedRoute>
+  //   )
+  // },
+  // {
+  //   path: "/subcategory",
+  //   element: (
+  //     <ProtectedRoute allowedRoles={["admin"]}>
+  //       <SubCategory />
+  //     </ProtectedRoute>
+  //   )
+  // },
+  // {
+  //   path: "/product",
+  //   element: 
+  //     <>
+  //       <Product />
+  //     </>
+  // },
+  {
     path: "/cart",
-    element: <Cart />
+    element: (
+      <ProtectedRoute allowedRoles={["user", "admin"]}>
+        <Cart />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/orders",
-    element: <Order />
+    element: (
+      <ProtectedRoute allowedRoles={["user", "admin"]}>
+        <Order />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/register",

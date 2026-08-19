@@ -1,4 +1,6 @@
 const express = require("express");
+const authorizeRole = require("../middleware/authorizeRole")
+const verifyToken = require("../middleware/VerifyToken")
 
 const router = express.Router();
 
@@ -9,14 +11,13 @@ const {
   deleteSubCategories
 } = require("../controllers/subCategoryController")
 
-const verifyToken = require("../middleware/VerifyToken")
 
 router.get("/", getSubCategories);
 
-router.post("/",verifyToken, postSubCategories);
+router.post("/",verifyToken,authorizeRole("admin"), postSubCategories);
 
-router.put("/:id",verifyToken, putSubCategories);
+router.put("/:id",verifyToken,authorizeRole("admin"), putSubCategories);
 
-router.delete("/:id",verifyToken, deleteSubCategories);
+router.delete("/:id",verifyToken,authorizeRole("admin"), deleteSubCategories);
 
 module.exports = router
