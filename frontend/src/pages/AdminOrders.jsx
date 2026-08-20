@@ -1,5 +1,3 @@
-import api from "../api/api";
-import { useEffect, useState } from "react";
 import useUserCatalog from "../hooks/useUserCatalog";
 import useProductCatalog from "../hooks/useProductCatalog";
 

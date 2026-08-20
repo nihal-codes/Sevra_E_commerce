@@ -1,4 +1,3 @@
-import { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
 import useProductCatalog from "../hooks/useProductCatalog";
 

@@ -1,5 +1,3 @@
-import api from "../api/api";
-import { useState, useEffect } from "react";
 import useUserCatalog from "../hooks/useUserCatalog";
 
 const AdminUser = () => {

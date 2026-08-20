@@ -1,11 +1,9 @@
 import api from "../api/api"
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import Button from "../components/button"
+import { useParams } from "react-router-dom"
 import toast from "react-hot-toast"
 import Buy from "./Buy"
 import UserHeader from "./UserHeader"
-import ProductCard from "../components/ProductCard"
 import StarRating from "../components/StarRating"
 import ProductTag from "../components/ProductTag"
 import DialogBox from "../components/DialogBox"
@@ -15,7 +13,6 @@ const ProductDescription = () => {
   const [quantity, setQuantity ] = useState(0)
   const [userId, setUserId     ] = useState("")
   const [buyWindow, setBuyWindow ] = useState(false)
-  const navigate = useNavigate();
 
   const { id } = useParams();
 

@@ -1,9 +1,8 @@
 import axios from "axios"
 import { useState } from "react";
 import { useForm } from "react-hook-form"
-import Button from "../components/button2";
 import useAuthStore from "../store/AuthStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -55,8 +54,22 @@ const Login = () => {
         </div>
         <div className="bg-(--bg) flex flex-col gap-4 py-24 px-8">
           <div className="flex p-1 bg-(--oatmeal) w-fit rounded-full">
-            <Button name="SignUp" onClick={() => navigate("/register")} />
-            <Button name="SignIn" onClick={() => navigate("/login")}/>
+            <NavLink to="/register"
+              className={({ isActive }) =>
+                `text-center rounded-full px-2 py-1 transition-all duration-150 hover:-translate-y-px active:scale-102
+                ${isActive
+                    ? "bg-linear-to-br from-(--ablue) via-(--fblue) to-(--ablue) text-white shadow-lg"
+                    : "bg-(--oatmeal)"}`}>
+              SignUp
+            </NavLink>
+            <NavLink to="/login"
+              className={({ isActive }) =>
+                `text-center rounded-full px-2 py-1 transition-all duration-150 hover:-translate-y-px active:scale-102
+                ${isActive
+                    ? "bg-linear-to-br from-(--ablue) via-(--fblue) to-(--ablue) text-white shadow-lg"
+                    : "bg-(--oatmeal)"}`}>
+              SignIn
+            </NavLink>
           </div>
           <div className="flex flex-col items-center justify-center ">
             <form onSubmit={handleSubmit(login)} className="flex flex-col border rounded-lg border-(--oatmeal) bg-transparent w-fit p-4  gap-4">

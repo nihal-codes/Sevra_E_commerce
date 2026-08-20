@@ -1,12 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "./pages/Home"
 import Cart from "./pages/Cart"
-import { useState } from "react"
 import Login from "./pages/Login"
 import Admin from "./pages/Admin"
 import Sevra from "./pages/Sevra"
 import Orders from "./pages/Orders"
-import Reviews from "./pages/Reviews"
 import 'remixicon/fonts/remixicon.css'
 import Register from "./pages/Register"
 import { Toaster } from "react-hot-toast"

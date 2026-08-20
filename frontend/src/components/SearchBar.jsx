@@ -2,9 +2,7 @@ import { useState } from "react";
 
 const SearchBar = ({item}) => {
   const [search, setSearch ] = useState("")
-  const handleSearch = () => {
-
-  }
+  
   return (
     <>
       <div className="flex gap-2 border border-(--oatmeal) rounded-lg shadow bg-(--oatmeal)/30 px-2 py-1">

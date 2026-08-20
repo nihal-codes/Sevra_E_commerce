@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../api/api"
-import DialogBox from "./DialogBox"
 import ProductCard from "./ProductCard";
 import useProductCatalog from "../hooks/useProductCatalog";
 
@@ -15,7 +14,6 @@ const Product = () => {
   const {categories, subCategories, products, refetch } = useProductCatalog();
   const [categoryId, setCategoryId       ] = useState("");
   const [subCategoryId, setSubCategoryId ] = useState("");
-  const inputStyling = "border border-(--oatmeal) p-2 rounded-lg shadow outline-none";
   
   useEffect(() => {
     if (!subCategoryId) return;

@@ -1,15 +1,11 @@
 import api from "../api/api";
 import UserHeader from "./UserHeader";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ProductCard3 from "../components/ProductCard3";
 import useProductCatalog from "../hooks/useProductCatalog";
 
 const Orders = () => {
-  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { products } = useProductCatalog();
   const [combinedOrders, setCombinedOrders] = useState([])
 

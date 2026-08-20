@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import Utility from "./SidebarContent";
 
 const AdminSidebar = ({viewPage, setViewPage}) => {
-  const navigate = useNavigate();
 
   const logout = () => {
     const token = localStorage.getItem("token");

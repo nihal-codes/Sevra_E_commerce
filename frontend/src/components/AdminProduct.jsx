@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import DialogBox from "./DialogBox"
-import ProductCard from "./ProductCard";
 import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
 

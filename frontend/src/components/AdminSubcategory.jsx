@@ -1,14 +1,11 @@
 import api from "../api/api"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 import DialogBox from "./DialogBox"
-import { useNavigate } from "react-router-dom";
 import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
 
-
 const AdminSubcategory = () => {
-  const navigate = useNavigate()
   const {categories, subCategories, refetch_c_sc} = useProductCatalog();
   const [serialNum, setSerialNum     ] = useState(1)
   const [categoryId, setCategoryId       ] = useState("")
@@ -16,7 +13,6 @@ const AdminSubcategory = () => {
   const [inputBox, showInputBox          ] = useState(false)
   const [updateBox, showUpdateBox        ] = useState(false)
   const [newName, setNewName             ] = useState("")
-  const [selectedSubcategory, setSelectedSubcategory ] = useState("")
 
   const { register, handleSubmit, formState: {isSubmitting}} = useForm();
 
