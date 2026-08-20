@@ -1,22 +1,17 @@
-import api from "../api/api"
 import { useState, useEffect, use } from "react";
-import { useForm } from "react-hook-form"
-import DialogBox from "./DialogBox"
 import { useNavigate } from "react-router-dom";
 import useProductCatalog from "../hooks/useProductCatalog";
 
 const SubCategory = ({filter, setFilter}) => {
   
   const navigate = useNavigate()
-  const {categories, subCategories} = useProductCatalog();
-  const [categoryId, setCategoryId       ] = useState("")
-  const [subCategoryId, setSubCategoryId ] = useState("")
+  const {subCategories} = useProductCatalog();
 
   return (
     <>
     <div className="flex justify-between ">
      
-        <div className="flex flex-col overflow-x-auto mx-16 gap-4 ">
+        <div className="flex flex-col overflow-x-auto ml-16 gap-4 ">
           <div className="flex gap-2 items-center">
             <div className="bg-(--truffle) w-1 h-5 rounded"></div>
             <h1 className="text-(--ablue) text-lg  font-bold">Shop by Subcategory</h1> 
