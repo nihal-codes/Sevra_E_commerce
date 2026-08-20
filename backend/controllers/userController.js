@@ -17,7 +17,7 @@ const getUsers = async (req, res) => {
 }
 
 const fetchLocation = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
   try {
     const existingUser = await User.findById(id);
     if (!existingUser) {

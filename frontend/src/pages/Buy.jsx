@@ -30,7 +30,7 @@ const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
 
   const fetchLocations = async () => {
     try {
-      const response = await api.get(`/users/${userId}`)
+      const response = await api.get(`/users/me`)
       setFetchedLocations(response.data.locations)
 
     } catch (err) {

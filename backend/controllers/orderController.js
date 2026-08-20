@@ -1,3 +1,4 @@
+const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Order = require("../models/Orders");
 const User = require("../models/Users")
@@ -86,62 +87,86 @@ const postOrder = async(req, res) => {
   }
 }
 
-const postAllCartOrders = async(req, res) => {
+const postAllCartOrders = async (req, res) => {
   const { id } = req.user;
-  const { filteredProducts } = req.body;
-
-  console.log(filteredProducts)
-
+  const { location } = req.body;
   try {
-    if (!id) {return res.status(401).json({message: "Unauthorized"})  
-    }
-    if (!filteredProducts.length) {return res.status(404).json({message: "Product not found"})}
-
-    for (let i = 0; i < filteredProducts.length; i++) {
-      const updatedProduct = await Product.findOneAndUpdate(
-        {_id: filteredProducts[i].productId}
-      )
+    if (!id) {
+      return res.status(401).json({message: "Unauthorized"});
     }
 
-    // const updatedProduct = await Product.findOneAndUpdate(
-    //   {_id: productId, stock: {$gte: quantity}},
-    //   {$inc: {stock: -quantity}},
-    //   {after: true}
-    // )
-    // if (!updatedProduct) { return res.status(400).json({message: "Not enough stock available"})}
+    if (!location || !location.trim()) {
+      return res.status(400).json({message: "Location is required"});
+    }
 
+    const cartOrders = await Cart.find({userId: id});
 
-    const existingUser = await User.findById(id);
-    let locationExists = false
-    const locations = existingUser.location;
-    for (let i = 0 ; i < locations.length; i++){
-      if (location === locations[i]){
-        locationExists = true
+    if (!cartOrders.length) {
+      return res.status(404).json({message: "Cart is empty"});
+    }
+
+    const products = [];
+
+    for (const cartItem of cartOrders) {
+      const product = await Product.findById(cartItem.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          message: `Product ${cartItem.productId} not found`
+        });
       }
+
+      if (product.stock < cartItem.quantity) {
+        return res.status(400).json({
+          message: `${product.name} does not have enough stock. Available: ${product.stock}`
+        });
+      }
+
+      products.push({
+        product,
+        quantity: cartItem.quantity
+      });
     }
-    if (!locationExists){
-      const updatedUser = await User.findByIdAndUpdate(id,
-        {
-          location: [...existingUser.location, location]
-        }
+
+    for (const item of products) {
+      await Product.findByIdAndUpdate(item.product._id,
+        {$inc: {stock: -item.quantity}}
       );
     }
 
-    const newOrder = new Order({
+    const existingUser = await User.findById(id);
+
+    if (!existingUser) {
+      return res.status(404).json({message: "User not found"});
+    }
+
+    if (!existingUser.location.includes(location)) {
+      await User.findByIdAndUpdate(id,
+        {$push: {location: location}}
+      );
+    }
+
+    const orders = products.map(item => ({
       userId: id,
-      productId: productId,
-      quantity: quantity,
+      productId: item.product._id,
+      quantity: item.quantity,
       location: location,
       deliveredStatus: false,
       orderedStatus: true
-    })
-    const savedOrder = await newOrder.save();
-    res.status(201).json({message: "Order placed"})
-    
+    }));
+
+    await Order.insertMany(orders);
+
+    await Cart.deleteMany({userId: id});
+
+    return res.status(201).json({message: "All cart items ordered successfully"});
+
   } catch (err) {
-    res.status(500).json({message: err.message})
+    return res.status(500).json({
+      message: err.message
+    });
   }
-}
+};
 
 const putOrder = async(req, res) => {
 

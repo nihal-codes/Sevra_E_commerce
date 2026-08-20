@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import UserHeader from "./UserHeader";
 import ProductCard2 from "../components/ProductCard2";
 import useProductCatalog from "../hooks/useProductCatalog";
+import BuyAllCart from "./BuyAll";
 
 const Cart = () => {
   const { products } = useProductCatalog();
   const [savedCartOrders, setSavedCartOrders ] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
+  const [buyWindow, setBuyWindow] = useState(false);
 
   const getCartOrders = async() => {
     try {
@@ -35,15 +37,6 @@ const Cart = () => {
       console.log(response.data)
     }
     catch (err) {
-      console.log(err.response?.data)
-    }
-  }
-
-  const buyAllCart = async() => {
-    try {
-      const response = await api.post("/order/all", {
-        filteredProducts, savedCartOrders})
-    } catch (err) {
       console.log(err.response?.data)
     }
   }
@@ -169,10 +162,13 @@ const Cart = () => {
               </div>
 
               <div className="flex flex-col gap-4 items-center pt-4">
-                <button 
-                onClick={() => {buyAllCart()}}
-                className="rounded bg-(--flame) text-white w-full text-xl py-2 cursor-pointer transition-all duration-200 ">
-                  Proceed to Checkout <i className="ri-arrow-right-line"></i>
+                <button
+                  disabled={savedCartOrders.length === 0}
+                  onClick={() => setBuyWindow(true)}
+                  className="rounded bg-(--flame) text-white w-full text-xl py-2 cursor-pointer transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  Proceed to Checkout
+                  <i className="ri-arrow-right-line"></i>
                 </button>
                 <h5 className="text-xs text-white/80 select-none"><i className="ri-lock-line"></i> Secure Checkout</h5>
               </div>
@@ -207,6 +203,26 @@ const Cart = () => {
               </div>
           </div>
         </div>
+        {buyWindow && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-(--bg) rounded-xl shadow-xl">
+              <div className="flex justify-between items-center px-4 pt-4">
+                <h2 className="text-xl font-semibold">
+                  Checkout
+                </h2>
+                <button
+                  onClick={() => setBuyWindow(false)}
+                  className="w-8 h-8 rounded-full border border-(--truffle)"
+                >
+                  <i className="ri-close-line"></i>
+                </button>
+              </div>
+              <BuyAllCart
+                setBuyWindow={setBuyWindow}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

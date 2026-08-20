@@ -10,7 +10,7 @@ const {
 router.use(verifytoken);
 
 router.get("/", authorizeRole("admin"), getUsers);
-router.get("/:id", fetchLocation);
+router.get("/me", fetchLocation);
 router.delete("/:id",authorizeRole("admin"), deleteUser);
 
 module.exports = router
