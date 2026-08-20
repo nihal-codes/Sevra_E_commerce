@@ -19,16 +19,11 @@ const VerifyEmail = () => {
         setStatus(response.data.message);
 
       } catch (err) {
-        console.log("VERIFICATION ERROR:", err);
-        console.log("STATUS:", err.response?.status);
-        console.log("DATA:", err.response?.data);
-        console.log("URL:", err.config?.url);
-
-        setError(
-          err.response?.data?.message ||
-          err.message ||
-          "Verification failed"
-        );
+          setError(
+            err.response?.data?.message ||
+            err.message ||
+            "Verification failed"
+          );
       }
     };
 

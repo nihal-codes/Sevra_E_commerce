@@ -5,15 +5,14 @@ import { useState } from "react"
 import Login from "./pages/Login"
 import Admin from "./pages/Admin"
 import Sevra from "./pages/Sevra"
-import Sign from "./pages/SignPage"
 import Orders from "./pages/Orders"
 import Reviews from "./pages/Reviews"
 import 'remixicon/fonts/remixicon.css'
 import Register from "./pages/Register"
 import { Toaster } from "react-hot-toast"
+import VerifyEmail from "./pages/VerifyEmail"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
-import VerifyEmail from "./pages/VerifyEmail"
 
 const router = createBrowserRouter([
   {path: "/sevra", element: <Sevra />},
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
     element:<Login />
   },
   {
-    path: "/signup",
-    element: <Sign />
-  },
-  {
     path: "/verify-email/:token",
     element: <VerifyEmail />
   },
@@ -68,7 +63,6 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  const [tab, setTab] = useState("category")
   return (
     <>
       <Toaster />
