@@ -1,21 +1,4 @@
-const ProductCart2 = ({image, name, brand, price, quantity, stock, minOrderQuantity, onClick}) => {
-  
-  const incrementQuantity = () => {
-    if (quantity >= stock){
-      toast.error("Minimum Quantity Reached")
-      return  
-    } 
-    quantity = quantity + 1;
-    console.log(quantity)
-  }
-
-  const decrementQuantity = () => { 
-    if (quantity <= minOrderQuantity){
-      toast.error("Maximum Quantity Reached")
-      return  
-    } 
-    quantity -= 1;
-  }
+const ProductCart2 = ({image, name, brand, price, quantity, stock, minOrderQuantity, onClick, updateQuantity,id, update, setUpdate}) => {
 
   return (
     <>
@@ -29,9 +12,9 @@ const ProductCart2 = ({image, name, brand, price, quantity, stock, minOrderQuant
         </div>
 
         <div className="flex items-center gap-5 bg-(--bg)/2 0 border border-(--truffle) rounded-lg p-1 w-30 justify-center px-3 mr-8">
-          <button onClick={() => decrementQuantity()}><i className="ri-subtract-line text-lg"></i></button>
+          <button onClick={() => {updateQuantity(id, "decrement")}}><i className="ri-subtract-line text-lg"></i></button>
           <h2 className="text-(--ablue) text-lg ">{quantity}</h2>
-          <button onClick={() => incrementQuantity()}><i className="ri-add-line text-lg"></i></button>
+          <button onClick={() => {updateQuantity(id, "increment")}}><i className="ri-add-line text-lg"></i></button>
         </div>
 
         <div>

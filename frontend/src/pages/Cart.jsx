@@ -1,17 +1,12 @@
 import api from "../api/api";
-import { use, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import UserHeader from "./UserHeader";
-import ProductTag from "../components/ProductTag";
 import ProductCard2 from "../components/ProductCard2";
 import useProductCatalog from "../hooks/useProductCatalog";
 
 const Cart = () => {
-  const navigate = useNavigate();
-
-  const [savedCartOrders, setSavedCartOrders ] = useState([])
   const { products } = useProductCatalog();
+  const [savedCartOrders, setSavedCartOrders ] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
 
   const getCartOrders = async() => {
@@ -44,10 +39,23 @@ const Cart = () => {
     }
   }
 
-  const buyAllCart = () => {
-
+  const buyAllCart = async() => {
+    try {
+      const response = await api.post("/order/all", {
+        filteredProducts, savedCartOrders})
+    } catch (err) {
+      console.log(err.response?.data)
+    }
   }
 
+  const updateQuantity = async(id, update) => {
+    try {
+      const response = await api.patch(`/cart/${id}`, { update })
+      getCartOrders();
+    } catch (err) {
+      console.log(err.response?.data)
+    }
+  }
   
   useEffect(() => {
     getCartOrders()
@@ -100,6 +108,7 @@ const Cart = () => {
                 <div className="overflow-y-scroll scrollbar-none max-h-80">
                   {filteredProducts.map(product => {
                     const savedCartOrder = savedCartOrders.find(order => order.productId === product._id)
+                    
                     return (
                       <div key={product._id} className="border-x border-b border-(--oatmeal) shrink-0">
                         <ProductCard2
@@ -110,6 +119,8 @@ const Cart = () => {
                           rating   = {product.rating }
                           quantity = {savedCartOrder?.quantity}
                           onClick={() => deleteFromCart(savedCartOrder?._id)}
+                          updateQuantity={updateQuantity}
+                          id={savedCartOrder?._id}
                           />
                       </div>
                       
@@ -159,7 +170,7 @@ const Cart = () => {
 
               <div className="flex flex-col gap-4 items-center pt-4">
                 <button 
-                onClick={() => {}}
+                onClick={() => {buyAllCart()}}
                 className="rounded bg-(--flame) text-white w-full text-xl py-2 cursor-pointer transition-all duration-200 ">
                   Proceed to Checkout <i className="ri-arrow-right-line"></i>
                 </button>

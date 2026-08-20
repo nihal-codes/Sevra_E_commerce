@@ -72,6 +72,34 @@ const emptyCart = async(req, res) => {
   }
 }
 
+const patchCart = async(req, res) => {
+  const { id } = req.params;
+  const { update } = req.body;
+  try {
+    const existingCartOrder = await Cart.findById(id);
+    if (!existingCartOrder) {
+      return res.status(404).json({message: "No Cart order found"})
+    }
+    if (update === "increment") {
+      await Cart.findByIdAndUpdate(id,
+        {$inc: {quantity: 1}},
+        {after: true}
+      )
+    } else if (update === "decrement") {
+      await Cart.findByIdAndUpdate(id,
+        {$inc: {quantity: -1}},
+        {after: true}
+      )
+    }
+    res.status(200).json({message: "Changes done"})
+
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    })
+  }
+}
+
 const deleteFromCart = async(req, res) => {
   const { id } = req.params
   try {
@@ -96,5 +124,5 @@ const deleteFromCart = async(req, res) => {
 
 
 module.exports = {
-  getCart, postToCart, emptyCart, deleteFromCart
+  getCart, postToCart, emptyCart,patchCart, deleteFromCart
 }

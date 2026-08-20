@@ -86,6 +86,63 @@ const postOrder = async(req, res) => {
   }
 }
 
+const postAllCartOrders = async(req, res) => {
+  const { id } = req.user;
+  const { filteredProducts } = req.body;
+
+  console.log(filteredProducts)
+
+  try {
+    if (!id) {return res.status(401).json({message: "Unauthorized"})  
+    }
+    if (!filteredProducts.length) {return res.status(404).json({message: "Product not found"})}
+
+    for (let i = 0; i < filteredProducts.length; i++) {
+      const updatedProduct = await Product.findOneAndUpdate(
+        {_id: filteredProducts[i].productId}
+      )
+    }
+
+    // const updatedProduct = await Product.findOneAndUpdate(
+    //   {_id: productId, stock: {$gte: quantity}},
+    //   {$inc: {stock: -quantity}},
+    //   {after: true}
+    // )
+    // if (!updatedProduct) { return res.status(400).json({message: "Not enough stock available"})}
+
+
+    const existingUser = await User.findById(id);
+    let locationExists = false
+    const locations = existingUser.location;
+    for (let i = 0 ; i < locations.length; i++){
+      if (location === locations[i]){
+        locationExists = true
+      }
+    }
+    if (!locationExists){
+      const updatedUser = await User.findByIdAndUpdate(id,
+        {
+          location: [...existingUser.location, location]
+        }
+      );
+    }
+
+    const newOrder = new Order({
+      userId: id,
+      productId: productId,
+      quantity: quantity,
+      location: location,
+      deliveredStatus: false,
+      orderedStatus: true
+    })
+    const savedOrder = await newOrder.save();
+    res.status(201).json({message: "Order placed"})
+    
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+}
+
 const putOrder = async(req, res) => {
 
 }
@@ -110,5 +167,5 @@ const deleteOrder = async(req, res) => {
 }
 
 module.exports = {
-  getOrders, postOrder, putOrder, deleteOrder
+  getOrders, postOrder, putOrder, deleteOrder, postAllCartOrders
 };
