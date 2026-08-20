@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "./pages/Home"
 import Cart from "./pages/Cart"
 import { useState } from "react"
@@ -13,6 +13,7 @@ import Register from "./pages/Register"
 import { Toaster } from "react-hot-toast"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
+import VerifyEmail from "./pages/VerifyEmail"
 
 const router = createBrowserRouter([
   {path: "/sevra", element: <Sevra />},
@@ -27,29 +28,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     )
   },
-  // {
-  //   path: "/category",
-  //   element: (
-  //     <ProtectedRoute allowedRoles={["admin"]}>
-  //       <Category />
-  //     </ProtectedRoute>
-  //   )
-  // },
-  // {
-  //   path: "/subcategory",
-  //   element: (
-  //     <ProtectedRoute allowedRoles={["admin"]}>
-  //       <SubCategory />
-  //     </ProtectedRoute>
-  //   )
-  // },
-  // {
-  //   path: "/product",
-  //   element: 
-  //     <>
-  //       <Product />
-  //     </>
-  // },
   {
     path: "/cart",
     element: (
@@ -77,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Sign />
+  },
+  {
+    path: "/verify-email/:token",
+    element: <VerifyEmail />
   },
   {
     path: "*",

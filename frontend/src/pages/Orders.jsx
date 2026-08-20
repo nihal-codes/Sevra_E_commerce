@@ -59,7 +59,7 @@ const Orders = () => {
         
         <div className="relative flex flex-col p-4 h-[83dvh] w-full mx-auto justify-between items-center bg-(--bg) ">
           <div className="flex justify-between gap-12 ">
-            <div className="flex flex-col gap-4 -ml-40">
+            <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <h1 className="text-3xl font-semibold mb-2">Your Orders</h1>
