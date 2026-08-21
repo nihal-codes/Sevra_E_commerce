@@ -13,9 +13,9 @@ api.interceptors.response.use(
         if (
             error.response?.status === 401 &&
             originalRequest &&
-            originalRequest.url !== "/me" &&
             originalRequest.url !== "/refresh" &&
             originalRequest.url !== "/login" &&
+            originalRequest.url !== "/logout" &&
             !originalRequest._retry
         ) {
             originalRequest._retry = true;
@@ -23,6 +23,9 @@ api.interceptors.response.use(
                 await api.post("/refresh");
                 return api(originalRequest);
             } catch (refreshError) {
+                if (originalRequest.url === "/me") {
+                    return Promise.reject(refreshError);
+                }
                 useAuthStore.getState().logout();
                 window.location.href = "/login";
                 return Promise.reject(refreshError);

@@ -18,7 +18,7 @@ const UserHeader = () => {
           {role === "user" && <NavButton name={"Home"} onClick={() => navigate("/")}/>}
           {role === "user" && <NavButton name={"Cart"} onClick={() => navigate("/cart")}/>}
           {role === "user" && <NavButton name={"Orders"} onClick={() => navigate("/orders")}/>}
-          {role === null && <NavButton name={"Onboard"} onClick={() => navigate("/register")}/>}
+          {!role && <NavButton name={"Onboard"} onClick={() => navigate("/register")}/>}
           <NavButton name={"Settings"} onMouseOver={() => showSettings(true)} onMouseLeave={() => showSettings(false)}/>
           
         </div>

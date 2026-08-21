@@ -20,8 +20,8 @@ const Settings = ({onMouseOver, onMouseLeave}) => {
         </button>
         <button 
         onClick={handleLogout}
-        className="flex items-center rounded-lg gap-2 cursor-pointer transition-all duration-200 hover:bg-(--oatmeal)/50 px-2 py-1 w-full">
-          <i className="ri-logout-box-r-line text-red-600"></i>
+        className="flex items-center rounded-lg gap-2 cursor-pointer transition-all duration-200 hover:bg-(--oatmeal)/50 px-2 py-1 w-full  text-red-600">
+          <i className="ri-logout-box-r-line"></i>
           <h2>Logout</h2>
         </button>
       </div>

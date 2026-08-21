@@ -5,6 +5,7 @@ const {
 } = require("../utils/GenerateToken")
 const SendMail = require("../utils/SendEmail");
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -155,53 +156,73 @@ const login = async (req, res) => {
   }
 }
 
-const getCurrentUser = async(req, res) => {
-  return res.status(200).json({
-    role: req.user.role,
-  });
+const getCurrentUser = async (req, res) => {
+    const token = req.cookies.accessToken;
+
+    if (!token) {
+        return res.status(200).json({
+            authenticated: false
+        });
+    }
+    try {
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(401).json({
+                message: "User not found"
+            });
+        }
+        return res.status(200).json({
+            authenticated: true,
+            role: user.role
+        });
+    } catch (err) {
+        return res.status(401).json({
+            message: err.message
+        });
+    }
 };
 
-const refreshToken = async(req, res) => {
-  const token = req.cookie.refreshToken;
-  if (!token) {
-    return res.status(401).json({
-      message: "Refresh token required"
-    })
-  }
-  try {
-    const decoded = jwt.verify(
-      token, 
-      process.env.JWT_REFRESH_SECRET
-    );
-
-    const user = await User.findById(decoded.id)
-
-    if (!user) {
-      return res.status(401).json({
-        message: "User not found"
-      })
+const refreshToken = async (req, res) => {
+    const token = req.cookies.refreshToken;
+    if (!token) {
+        return res.status(401).json({
+            message: "Refresh token required"
+        });
     }
-    const newAccessToken = generateToken(
-      user._id,
-      user.role
-    )
-    res.cookie("accessToken", newAccessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 15*60*1000
-    })
-
-    return res.status(200).json({
-      message: "Access token refreshed"
-    });
-
-  } catch (err) {
-    return res.status(401).json({
-      message: err.message
-    })
-  }
-}
+    try {
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_REFRESH_SECRET
+        );
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(401).json({
+                message: "User not found"
+            });
+        }
+        const newAccessToken = generateToken(
+            user._id,
+            user.role
+        );
+        res.cookie("accessToken", newAccessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000
+        });
+        return res.status(200).json({
+            message: "Access token refreshed"
+        });
+    } catch (err) {
+        return res.status(401).json({
+            message: err.message
+        });
+    }
+};
 
 const logout = async(req, res) => {
   res.clearCookie("accessToken", {
