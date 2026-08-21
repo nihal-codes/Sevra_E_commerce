@@ -2,15 +2,13 @@ const User = require("../models/Users")
 const jwt = require("jsonwebtoken")
 
 const verifyToken = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const extractedToken = req.cookies.accessToken;
 
-  if (!authHeader) {
+  if (!extractedToken) {
     return res.status(401).json({
-      message: "Authentication required"
+      message: "Authentication Required"
     })
   }
-
-  const extractedToken = authHeader.split(" ")[1]
   
   try {
     const decoded = jwt.verify(extractedToken, process.env.JWT_SECRET)

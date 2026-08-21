@@ -1,22 +1,29 @@
 import { create } from "zustand";
 
-// This will be the new login and logout 
 const useAuthStore = create((set) => ({
-  token: localStorage.getItem("token") || null,
-  role : localStorage.getItem("role") || null,
+  role: null,
+  isAuthenticated: false,
+  isLoading: true,
 
-  login: (token, role) =>{
-    localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
-    set({ token, role });
+  login: (role) => {
+      set({
+          role,
+          isAuthenticated: true,
+          isLoading: false,
+      });
   },
 
   logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    set({ token: null, role: null });
+      set({
+          role: null,
+          isAuthenticated: false,
+          isLoading: false,
+      });
   },
-  isAuthenticated: () => !!localStorage.getItem("token"),
+
+  setLoading: (isLoading) => {
+      set({ isLoading });
+  },
 }));
 
 export default useAuthStore;

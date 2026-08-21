@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { useEffect } from "react"
+import api from "./api/api"
 import Home from "./pages/Home"
 import Cart from "./pages/Cart"
 import Login from "./pages/Login"
@@ -8,6 +10,7 @@ import Orders from "./pages/Orders"
 import 'remixicon/fonts/remixicon.css'
 import Register from "./pages/Register"
 import { Toaster } from "react-hot-toast"
+import useAuthStore from "./store/AuthStore"
 import VerifyEmail from "./pages/VerifyEmail"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
@@ -61,6 +64,21 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
+  const login = useAuthStore((state) => state.login);
+  const setLoading = useAuthStore((state) => state.setLoading);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+        try {
+          const response = await api.get("/me");
+          login(response.data.role);
+      } catch (err) {
+          setLoading(false);
+      }
+    };
+    checkAuth();
+  }, [login, setLoading]);
+
   return (
     <>
       <Toaster />

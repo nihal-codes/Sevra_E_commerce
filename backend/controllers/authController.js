@@ -118,10 +118,19 @@ const login = async (req, res) => {
     if (!existingUser.verified) {
       return res.status(403).json({message: "Please verify your email before logging in"})
     }
+    const token = generateToken(
+      existingUser._id,
+      existingUser.role
+    );
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 15*60*1000
+    })
     return res.status(200).json({
-      token: generateToken(existingUser._id, existingUser.role),
-      role: existingUser.role,
-      message: "Login Successful"
+      message: "Login Successful",
+      role: existingUser.role
     })
   }
   catch (err) {
@@ -131,6 +140,12 @@ const login = async (req, res) => {
   }
 }
 
+const getCurrentUser = async(req, res) => {
+  return res.status(200).json({
+    role: req.user.role,
+  });
+};
+
 module.exports = {
-  register, login, verifyEmail
+  register, login, verifyEmail, getCurrentUser
 }

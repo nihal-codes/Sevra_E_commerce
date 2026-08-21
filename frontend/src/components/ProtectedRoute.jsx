@@ -1,18 +1,33 @@
 import { Navigate } from "react-router-dom";
 import useAuthStore from "../store/AuthStore";
 
-const ProtectedRoute = ({children, allowedRoles}) => {
-  const token = useAuthStore((state) => state.token);
-  const role = useAuthStore((state) => state.role);
+const ProtectedRoute = ({ children, allowedRoles }) => {
 
-  if (!token) {
-    return <Navigate to="/login" replace />
-  }
+    const isAuthenticated = useAuthStore(
+        (state) => state.isAuthenticated
+    );
 
-  if (allowedRoles && !allowedRoles.includes(role)){
-    return <Navigate to="/" replace />
-  }
-  return children;
-}
+    const isLoading = useAuthStore(
+        (state) => state.isLoading
+    );
+
+    const role = useAuthStore(
+        (state) => state.role
+    );
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    if (allowedRoles && !allowedRoles.includes(role)) {
+        return <Navigate to="/" replace />;
+    }
+
+    return children;
+};
 
 export default ProtectedRoute;

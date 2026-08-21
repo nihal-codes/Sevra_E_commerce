@@ -1,8 +1,8 @@
-import axios from "axios"
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import useAuthStore from "../store/AuthStore";
 import { useNavigate, NavLink } from "react-router-dom";
+import api from "../api/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,10 +12,10 @@ const Login = () => {
 
   const login = async(data) => {
     try {
-      const response = await axios.post("http://localhost:3000/login", data)
+      const response = await api.post("/login", data)
       const role = response.data.role
       if (response.status === 200) {
-        loginUser(response.data.token, role);
+        loginUser(role);
         if (role === "admin") {
           navigate("/admin")
         }
