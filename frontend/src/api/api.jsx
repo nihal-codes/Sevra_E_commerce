@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import useAuthStore from "../store/AuthStore";
 
 const api = axios.create({
@@ -9,17 +8,26 @@ const api = axios.create({
 
 api.interceptors.response.use(
     (response) => response,
-
-    (error) => {
-
+    async (error) => {
+        const originalRequest = error.config;
         if (
             error.response?.status === 401 &&
-            error.config?.url !== "/me"
+            originalRequest &&
+            originalRequest.url !== "/me" &&
+            originalRequest.url !== "/refresh" &&
+            originalRequest.url !== "/login" &&
+            !originalRequest._retry
         ) {
-            useAuthStore.getState().logout();
-            window.location.href = "/login";
+            originalRequest._retry = true;
+            try {
+                await api.post("/refresh");
+                return api(originalRequest);
+            } catch (refreshError) {
+                useAuthStore.getState().logout();
+                window.location.href = "/login";
+                return Promise.reject(refreshError);
+            }
         }
-
         return Promise.reject(error);
     }
 );

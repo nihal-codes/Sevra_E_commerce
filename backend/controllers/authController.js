@@ -1,6 +1,8 @@
 const bcrypt = require("../utils/bcrypt");
 const crypto = require("crypto");
-const generateToken = require("../utils/GenerateToken")
+const {
+  generateToken, generateRefreshToken
+} = require("../utils/GenerateToken")
 const SendMail = require("../utils/SendEmail");
 const User = require("../models/Users");
 
@@ -122,12 +124,25 @@ const login = async (req, res) => {
       existingUser._id,
       existingUser.role
     );
+
+    const refreshToken = generateRefreshToken(
+      existingUser._id
+    );
+
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 15*60*1000
-    })
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7*24*60*60*1000
+    });
+
     return res.status(200).json({
       message: "Login Successful",
       role: existingUser.role
@@ -146,6 +161,65 @@ const getCurrentUser = async(req, res) => {
   });
 };
 
+const refreshToken = async(req, res) => {
+  const token = req.cookie.refreshToken;
+  if (!token) {
+    return res.status(401).json({
+      message: "Refresh token required"
+    })
+  }
+  try {
+    const decoded = jwt.verify(
+      token, 
+      process.env.JWT_REFRESH_SECRET
+    );
+
+    const user = await User.findById(decoded.id)
+
+    if (!user) {
+      return res.status(401).json({
+        message: "User not found"
+      })
+    }
+    const newAccessToken = generateToken(
+      user._id,
+      user.role
+    )
+    res.cookie("accessToken", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 15*60*1000
+    })
+
+    return res.status(200).json({
+      message: "Access token refreshed"
+    });
+
+  } catch (err) {
+    return res.status(401).json({
+      message: err.message
+    })
+  }
+}
+
+const logout = async(req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax"
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax"
+  });
+
+  return res.status(200).json({
+    message: "Logout successful"
+  })
+}
+
 module.exports = {
-  register, login, verifyEmail, getCurrentUser
+  register, login, verifyEmail, getCurrentUser, refreshToken, logout
 }

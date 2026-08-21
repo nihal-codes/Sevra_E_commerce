@@ -8,11 +8,25 @@ const generateToken = (_id, role) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "30m"
+      expiresIn: "15m"
     }
   )
   return token
 }
 
-module.exports = generateToken;
+const generateRefreshToken = (_id) => {
+  return jwt.sign(
+    {
+      id: _id
+    },
+    process.env.JWT_REFRESH_SECRET,
+    {
+      expiresIn: "7d"
+    }
+  )
+}
+
+module.exports = {
+  generateToken, generateRefreshToken
+};
 
