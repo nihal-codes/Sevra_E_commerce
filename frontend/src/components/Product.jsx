@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import api from "../api/api"
 import ProductCard from "./ProductCard";
 import useProductCatalog from "../hooks/useProductCatalog";
+import { getErrorMessage } from "../utils/errorMessage"
 
 const Product = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Product = () => {
         toast.success("Added to cart successfully")
       }
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to add product to cart"))
     }
   }
 

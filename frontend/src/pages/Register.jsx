@@ -2,6 +2,8 @@ import axios from "axios"
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { useNavigate, NavLink } from "react-router-dom";
+import toast from "react-hot-toast";
+import { getErrorMessage } from "../utils/errorMessage";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,8 +18,8 @@ const Register = () => {
           navigate("/login")
       }
     } catch (err) {
-      console.log(err.response.data)
-      if(err.response.status === 500) {
+      toast.error(getErrorMessage(err, "Unable to create account"))
+      if(err.response?.status === 500) {
         navigate("/login")
       }
     }

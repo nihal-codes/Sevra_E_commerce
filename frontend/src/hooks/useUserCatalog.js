@@ -1,5 +1,7 @@
 import api from "../api/api"
 import { useState, useEffect, useCallback } from "react"
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 export default function useUserCatalog() {
   const [orders, setOrders ] = useState([])
@@ -10,7 +12,7 @@ export default function useUserCatalog() {
       const response = await api.get("/order");
       setOrders(response?.data.orders)
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load orders"))
     }
   }, []);
 
@@ -20,7 +22,7 @@ export default function useUserCatalog() {
       const response = await api.get("/users");
       setUsers(response.data.users);
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load users"))
     }
   }, []);
 

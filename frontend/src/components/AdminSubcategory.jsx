@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import DialogBox from "./DialogBox"
 import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 const AdminSubcategory = () => {
   const {categories, subCategories, refetch_c_sc} = useProductCatalog();
@@ -27,7 +29,7 @@ const AdminSubcategory = () => {
       showInputBox(false)
     } 
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to add subcategory"))
     }
   }
 
@@ -44,7 +46,7 @@ const AdminSubcategory = () => {
 
     } 
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to update subcategory"))
     }
   }
 
@@ -54,7 +56,7 @@ const AdminSubcategory = () => {
       console.log(response.data)
       refetch_c_sc();
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to delete subcategory"))
     }
   }
 

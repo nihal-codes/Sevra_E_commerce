@@ -15,7 +15,7 @@ const register = async (req, res) => {
     })
     if (existingUser) {
       return res.status(409).json({
-        message: "User already exists"
+        message: "Email already exists"
       })
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -109,7 +109,7 @@ const login = async (req, res) => {
     })
     if (!existingUser) {
       return res.status(404).json({
-        message: "Cant login in! No user with the given email found"
+        message: "Invalid Credentials"
       })
     }
     const isMatch = await bcrypt.compare(password, existingUser.password);

@@ -1,6 +1,8 @@
 import api from "../api/api";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { getErrorMessage } from "../utils/errorMessage";
 
 const UserReview = () => {
   const [products, setProducts    ] = useState([]);
@@ -18,7 +20,7 @@ const UserReview = () => {
       const response = await api.get("/products")
       setProducts(response.data.products)
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load products"))
     }
   }
 
@@ -28,7 +30,7 @@ const UserReview = () => {
       setReviews(response.data.reviews)
       console.log(response.data.reviews)
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load reviews"))
     }
   }
 
@@ -39,7 +41,7 @@ const UserReview = () => {
 
   const handleAddReview = async (data) => {
     try {
-      const response = await AuthenticatorAssertionResponse.post("/reviews", {
+      const response = await api.post("/reviews", {
         rating: data.rating,
         reviewDesc: data.reviewDesc,
         productId: productId
@@ -50,7 +52,7 @@ const UserReview = () => {
       showInputBox(false)
     } 
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to add review"))
     }
   }
 
@@ -66,7 +68,7 @@ const UserReview = () => {
       showUpdateBox(false)
     } 
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to update review"))
     }
   }
 
@@ -77,7 +79,7 @@ const UserReview = () => {
       getProducts();
       getReviews();    
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to delete review"))
     }
   }
 

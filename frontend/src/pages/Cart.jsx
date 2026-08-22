@@ -1,9 +1,11 @@
 import api from "../api/api";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import UserHeader from "./UserHeader";
 import ProductCard2 from "../components/ProductCard2";
 import useProductCatalog from "../hooks/useProductCatalog";
 import BuyAllCart from "./BuyAll";
+import { getErrorMessage } from "../utils/errorMessage";
 
 const Cart = () => {
   const { products } = useProductCatalog();
@@ -17,7 +19,7 @@ const Cart = () => {
       setSavedCartOrders(response.data.cartOrders)
     }
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load cart"))
     }
   }
 
@@ -25,8 +27,9 @@ const Cart = () => {
     try {
       const response = await api.delete(`/cart/${id}`)
       getCartOrders();
+      toast.success(response.data.message)
     } catch (err) {
-      console.log(err.response?.data)
+        toast.error(getErrorMessage(err, "Unable to remove item from cart"))
     }
   }
 
@@ -34,10 +37,10 @@ const Cart = () => {
     try {
       const response = await api.delete("/cart")
       getCartOrders();
-      console.log(response.data)
+      toast.success(response.data.message)
     }
     catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to clear cart"))
     }
   }
 
@@ -45,8 +48,9 @@ const Cart = () => {
     try {
       const response = await api.patch(`/cart/${id}`, { update })
       getCartOrders();
+      toast.success(response.data.message)
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to update cart"))
     }
   }
   
@@ -78,7 +82,8 @@ const Cart = () => {
         
         <div className="relative flex flex-col p-4 h-[83dvh] w-full mx-auto justify-between items-center bg-(--bg) ">
           <div className="flex justify-between gap-12 ">
-            <div className="flex flex-col gap-4">
+            {savedCartOrders.length > 0 
+            ? <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <h1 className="text-3xl font-semibold mb-2">Your Cart</h1>
@@ -121,7 +126,12 @@ const Cart = () => {
                 </div>
               </div>
             
-            </div>
+            </div> 
+            : <div className="flex gap-2 items-center ml-30 justify-center">
+              <i className="ri-close-circle-line text-2xl"></i>
+              <h2 className="text-lg">Your Cart it empty</h2>
+            </div> 
+            }
 
             <div className="px-8 py-8 w-90 mt-4 text-white bg-(--ablue) h-fit rounded-lg ">
               <div className="flex pb-4 justify-between border-b border-(--bg)/40">

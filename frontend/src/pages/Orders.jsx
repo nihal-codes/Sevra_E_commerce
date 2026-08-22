@@ -3,6 +3,8 @@ import UserHeader from "./UserHeader";
 import { useEffect, useState } from "react";
 import ProductCard3 from "../components/ProductCard3";
 import useProductCatalog from "../hooks/useProductCatalog";
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -14,7 +16,7 @@ const Orders = () => {
       const response = await api.get("/order")
       setOrders(response.data.orders)
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to load orders"))
     }
   }
 
@@ -41,10 +43,10 @@ const Orders = () => {
   const cancelOrder = async(id) => {
     try {
       const response = await api.delete(`/order/${id}`)
-      console.log(response.data)
+      toast.success(response?.data.message)
       fetchOrders();  
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to cancel order"))
     }
   }
 

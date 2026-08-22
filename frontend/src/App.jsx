@@ -72,7 +72,7 @@ const App = () => {
         try {
           const response = await api.get("/me");
           login(response.data.role);
-      } catch (err) {
+      } catch {
           setLoading(false);
       }
     };

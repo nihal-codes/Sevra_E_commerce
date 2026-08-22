@@ -7,6 +7,7 @@ import UserHeader from "./UserHeader"
 import StarRating from "../components/StarRating"
 import ProductTag from "../components/ProductTag"
 import DialogBox from "../components/DialogBox"
+import { getErrorMessage } from "../utils/errorMessage"
 
 const ProductDescription = () => {
   const [product, setProduct   ] = useState([])
@@ -23,7 +24,7 @@ const ProductDescription = () => {
       setProduct(response.data.product)
     }
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to load product"))
     }
   }
   
@@ -68,7 +69,7 @@ const ProductDescription = () => {
         toast.success("Added to cart successfully")
       }
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to update cart"))
     }
   }
 

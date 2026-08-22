@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import api from "../api/api"
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 export default function useProductCatalog() {
   const [categories, setCategories       ] = useState([]);
@@ -11,7 +13,7 @@ export default function useProductCatalog() {
       const response = await api.get("/categories")
       setCategories(response?.data.categories)
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to load categories"))
     }
   }, []);
 
@@ -20,7 +22,7 @@ export default function useProductCatalog() {
       const response = await api.get("/subcategories")
       setSubCategories(response?.data.subCategories)
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to load subcategories"))
     }
   }, []);
 
@@ -30,7 +32,7 @@ export default function useProductCatalog() {
       setProducts(response?.data.products)
     }
     catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to load products"))
     }
   }, []);
 

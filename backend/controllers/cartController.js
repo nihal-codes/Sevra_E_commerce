@@ -27,7 +27,7 @@ const postToCart = async(req, res) => {
   try {
     if (!id || !productId) {
       return res.status(404).json({
-        message: "Either Product or user not found"
+        message: "Invalid user or product! Can't add to cart."
       })
     }
 
@@ -37,7 +37,7 @@ const postToCart = async(req, res) => {
     });
     if (existingCartOrder.length === 1) {
       return res.status(200).json({
-        message: "Already added in cart"
+        message: "Already in cart"
       })
     }
     const cartOrder = new Cart({
@@ -63,7 +63,7 @@ const emptyCart = async(req, res) => {
 
     console.log(response)
     res.status(200).json({
-      message: "Cart cleared"
+      message: "Cart cleared successfully"
     })
   } catch (err) {
     return res.status(500).json({
@@ -91,7 +91,7 @@ const patchCart = async(req, res) => {
         {after: true}
       )
     }
-    res.status(200).json({message: "Changes done"})
+    res.status(200).json({message: "Updated"})
 
   } catch (err) {
     res.status(500).json({
@@ -107,12 +107,12 @@ const deleteFromCart = async(req, res) => {
 
     if (!response){
       return res.status(404).json({
-        message: "No cart order found"
+        message: "No cart orders found"
       })
     }
 
     res.status(200).json({
-      message: "Saved Cart order deleted"
+      message: "Cart order deleted successfully"
     })
 
   } catch (err) {

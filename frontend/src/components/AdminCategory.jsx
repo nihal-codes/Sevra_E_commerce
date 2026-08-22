@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 import DialogBox from "./DialogBox"
 import SearchBar from "./SearchBar"
 import useProductCatalog from "../hooks/useProductCatalog"
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 const AdminCategory = () => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const AdminCategory = () => {
       refetchCategories();
       showInputBox(false)
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to add category"))
     }
   }
 
@@ -36,7 +38,7 @@ const AdminCategory = () => {
       refetchCategories();
 
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to delete category"))
     }
   }
 
@@ -50,7 +52,7 @@ const AdminCategory = () => {
       console.log(response.data)
       
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to update category"))
     }
   }
 

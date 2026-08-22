@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/api";
 import Button from "../components/button";
 import toast from "react-hot-toast";
+import { getErrorMessage } from "../utils/errorMessage";
 
 const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
   const [location, setLocation ] = useState("")
@@ -23,8 +24,9 @@ const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
         }
       )
       setBuyWindow(false)
+      toast.success(response?.data.message)
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to place order"))
     }
   }
 
@@ -34,7 +36,7 @@ const Buy = ({productId, userId, quantity, oldStock, setBuyWindow}) => {
       setFetchedLocations(response.data.locations)
 
     } catch (err) {
-      console.log(err.response?.data)
+      toast.error(getErrorMessage(err, "Unable to load saved locations"))
     }
   }
   useEffect(() => {

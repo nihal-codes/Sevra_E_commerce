@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form"
 import useAuthStore from "../store/AuthStore";
 import { useNavigate, NavLink } from "react-router-dom";
 import api from "../api/api";
+import toast from "react-hot-toast";
+import { getErrorMessage } from "../utils/errorMessage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,8 +27,8 @@ const Login = () => {
       }
     }
     catch (err) {
-      console.log(err.response.data)
-      if(err.response.status === 500) {
+      toast.error(getErrorMessage(err, "Unable to sign in"))
+      if(err.response?.status === 500) {
         navigate("/login")
       }
     }

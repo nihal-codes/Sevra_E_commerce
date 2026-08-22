@@ -6,6 +6,8 @@ import { useSearchParams } from "react-router-dom";
 import DialogBox from "./DialogBox"
 import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
+import toast from "react-hot-toast"
+import { getErrorMessage } from "../utils/errorMessage"
 
 const AdminProduct = () => {
   const {categories, subCategories, products, refetchEverything } = useProductCatalog();
@@ -50,7 +52,7 @@ const AdminProduct = () => {
       showInputBox(false);
       refetchEverything();
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to add product"))
     }
   }
 
@@ -63,7 +65,7 @@ const AdminProduct = () => {
       showUpdateBox(false);
       refetchEverything();
     } catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to update product"))
     }
   }
 
@@ -73,7 +75,7 @@ const AdminProduct = () => {
       refetchEverything();
     }
     catch (err) {
-      console.log(err.response.data)
+      toast.error(getErrorMessage(err, "Unable to delete product"))
     }
   }
 
