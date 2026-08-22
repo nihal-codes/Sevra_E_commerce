@@ -58,10 +58,10 @@ const postToCart = async(req, res) => {
 }
 
 const emptyCart = async(req, res) => {
+  const { id } = req.user;
   try {
-    const response = await Cart.deleteMany({})
+    const response = await Cart.deleteMany({userId: id})
 
-    console.log(response)
     res.status(200).json({
       message: "Cart cleared successfully"
     })
@@ -75,20 +75,21 @@ const emptyCart = async(req, res) => {
 const patchCart = async(req, res) => {
   const { id } = req.params;
   const { update } = req.body;
+  const userId = req.user.id;
   try {
-    const existingCartOrder = await Cart.findById(id);
+    const existingCartOrder = await Cart.findOne({_id: id, userId});
     if (!existingCartOrder) {
       return res.status(404).json({message: "No Cart order found"})
     }
     if (update === "increment") {
       await Cart.findByIdAndUpdate(id,
         {$inc: {quantity: 1}},
-        {after: true}
+        {new: true}
       )
     } else if (update === "decrement") {
       await Cart.findByIdAndUpdate(id,
         {$inc: {quantity: -1}},
-        {after: true}
+        {new: true}
       )
     }
     res.status(200).json({message: "Updated"})
@@ -102,8 +103,9 @@ const patchCart = async(req, res) => {
 
 const deleteFromCart = async(req, res) => {
   const { id } = req.params
+  const userId = req.user.id;
   try {
-    const response = await Cart.findByIdAndDelete(id)
+    const response = await Cart.findOneAndDelete({ _id: id, userId })
 
     if (!response){
       return res.status(404).json({

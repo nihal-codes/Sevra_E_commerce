@@ -174,20 +174,16 @@ const putOrder = async(req, res) => {
 
 const deleteOrder = async(req, res) => {
   const { id } = req.params;
+  const { id: userId, role } = req.user;
   try {
-    const deletedOrder = await Order.findByIdAndDelete(id);
+    const filter = role === "admin" ? { _id: id } : { _id: id, userId };
+    const deletedOrder = await Order.findOneAndDelete(filter);
     if(!deletedOrder) {
-      return res.status(404).json({
-        message: "Order not found"
-      })
+      return res.status(404).json({ message: "Order not found" })
     }
-    res.status(200).json({
-      message: "Order Cancelled successfully"
-    })
+    res.status(200).json({ message: "Order Cancelled successfully" })
   } catch(err) {
-    res.status(500).json({
-      message: err.message
-    })
+    res.status(500).json({ message: err.message })
   }
 }
 

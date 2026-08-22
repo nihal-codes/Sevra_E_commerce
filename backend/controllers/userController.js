@@ -2,7 +2,7 @@ const User = require("../models/Users");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({role: "user"});
+    const users = await User.find({role: "user"}).select("-password");
 
     res.status(200).json({
       message: users.length ? "Users Fetched" : "No user found",
