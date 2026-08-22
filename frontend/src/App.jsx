@@ -72,9 +72,8 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: "Nigaa where the fuck you think you goin"
+    element: <div className="min-h-screen flex items-center justify-center">Page not found</div>
   }
-  
 ])
 
 const App = () => {
@@ -82,16 +81,31 @@ const App = () => {
   const setLoading = useAuthStore((state) => state.setLoading);
 
   useEffect(() => {
-    const checkAuth = async () => {
-        try {
-          const response = await api.get("/me");
-          login(response.data.role);
-      } catch {
-          setLoading(false);
+  const checkAuth = async () => {
+    try {
+      const response = await api.get("/me");
+      if (response.data.authenticated) {
+        login(response.data.role);
+        return;
       }
-    };
-    checkAuth();
-  }, [login, setLoading]);
+      // no access token cookie — refresh token might still be valid, try once
+      try {
+        await api.post("/refresh");
+        const retry = await api.get("/me");
+        if (retry.data.authenticated) {
+          login(retry.data.role);
+          return;
+        }
+      } catch {
+        // refresh token also invalid/missing — genuinely logged out
+      }         
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
+  };
+  checkAuth();
+}, [login, setLoading]);
 
   return (
     <>

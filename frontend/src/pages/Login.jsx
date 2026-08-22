@@ -15,6 +15,7 @@ const Login = () => {
   const loginUser = useAuthStore((state) => state.login)
   const location = useLocation();
   const emailFromRegister = location.state?.email;
+  const [unverifiedEmail, setUnverifiedEmail] = useState("");
 
   const login = async(data) => {
     try {
@@ -32,6 +33,10 @@ const Login = () => {
     }
     catch (err) {
       toast.error(getErrorMessage(err, "Unable to sign in"))
+      // inside catch (err) in login()
+      if (err.response?.status === 403) {
+        setUnverifiedEmail(data.email);
+      }
       if(err.response?.status === 500) {
         navigate("/login")
       }
@@ -97,8 +102,10 @@ const Login = () => {
               <NavLink to="/forgot-password" className="text-sm text-(--truffle) hover:underline">
                 Forgot password?
               </NavLink>
-              <ResendVerification initialEmail={emailFromRegister} />
             </form>
+            {(emailFromRegister || unverifiedEmail) && (
+              <ResendVerification initialEmail={emailFromRegister || unverifiedEmail} />
+            )}
           </div>
         </div>
       </div>
