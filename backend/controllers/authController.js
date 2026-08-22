@@ -30,7 +30,7 @@ const register = async (req, res) => {
     })
     await newUser.save();
 
-    const verificationLink = `http://localhost:5173/verify-email/${vToken}`
+    const verificationLink = `${process.env.FRONTEND_API_URL}/verify-email/${vToken}`
 
     await SendMail(
       email,
@@ -129,7 +129,7 @@ const resendVerification = async (req, res) => {
     await user.save();
 
     const verificationLink =
-      `http://localhost:5173/verify-email/${vToken}`;
+      `${process.env.FRONTEND_API_URL}/verify-email/${vToken}`;
 
     await SendMail(
       email,
@@ -192,7 +192,7 @@ const forgotPassword = async (req, res) => {
     user.passwordResetExpires = new Date(Date.now() + 1000 * 60 * 30);
     await user.save();
 
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_API_URL}/reset-password/${resetToken}`;
     await SendMail(
       email,
       "Reset your password",
@@ -283,14 +283,14 @@ const login = async (req, res) => {
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 15*60*1000
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 7*24*60*60*1000
     });
 
@@ -361,7 +361,7 @@ const refreshToken = async (req, res) => {
         res.cookie("accessToken", newAccessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            sameSite: "none",
             maxAge: 15 * 60 * 1000
         });
         return res.status(200).json({
@@ -378,12 +378,12 @@ const logout = async(req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax"
+    sameSite: "none"
   });
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax"
+    sameSite: "none"
   });
 
   return res.status(200).json({
