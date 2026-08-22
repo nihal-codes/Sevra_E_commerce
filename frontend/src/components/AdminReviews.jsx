@@ -42,8 +42,8 @@ const AdminReviews = () => {
           </div>
         </div>
 
-        <div>
-          <div className="grid grid-cols-[1fr_3fr_3fr_2fr_5fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+        <div className="overflow-x-auto">
+          <div className="grid min-w-200 grid-cols-[1fr_3fr_3fr_2fr_5fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
             <div>#</div>
             <div>Product</div>
             <div>Reviewer</div>
@@ -56,7 +56,7 @@ const AdminReviews = () => {
             {reviews.map((review, index) => {
               const product = products.find((product) => product._id === review.productId)
               return (
-                <div key={review._id} className="grid grid-cols-[1fr_3fr_3fr_2fr_5fr_1fr] gap-2 items-center px-3 py-3 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
+                <div key={review._id} className="grid min-w-200 grid-cols-[1fr_3fr_3fr_2fr_5fr_1fr] gap-2 items-center px-3 py-3 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
 
                   <div><h2>{index + 1}</h2></div>
 

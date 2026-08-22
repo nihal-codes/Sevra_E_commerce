@@ -11,6 +11,7 @@ import AdminReviews from "../components/AdminReviews";
 
 const Admin = () => {
   const [viewPage, setViewPage] = useState("dashboard")
+  const [menu, showMenu] = useState(false)
   const renderComponent = () => {
     switch(viewPage) {
       case "dashboard":
@@ -36,13 +37,15 @@ const Admin = () => {
   return (
     <>
       <div className="flex flex-col bg-(--bg) h-screen overflow-hidden">
-        <AdminHeader />
-        <div className="flex flex-1 min-h-0 gap-20">
+        <AdminHeader showMenu={showMenu} />
+        <div className="flex flex-1 min-h-0 gap-0 lg:gap-20">
           <AdminSidebar 
             viewPage={viewPage}
             setViewPage={setViewPage}
+            menu={menu}
+            showMenu={showMenu}
           />
-          <div className="mt-4 flex-1 min-w-0 overflow-y-auto pr-6">
+          <div className="mt-4 flex-1 min-w-0 overflow-y-auto px-4 lg:px-0 lg:pr-6">
             {renderComponent()}
           </div>
         </div>

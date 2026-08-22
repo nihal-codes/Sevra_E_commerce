@@ -72,9 +72,9 @@ const AdminCategory = () => {
         <div className="absolute inset-0 bg-black/50" onClick={() => showInputBox(false)}></div>
         }
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full lg:w-auto">
 
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col gap-4 w-100 lg:w-full self-center ">
             <div className="flex justify-between items-center ">
               <div className="flex flex-col">
                 <h1 className="text-xl font-bold text-(--ablue)">Categories</h1>
@@ -88,7 +88,7 @@ const AdminCategory = () => {
             <SearchBar item={"Category"} /> 
 
             <div className="flex flex-col">
-              <div className="grid grid-cols-[3fr_9fr_6fr] gap-80 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+              <div className="grid grid-cols-[1fr_3fr_2fr] lg:grid-cols-[3fr_9fr_6fr] gap-2 lg:gap-80 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
                 <div>#</div>
                 <div>Category</div>
                 <div>Actions</div>
@@ -97,7 +97,7 @@ const AdminCategory = () => {
               <div className=" ">
                 
                 {categories.map((category, index) => (
-                  <div key={category._id} className="grid grid-cols-[3fr_9fr_6fr] gap-80 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
+                  <div key={category._id} className="grid grid-cols-[1fr_3fr_2fr] lg:grid-cols-[3fr_9fr_6fr] gap-2 lg:gap-80 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
                     <div>
                       <h2>{index + 1}</h2>
                     </div>

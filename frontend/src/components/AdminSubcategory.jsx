@@ -75,8 +75,8 @@ const AdminSubcategory = () => {
       {(updateBox || inputBox) && 
         <div className="absolute inset-0 bg-black/50 " onClick={() => {showInputBox(false); showUpdateBox(false)}}></div>
       }      
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center ">
+        <div className="flex flex-col gap-4 w-full lg:w-auto">
+          <div className="flex justify-between items-center w-100 lg:w-full self-center">
               <div className="flex flex-col">
                 <h1 className="text-xl font-bold text-(--ablue)">Subcategories</h1>
                 <h4 className="text-xs font-light ">Manage all Subcategories in your store</h4>
@@ -89,7 +89,7 @@ const AdminSubcategory = () => {
           <SearchBar item={"Subcategory"} />
 
           <div>
-            <div className="grid grid-cols-[3fr_9fr_9fr_6fr] gap-45 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+            <div className="grid grid-cols-[1fr_2fr_2fr_2fr] lg:grid-cols-[3fr_9fr_9fr_6fr] gap-2 lg:gap-45 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
                 <div>#</div>
                 <div>Category</div>
                 <div>Subcategory</div>
@@ -110,7 +110,7 @@ const AdminSubcategory = () => {
                   .map((subcategory) => {
                     serial += 1;
                     return (
-                    <div key={subcategory._id} className="grid grid-cols-[3fr_9fr_9fr_6fr] gap-45 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
+                    <div key={subcategory._id} className="grid grid-cols-[1fr_2fr_2fr_2fr] lg:grid-cols-[3fr_9fr_9fr_6fr] gap-2 lg:gap-45 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
                       <div>
                         <h2>{serial}</h2>
                       </div>

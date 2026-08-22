@@ -118,8 +118,8 @@ const AdminProduct = () => {
 
         <SearchBar item={"Product"} />
 
-        <div className="flex flex-col">
-          <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+        <div className="flex flex-col overflow-x-auto">
+          <div className="grid min-w-[900px] grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
             <div>Product</div>
             <div>Category</div>
             <div>Price</div>
@@ -146,7 +146,7 @@ const AdminProduct = () => {
                       .filter(product => product.subCategoryId === subCategory._id)
                       .map(product => (
                       <div key={product._id}>  
-                        <div className="grid grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
+                        <div className="grid min-w-[900px] grid-cols-[3fr_1.5fr_1fr_1fr_1.5fr_1fr_1fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
                           <div className="flex items-center gap-4">
                             <img src={product.image} alt={product.name} className="h-16 w-16 rounded-lg"/>
                             <div className="flex flex-col">

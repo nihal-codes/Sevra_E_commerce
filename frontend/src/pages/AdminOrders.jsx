@@ -16,8 +16,8 @@ const AdminOrder = () => {
           </div>
         </div>
 
-        <div>
-          <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-xs font-semibold bg-(--oatmeal) text-(--ablue) ">
+        <div className="overflow-x-auto">
+          <div className="grid min-w-[720px] grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-xs font-semibold bg-(--oatmeal) text-(--ablue) ">
             <div>Product</div>
             <div>User's Name</div>
             <div>Quantity</div>
@@ -30,7 +30,7 @@ const AdminOrder = () => {
               const product = products.find((product) => product._id === order.productId)
               const user = users.find((user) => user._id === order.userId)
               return (
-                <div key={order._id} className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
+                <div key={order._id} className="grid min-w-[720px] grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out">
                   <div className="flex gap-4 items-center">
                     <img src={product?.image} alt="" className="h-16 w-16 rounded-lg"/>
                     <div>

@@ -13,8 +13,8 @@ const AdminUser = () => {
           </div>
         </div>
 
-        <div>
-          <div className="grid grid-cols-[1fr_2fr_2fr_3fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
+        <div className="overflow-x-auto">
+          <div className="grid min-w-162.5 grid-cols-[1fr_2fr_2fr_3fr_1fr] gap-2 px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue) ">
             <div>#</div>
             <div>User's Name</div>
             <div>Email</div>
@@ -26,7 +26,7 @@ const AdminUser = () => {
             {users.map((user, index) => {
               const order = orders.filter((order) => user._id === order.userId)
               return (
-                <div key={user._id} className="grid grid-cols-[1fr_2fr_2fr_3fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out h-14">
+                <div key={user._id} className="grid min-w-162.5 grid-cols-[1fr_2fr_2fr_3fr_1fr] gap-2 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out min-h-14">
                   
                   <div><h1 className="text-sm">{index + 1}</h1></div>
 
