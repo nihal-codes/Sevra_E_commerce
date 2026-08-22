@@ -1,12 +1,14 @@
 import api from "../api/api"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router-dom"
+import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import Buy from "./Buy"
 import UserHeader from "./UserHeader"
 import StarRating from "../components/StarRating"
 import ProductTag from "../components/ProductTag"
 import DialogBox from "../components/DialogBox"
+import useAuthStore from "../store/AuthStore"
 import { getErrorMessage } from "../utils/errorMessage"
 
 const ProductDescription = () => {
@@ -14,6 +16,13 @@ const ProductDescription = () => {
   const [quantity, setQuantity ] = useState(0)
   const [userId, setUserId     ] = useState("")
   const [buyWindow, setBuyWindow ] = useState(false)
+  const [reviews, setReviews   ] = useState([])
+  const [selectedRating, setSelectedRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+
+  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
 
   const { id } = useParams();
 
@@ -27,11 +36,20 @@ const ProductDescription = () => {
       toast.error(getErrorMessage(err, "Unable to load product"))
     }
   }
-  
+
+  const getReviews = useCallback(async () => {
+    try {
+      const response = await api.get("/reviews", { params: { productId: id } })
+      setReviews(response.data.reviews)
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Unable to load reviews"))
+    }
+  }, [id])
 
   useEffect(() => {
     getProduct();
-  }, [])
+    getReviews();
+  }, [id])
 
   useEffect(() => {
     setQuantity(product.minOrderQuantity)
@@ -70,6 +88,23 @@ const ProductDescription = () => {
       }
     } catch (err) {
       toast.error(getErrorMessage(err, "Unable to update cart"))
+    }
+  }
+
+  const handleAddReview = async (data) => {
+    try {
+      await api.post("/reviews", {
+        productId: id,
+        rating: selectedRating,
+        reviewDesc: data.reviewDesc
+      })
+      toast.success("Review added")
+      reset();
+      setSelectedRating(0);
+      getReviews();
+      getProduct();
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Unable to add review"))
     }
   }
 
@@ -226,6 +261,64 @@ const ProductDescription = () => {
             />
           </DialogBox>
         }
+
+        <div className="flex flex-col gap-6 w-full max-w-4xl">
+          <h2 className="text-xl font-bold text-(--ablue)">Customer Reviews</h2>
+
+          {isAuthenticated ? (
+            <form
+              onSubmit={handleSubmit(handleAddReview)}
+              className="flex flex-col gap-3 border border-(--oatmeal) rounded-lg p-4 bg-(--bg)"
+            >
+              <h3 className="text-sm font-semibold text-(--ablue)">Write a review</h3>
+              <div className="flex gap-1 text-2xl">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <i
+                    key={star}
+                    onClick={() => setSelectedRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className={`ri-star-fill cursor-pointer ${
+                      star <= (hoverRating || selectedRating) ? "text-(--truffle)" : "text-gray-300"
+                    }`}
+                  ></i>
+                ))}
+              </div>
+              <textarea
+                {...register("reviewDesc")}
+                required
+                placeholder="Share your thoughts about this product..."
+                rows={3}
+                className="border border-(--oatmeal) rounded-lg p-2 outline-none bg-(--bg) text-sm"
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting || selectedRating === 0}
+                className="border border-(--oatmeal) w-fit rounded-full shadow px-4 py-1.5 text-sm transition-all duration-150 hover:bg-(--oatmeal) disabled:opacity-50"
+              >
+                {isSubmitting ? "Submitting..." : "Submit Review"}
+              </button>
+            </form>
+          ) : (
+            <p className="text-sm text-(--fblue) opacity-70">Log in to write a review.</p>
+          )}
+
+          <div className="flex flex-col gap-4">
+            {reviews.map((review) => (
+              <div key={review._id} className="flex flex-col gap-1 border-b border-(--oatmeal) pb-4">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-sm font-semibold text-(--ablue)">{review.userName}</h3>
+                  <StarRating rating={review.rating} />
+                </div>
+                <p className="text-sm text-(--fblue)">{review.reviewDesc}</p>
+              </div>
+            ))}
+
+            {reviews.length === 0 && (
+              <p className="text-sm opacity-60">No reviews yet. Be the first to review this product.</p>
+            )}
+          </div>
+        </div>
       </div>
       </div>
     </>

@@ -7,14 +7,15 @@ import AdminSidebar from "../components/AdminSidebar";
 import AdminUser from "../components/AdminUser";
 import AdminOrder from "./AdminOrders";
 import AdminDashboard from "../components/AdminDashboard";
+import AdminReviews from "../components/AdminReviews";
 
 const Admin = () => {
-  const [viewPage, setViewPage] = useState("")
+  const [viewPage, setViewPage] = useState("dashboard")
   const renderComponent = () => {
     switch(viewPage) {
       case "dashboard":
         return <AdminDashboard />
-      case "product":
+      case "products":
         return <AdminProduct />
       case "categories":
         return <AdminCategory />
@@ -24,6 +25,8 @@ const Admin = () => {
         return <AdminOrder />
       case "users":
         return <AdminUser />
+      case "reviews":
+        return <AdminReviews />
       
       default:
         return <AdminDashboard />
@@ -35,7 +38,10 @@ const Admin = () => {
       <div className="flex flex-col bg-(--bg) h-screen overflow-hidden">
         <AdminHeader />
         <div className="flex flex-1 min-h-0 gap-20">
-          <AdminSidebar viewPage={viewPage} setViewPage={setViewPage} />
+          <AdminSidebar 
+            viewPage={viewPage}
+            setViewPage={setViewPage}
+          />
           <div className="mt-4 flex-1 min-w-0 overflow-y-auto pr-6">
             {renderComponent()}
           </div>

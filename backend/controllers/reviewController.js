@@ -1,24 +1,29 @@
 const Product = require("../models/Product")
 const Review = require("../models/Reviews")
+const User = require("../models/Users")
 
 const getReviews = async(req, res) => {
+  const { productId } = req.query;
+
   try {
-    const products = await Product.find()
-    if (products.length === 0){ 
-      return res.status(404).json({ 
-        message: "Products not found"
-      })
-    }
-    const reviews = await Review.find();
-    if (reviews.length === 0){
-      return res.status(404).json({
-        message: "Reviews not found"
-      })
-    }
+    const filter = productId ? { productId } : {};
+    const reviews = await Review.find(filter).sort({ _id: -1 });
+
+    const userIds = [...new Set(reviews.map((review) => review.userId).filter(Boolean))];
+    const users = await User.find({ _id: { $in: userIds } }).select("fullName");
+    const userMap = {};
+    users.forEach((user) => {
+      userMap[user._id.toString()] = user.fullName;
+    });
+
+    const reviewsWithNames = reviews.map((review) => ({
+      ...review.toObject(),
+      userName: userMap[review.userId] || "Anonymous"
+    }));
+
     res.status(200).json({
-      products: products,
-      reviews: reviews,
-      message: "Data found"
+      message: reviewsWithNames.length ? "Reviews fetched" : "No reviews found",
+      reviews: reviewsWithNames
     })
   } catch (err) {
     return res.status(500).json({
@@ -29,30 +34,54 @@ const getReviews = async(req, res) => {
 
 const postReviews = async(req, res) => {
   const { rating, reviewDesc, productId } = req.body;
-    try {
-      const existingProduct = await Product.findById(productId);
-      if (!existingProduct) {
-        return res.status(404).json({
-          message: "Product not found! Cant insert"
-        })
-      }
-      const newReview = new Review({
-        rating: rating, 
-        reviewDesc: reviewDesc,
-        productId: productId
-      })
-  
-      const savedReview = await newReview.save();
-  
-      res.status(201).json({
-        message: "Review added"
-      })
-  
-    } catch (err) { 
-      res.status(500).json({
-        message: err.message
+  const { id: userId } = req.user;
+
+  try {
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ message: "Rating must be between 1 and 5" });
+    }
+    if (!reviewDesc || !reviewDesc.trim()) {
+      return res.status(400).json({ message: "Review description is required" });
+    }
+
+    const existingProduct = await Product.findById(productId);
+    if (!existingProduct) {
+      return res.status(404).json({
+        message: "Product not found! Cant insert"
       })
     }
+
+    const existingReview = await Review.findOne({ productId, userId });
+    if (existingReview) {
+      return res.status(409).json({
+        message: "You have already reviewed this product"
+      })
+    }
+
+    const newReview = new Review({
+      rating: rating,
+      reviewDesc: reviewDesc,
+      productId: productId,
+      userId: userId
+    })
+
+    await newReview.save();
+
+    const allReviews = await Review.find({ productId });
+    const avgRating = allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length;
+    await Product.findByIdAndUpdate(productId, {
+      rating: Math.round(avgRating * 10) / 10
+    });
+
+    res.status(201).json({
+      message: "Review added"
+    })
+
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    })
+  }
 }
 
 const putReview = async (req, res) => {
@@ -67,13 +96,20 @@ const putReview = async (req, res) => {
       })
     }
 
-    const updateReview = await Review.findByIdAndUpdate(id,
+    await Review.findByIdAndUpdate(id,
       {
         rating: rating,
       }, {
-        after: true
+        new: true
       }
     )
+
+    const allReviews = await Review.find({ productId: existingReview.productId });
+    const avgRating = allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length;
+    await Product.findByIdAndUpdate(existingReview.productId, {
+      rating: Math.round(avgRating * 10) / 10
+    });
+
     res.status(200).json({
       message: "Review updated"
     })
@@ -94,6 +130,15 @@ const deleteReview = async (req, res) => {
         message: "No review found"
       })
     }
+
+    const remainingReviews = await Review.find({ productId: deleted.productId });
+    const avgRating = remainingReviews.length
+      ? remainingReviews.reduce((sum, review) => sum + review.rating, 0) / remainingReviews.length
+      : 0;
+    await Product.findByIdAndUpdate(deleted.productId, {
+      rating: Math.round(avgRating * 10) / 10
+    });
+
     res.status(200).json({
       message: "Review deleted"
     })
