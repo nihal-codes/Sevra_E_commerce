@@ -15,12 +15,16 @@ const Register = () => {
       const response = await axios.post("http://localhost:3000/register", data)
       console.log(response.data)
       if (response.status === 201) {
-          navigate("/login")
+          navigate("/login", {
+            state: {
+              email: data.email
+            }
+          })
       }
     } catch (err) {
       toast.error(getErrorMessage(err, "Unable to create account"))
       if(err.response?.status === 500) {
-        navigate("/login")
+        navigate("/register")
       }
     }
   }

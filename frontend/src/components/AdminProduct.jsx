@@ -1,8 +1,6 @@
 import api from "../api/api"
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 import DialogBox from "./DialogBox"
 import useProductCatalog from "../hooks/useProductCatalog";
 import SearchBar from "./SearchBar";
@@ -20,11 +18,6 @@ const AdminProduct = () => {
   const [inputBox, showInputBox          ] = useState(false);
   const [updateBox, showUpdateBox        ] = useState(false);
   const inputStyling = "border border-(--oatmeal) p-2 rounded-lg shadow outline-none";
-
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();          
-  const categoryFilter = searchParams.get("category");
-  const subCategoryFilter = searchParams.get("subcategory");
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 

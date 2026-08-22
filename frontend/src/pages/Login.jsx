@@ -1,16 +1,20 @@
+import api from "../api/api";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useForm } from "react-hook-form"
 import useAuthStore from "../store/AuthStore";
+import { useLocation } from "react-router-dom";
 import { useNavigate, NavLink } from "react-router-dom";
-import api from "../api/api";
-import toast from "react-hot-toast";
 import { getErrorMessage } from "../utils/errorMessage";
+import ResendVerification from "../components/ResendEmail";
 
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: {isSubmitting} } = useForm();
   const [password, showPassword ] = useState(false)
   const loginUser = useAuthStore((state) => state.login)
+  const location = useLocation();
+  const emailFromRegister = location.state?.email;
 
   const login = async(data) => {
     try {
@@ -79,7 +83,7 @@ const Login = () => {
 
               <div className="flex border shadow items-center border-(--oatmeal) rounded-lg p-2 gap-2">
                 <i className="ri-mail-line opacity-50 "></i>
-                <input className="outline-none " type="email" placeholder="Email" {...register("email")} />
+                <input className="outline-none " type="email" placeholder="Email" defaultValue={emailFromRegister} {...register("email")} />
               </div>
               <div className="flex border shadow items-center border-(--oatmeal) rounded-lg p-2 gap-2">
                 <i className="ri-lock-password-line opacity-50 "></i>
@@ -90,6 +94,10 @@ const Login = () => {
               </div>
 
               <input type="submit" value={"Login"} disabled={isSubmitting} className=" border border-(--oatmeal) w-fit rounded-full shadow-lg transition-all duration-150 hover:bg-(--oatmeal) active:scale-102 px-4 py-1"/>
+              <NavLink to="/forgot-password" className="text-sm text-(--truffle) hover:underline">
+                Forgot password?
+              </NavLink>
+              <ResendVerification initialEmail={emailFromRegister} />
             </form>
           </div>
         </div>

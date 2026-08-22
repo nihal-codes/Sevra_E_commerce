@@ -14,6 +14,8 @@ import useAuthStore from "./store/AuthStore"
 import VerifyEmail from "./pages/VerifyEmail"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
+import ForgotPassword from "./pages/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword"
 
 const router = createBrowserRouter([
   {path: "/sevra", element: <Sevra />},
@@ -51,6 +53,18 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element:<Login />
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />
+  },
+  {
+    path: "/reset-password/:token",
+    element: <ResetPassword />
   },
   {
     path: "/verify-email/:token",

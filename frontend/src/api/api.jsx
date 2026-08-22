@@ -1,6 +1,8 @@
 import axios from "axios";
 import useAuthStore from "../store/AuthStore";
 
+let refreshRequest;
+
 const api = axios.create({
     baseURL: "http://localhost:3000",
     withCredentials: true,
@@ -20,12 +22,12 @@ api.interceptors.response.use(
         ) {
             originalRequest._retry = true;
             try {
-                await api.post("/refresh");
+                refreshRequest ??= api.post("/refresh").finally(() => {
+                    refreshRequest = undefined;
+                });
+                await refreshRequest;
                 return api(originalRequest);
             } catch (refreshError) {
-                if (originalRequest.url === "/me") {
-                    return Promise.reject(refreshError);
-                }
                 useAuthStore.getState().logout();
                 window.location.href = "/login";
                 return Promise.reject(refreshError);

@@ -101,6 +101,156 @@ const verifyEmail = async(req, res) => {
   }
 }
 
+const resendVerification = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "No account found with this email"
+      });
+    }
+
+    if (user.verified) {
+      return res.status(400).json({
+        message: "Email is already verified"
+      });
+    }
+
+    const vToken = crypto.randomBytes(32).toString("hex");
+
+    user.verificationToken = vToken;
+    user.verificationExpires = new Date(
+      Date.now() + 1000 * 60 * 30
+    );
+
+    await user.save();
+
+    const verificationLink =
+      `http://localhost:5173/verify-email/${vToken}`;
+
+    await SendMail(
+      email,
+      "Verify your email",
+      `
+        <h2>Verify your email</h2>
+
+        <p>Hello ${user.fullName},</p>
+
+        <p>
+          Here is your new email verification link.
+          Please click the button below to verify your email address.
+        </p>
+
+        <a
+          href="${verificationLink}"
+          style="
+            display:inline-block;
+            padding:12px 20px;
+            background:#000;
+            color:#fff;
+            text-decoration:none;
+            border-radius:6px;
+          "
+        >
+          Verify Email
+        </a>
+
+        <p>
+          This link will expire in 30 minutes.
+        </p>
+      `
+    );
+
+    return res.status(200).json({
+      message: "Verification email sent successfully"
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message
+    });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "No account found with this email" });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.passwordResetToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+    user.passwordResetExpires = new Date(Date.now() + 1000 * 60 * 30);
+    await user.save();
+
+    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    await SendMail(
+      email,
+      "Reset your password",
+      `<h2>Reset your password</h2>
+       <p>Hello ${user.fullName},</p>
+       <p>Click the button below to choose a new password.</p>
+       <a href="${resetLink}" style="display:inline-block;padding:12px 20px;background:#000;color:#fff;text-decoration:none;border-radius:6px;">Reset Password</a>
+       <p>This link will expire in 30 minutes.</p>`
+    );
+
+    return res.status(200).json({ message: "Password reset email sent successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: new Date() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired password reset link" });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    user.passwordResetToken = null;
+    user.passwordResetExpires = null;
+    await user.save();
+    return res.status(200).json({ message: "Password reset successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+const changePassword = async (req, res) => {
+  const { currentPassword, password } = req.body;
+
+  try {
+    const isMatch = await bcrypt.compare(currentPassword, req.user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Current password is incorrect" });
+    }
+
+    req.user.password = await bcrypt.hash(password, 10);
+    await req.user.save();
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   try { 
@@ -242,5 +392,6 @@ const logout = async(req, res) => {
 }
 
 module.exports = {
-  register, login, verifyEmail, getCurrentUser, refreshToken, logout
+  register, login, verifyEmail, getCurrentUser, refreshToken, logout,
+  resendVerification, forgotPassword, resetPassword, changePassword
 }
