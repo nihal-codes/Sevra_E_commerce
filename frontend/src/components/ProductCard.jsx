@@ -4,7 +4,7 @@ const ProductCard = ({image, name, brand, rating, price, onClick, children}) => 
   
   return (
     <>
-      <div className="flex items-end gap-6 border p-3 rounded-xl border-(--oatmeal) shadow-lg bg-linear-to-r from-(--bg)  to-(--oatmeal)" onClick={onClick}>
+      <div className="flex items-end gap-4 lg:gap-6 border p-3 rounded-xl border-(--oatmeal) shadow lg:shadow-lg bg-linear-to-r from-(--bg)  to-(--oatmeal)" onClick={onClick}>
         <div className="">
           <img src={image} alt={name} className="h-42 w-40 rounded-lg"/>
         </div>

@@ -49,7 +49,7 @@ const Product = () => {
     <>
     <div className="flex justify-between">
 
-      <div className="mx-16 flex flex-col items-start overflow-auto">
+      <div className="ml-4 lg:ml-16 flex flex-col items-start overflow-auto">
         {categories
           .filter(category => !categoryFilter || category._id === categoryFilter) // ← added
         .map(category => 
@@ -70,7 +70,7 @@ const Product = () => {
               )
               &&
               (<div key={subCategory._id}>
-                <div className="flex gap-2 items-center  mb-4">
+                <div className="flex gap-2 items-center  mb-2 lg:mb-4">
                   <h2 className="font-bold text-lg ">
                     {category.name}
                   </h2>
@@ -84,7 +84,7 @@ const Product = () => {
                   {products
                   .filter(product => product.subCategoryId === subCategory._id)
                   .map(product => (
-                    <div key={product._id} className="pb-6 px-3 shrink-0 ">
+                    <div key={product._id} className="pb-2 lg:pb-6 scale-90 -ml-3 -mt-2 lg:scale-100 lg:ml-0 lg:mt-0  px-3 shrink-0 ">
                       <ProductCard 
                         image    = {product.image }
                         name     = {product.name  }
@@ -98,7 +98,7 @@ const Product = () => {
                               e.stopPropagation();
                               handleAddToCart(product._id);
                             }}
-                            className="rounded-lg py-2 px-10 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) ">
+                            className="rounded-lg py-2 px-4 lg:px-10 bg-(--ablue) text-white text-sm font-semibold transition-all duration-150 hover:bg-(--fblue) ">
                             <i className="ri-shopping-cart-2-line"></i> Add to Cart
                           </button>
                         }   

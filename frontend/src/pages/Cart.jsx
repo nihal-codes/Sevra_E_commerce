@@ -81,9 +81,9 @@ const Cart = () => {
         <UserHeader />
         
         <div className="relative flex flex-col p-4 h-[83dvh] w-full mx-auto justify-between items-center bg-(--bg) ">
-          <div className="flex justify-between gap-12 ">
-            {savedCartOrders.length > 0 
-            ? <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center lg:flex-row lg:items- justify-between gap-4 lg:gap-12 ">
+            {savedCartOrders.length > 0 ?
+            <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <h1 className="text-3xl font-semibold mb-2">Your Cart</h1>
@@ -96,10 +96,10 @@ const Cart = () => {
               </div>
 
               <div className="rounded-lg ">
-                <div className="grid grid-cols-[6fr_3fr_3fr_1fr] px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue)">
+                <div className="grid grid-cols-[4fr_3fr_3fr_1fr] lg:grid-cols-[6fr_3fr_3fr_1fr] px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue)">
                   <div>Product</div>
                   <div>Quantity</div>
-                  <div>Price</div>
+                  <div className="ml-4">Price</div>
                   <div>Delete</div>
                 </div>
                 
@@ -133,7 +133,7 @@ const Cart = () => {
             </div> 
             }
 
-            <div className="px-8 py-8 w-90 mt-4 text-white bg-(--ablue) h-fit rounded-lg ">
+            <div className="px-8 py-8 w-90 mt-4 mb-4 lg:mb-0 text-white bg-(--ablue) h-fit rounded-lg ">
               <div className="flex pb-4 justify-between border-b border-(--bg)/40">
                 <h2 className="text-(--flame) uppercase font-semibold">Order Summary</h2>
                 <h2 className="text-white/90">{savedCartOrders.length} <span className="text-sm">items</span></h2>
@@ -185,30 +185,31 @@ const Cart = () => {
             </div>
           </div>
 
-          <div className="flex gap-4  border border-(--truffle)/80 p-4 rounded-lg">
-              <div className="w-80 border-r border-(--truffle) flex items-start gap-3">
+          <div className="flex gap-4 border border-(--truffle)/80 p-4 rounded-lg">
+              <div className="w-fit lg:w-80 border-r border-(--truffle) flex items-start gap-3">
                 <i className={`ri-truck-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">Fast Delivery</span>
                   <br />
-                  Get your order in 3-5 business days
+                  <span className="hidden lg:block">Get your order in 3-5 business days</span>
                 </h2>
               </div>
-              <div className="w-80 border-r border-(--truffle) flex items-start gap-3">
+              <div className="w-fit lg:w-80 border-r border-(--truffle) flex items-start gap-3">
                 <i className={`ri-shield-check-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">Secure Payment</span>
                   <br />
-                  100% secure payments with trusted partners
+                  <span className="hidden lg:block">100% secure payments with trusted partners</span>
                 </h2>
               </div>
               
-              <div className="w-80 flex items-start gap-3">
+              <div className="w-fit lg:w-80 flex items-start gap-3">
                 <i className={`ri-customer-service-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">24/7 Support</span>
                   <br />
-                  We're here to help you anytime
+                  <span className="hidden lg:block">We're here to help you anytifit lg:w-80</span>
+                  
                 </h2>
               </div>
           </div>

@@ -66,7 +66,7 @@ const Orders = () => {
               </div>
 
               <div className="rounded-lg ">
-                <div className="grid grid-cols-[6fr_3fr_2fr_3fr_1fr] px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue)">
+                <div className="grid grid-cols-[3fr_3fr_3fr_3fr_1fr] lg:grid-cols-[6fr_3fr_2fr_3fr_1fr] px-3 py-4 rounded-t-lg text-sm font-semibold bg-(--oatmeal) text-(--ablue)">
                   <div>Product</div>
                   <div>Quantity</div>
                   <div>Total</div>
@@ -95,30 +95,31 @@ const Orders = () => {
             </div>
           </div>
 
-          <div className="flex gap-4  border border-(--truffle)/80 p-4 rounded-lg">
-              <div className="w-80 border-r border-(--truffle) flex items-start gap-3">
+          <div className="flex gap-4 border border-(--truffle)/80 p-4 rounded-lg">
+              <div className="w-fit lg:w-80 border-r border-(--truffle) flex items-start gap-3">
                 <i className={`ri-truck-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">Fast Delivery</span>
                   <br />
-                  Get your order in 3-5 business days
+                  <span className="hidden lg:block">Get your order in 3-5 business days</span>
                 </h2>
               </div>
-              <div className="w-80 border-r border-(--truffle) flex items-start gap-3">
+              <div className="w-fit lg:w-80 border-r border-(--truffle) flex items-start gap-3">
                 <i className={`ri-shield-check-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">Secure Payment</span>
                   <br />
-                  100% secure payments with trusted partners
+                  <span className="hidden lg:block">100% secure payments with trusted partners</span>
                 </h2>
               </div>
               
-              <div className="w-80 flex items-start gap-3">
+              <div className="w-fit lg:w-80 flex items-start gap-3">
                 <i className={`ri-customer-service-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
                 <h2 className="text-xs font shrink-">
                   <span className="font-semibold">24/7 Support</span>
                   <br />
-                  We're here to help you anytime
+                  <span className="hidden lg:block">We're here to help you anytifit lg:w-80</span>
+                  
                 </h2>
               </div>
           </div>

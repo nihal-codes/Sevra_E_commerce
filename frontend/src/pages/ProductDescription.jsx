@@ -120,20 +120,21 @@ const ProductDescription = () => {
           }}>
         </div>
       }
-        <div className="flex gap-12">
-          <div className="flex gap-6 border border-(--truffle) p-6 h-113 rounded-lg ">
-            <div className="">
+        <div className="flex flex-col lg:flex-row px-6 lg:px-0 gap-6 lg:gap-12">
+          <div className="flex flex-col lg:flex-row gap-6 border border-(--truffle) p-2 lg:p-6 rounded-lg ">
+            <div className="hidden lg:block">
               <img src={product.image} alt="" className="h-20 w-18 rounded-lg border border-(--truffle)"/>
             </div>
-            <div className="relative">
+            <div className="relative self-center">
               <img src={product.image} alt={product.name} className="h-100 w-90 rounded-lg border border-(--truffle)"/>
-              <div className="absolute flex items-center justify-center h-8 w-8 bg-(--bg) border border-(--truffle) rounded-full bottom-3 right-3">
+              <div className="absolute hidden lg:flex items-center justify-center h-8 w-8 bg-(--bg) border border-(--truffle) rounded-full bottom-3 right-3">
                 <i className="ri-expand-diagonal-line"></i>
               </div>
-            </div>
+            
           </div>  
+            </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col px-6 lg:px-0 gap-2">
             <h3 className="bg-(--oatmeal) flex items-center text-sm w-fit p-1 rounded-lg px-2 text-(--fblue)"><span className="text-[10px] align-middle mr-2"><i className="ri-checkbox-blank-circle-fill"></i></span> {product.stock ? "In Stock" : "Out of Stock"}</h3>
             <h1 className="text-3xl font-bold">{product.name}</h1>
             <h3 className="text-(--truffle) font-semibold"><span className="text-(--fblue) font-medium">by </span>{product.brand}</h3>
@@ -202,37 +203,37 @@ const ProductDescription = () => {
         </div>
 
         <div className="flex rounded-xl border-2 border-(--truffle)  ">
-          <div className="flex gap-4 m-6">
-            <div className="w-45 border-r border-(--truffle) flex items-start gap-3">
+          <div className="hidden lg:flex gap-4 m-6 ">
+            <div className="w-fit lg:w-45 border-r border-(--truffle) flex items-center lg:items-start gap-3">
               <i className={`ri-truck-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
               <h2 className="text-xs font shrink-">
                 <span className="font-semibold">Fast Delivery</span>
                 <br />
-                Get your order in 3-5 business days
+                <span className="hidden lg:block">Get your order in 3-5 business days</span>
               </h2>
             </div>
-            <div className="w-45 border-r border-(--truffle) flex items-start gap-3">
+            <div className="w-fit lg:w-45 border-r border-(--truffle) flex items-center lg:items-start gap-3">
               <i className={`ri-shield-check-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
               <h2 className="text-xs font shrink-">
                 <span className="font-semibold">Secure Payment</span>
                 <br />
-                100% secure payments with trusted partners
+                <span className="hidden lg:block">100% secure payments with trusted partners</span>
               </h2>
             </div>
             
-            <div className="w-45 flex items-start gap-3">
+            <div className="w-fit lg:w-45 flex items-center lg:items-start gap-3">
               <i className={`ri-customer-service-line font-thin text-2xl text-(--fblue) h-10 w-10 flex items-center justify-center`}></i>
               <h2 className="text-xs font shrink-">
                 <span className="font-semibold">24/7 Support</span>
                 <br />
-                We're here to help you anytime
+                <span className="hidden lg:block">We''re here to help you anytime</span>
               </h2>
             </div>
           </div>
 
-          <div className="w-px bg-(--truffle)"></div>
+          <div className="hidden lg:block w-px bg-(--truffle)"></div>
 
-          <div className="flex gap-4 m-6" >
+          <div className="flex gap-4 m-3 lg:m-6" >
             <div className="flex items-center gap-5 bg-(--light) border border-(--truffle) rounded-lg p-1 w-30 justify-center px-3">
               <button onClick={() => decrementQuantity()}><i className="ri-subtract-line text-lg"></i></button>
               <h2 className="text-(--ablue) text-lg">{quantity}</h2>
@@ -262,7 +263,7 @@ const ProductDescription = () => {
           </DialogBox>
         }
 
-        <div className="flex flex-col gap-6 w-full max-w-4xl">
+        <div className="flex flex-col gap-6 w-full max-w-4xl px-4 lg:px-0">
           <h2 className="text-xl font-bold text-(--ablue)">Customer Reviews</h2>
 
           {isAuthenticated ? (
