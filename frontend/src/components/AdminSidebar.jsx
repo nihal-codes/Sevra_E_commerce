@@ -6,9 +6,14 @@ const AdminSidebar = ({viewPage, setViewPage}) => {
   
   return (
     <>
-      <div className="flex flex-col sticky justify-between  text-(--ablue) border-r border-(--oatmeal) ">
+      <div className="flex flex-col justify-between h-full shrink-0 text-(--ablue) border-r border-(--oatmeal)">
         <div className="mx-6">
-          <button className="flex rounded-lg gap-4 px-2 w-full py-1 mb-4 items-center transition-all duration-200 hover:bg-(--oatmeal)/50">
+          <button
+            onClick={() => setViewPage("dashboard")}
+            className={viewPage === "dashboard" || viewPage === ""
+              ? "flex rounded-lg gap-4 px-2 w-full py-1 mb-4 items-center transition-all duration-200 bg-(--oatmeal)/50"
+              : "flex rounded-lg gap-4 px-2 w-full py-1 mb-4 items-center transition-all duration-200 hover:bg-(--oatmeal)/50"}
+          >
             <i className="ri-home-6-line"></i>
             <h2 className="text-sm font-semibold">Dashboard</h2>
           </button>

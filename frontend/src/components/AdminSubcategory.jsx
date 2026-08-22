@@ -9,7 +9,6 @@ import { getErrorMessage } from "../utils/errorMessage"
 
 const AdminSubcategory = () => {
   const {categories, subCategories, refetch_c_sc} = useProductCatalog();
-  const [serialNum, setSerialNum     ] = useState(1)
   const [categoryId, setCategoryId       ] = useState("")
   const [subCategoryId, setSubCategoryId ] = useState("")
   const [inputBox, showInputBox          ] = useState(false)
@@ -98,7 +97,9 @@ const AdminSubcategory = () => {
               </div>
 
             <div className="">
-              {categories.map((category) => (
+              {(() => {
+                let serial = 0;
+                return categories.map((category) => (
                 subCategories.some((subcategory) => subcategory.categoryId === category._id 
               ))
               && 
@@ -106,10 +107,12 @@ const AdminSubcategory = () => {
                 <div key={category._id}>
                   {subCategories
                   .filter((subcategory) => subcategory.categoryId === category._id)
-                  .map((subcategory) => (
+                  .map((subcategory) => {
+                    serial += 1;
+                    return (
                     <div key={subcategory._id} className="grid grid-cols-[3fr_9fr_9fr_6fr] gap-45 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
                       <div>
-                        <h2>{serialNum}</h2>
+                        <h2>{serial}</h2>
                       </div>
                       <div>
                         <h2 className="font-semibold">{category.name}</h2>
@@ -124,10 +127,11 @@ const AdminSubcategory = () => {
                       </div>
 
                   </div>
-                  ))}
+                  );
+                  })}
                 </div>
               )
-            )}
+            )})()}
             </div>
           </div>
 

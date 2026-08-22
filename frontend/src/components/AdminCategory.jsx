@@ -11,7 +11,6 @@ import { getErrorMessage } from "../utils/errorMessage"
 const AdminCategory = () => {
   const navigate = useNavigate();
   const { categories,refetchCategories } = useProductCatalog();
-  const [serialNum, setSerialNum     ] = useState(1)
   const [newCategory, setNewCategory ] = useState("")
   const [id, setId                   ] = useState("")
   const [inputBox, showInputBox      ] = useState(false)  
@@ -97,10 +96,10 @@ const AdminCategory = () => {
 
               <div className=" ">
                 
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <div key={category._id} className="grid grid-cols-[3fr_9fr_6fr] gap-80 items-center px-3 py-2 border-b border-x border-(--oatmeal) hover:bg-(--oatmeal)/20 transition-colors duration-300 ease-in-out text-sm">
                     <div>
-                      <h2>{serialNum}</h2>
+                      <h2>{index + 1}</h2>
                     </div>
                     <div>
                       <h2 className="font-semibold">{category.name}</h2>

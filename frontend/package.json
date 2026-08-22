@@ -17,6 +17,7 @@
     "react-hook-form": "^7.82.0",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.18.1",
+    "recharts": "^3.10.1",
     "remixicon": "^4.9.1",
     "tailwindcss": "^4.3.3",
     "zustand": "^5.0.14"
