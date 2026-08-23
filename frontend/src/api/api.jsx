@@ -4,7 +4,7 @@ import useAuthStore from "../store/AuthStore";
 let refreshRequest;
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: "/api",
     withCredentials: true,
 });
 
