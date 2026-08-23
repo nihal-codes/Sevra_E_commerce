@@ -26,7 +26,7 @@ const UserSidebar = ({menu, showMenu}) => {
 
         {role === "user" && <div className="flex flex-col gap-2">
           <h3 className="text-sm self-start mt-6">Settings</h3>
-          <button className={buttonStyle} onClick={() => navigate("/forgot-password")}><i className="ri-lock-unlock-line"></i>Forget Password</button>
+          {/*<button className={buttonStyle} onClick={() => navigate("/forgot-password")}><i className="ri-lock-unlock-line"></i>Forget Password</button>*/}
           <button className={buttonStyle} onClick={() => navigate("/reset-password")}><i className="ri-pencil-line"></i>Reset Password</button>
           <button className={`${buttonStyle} text-red-600`} onClick={handleLogout}><i className="ri-logout-box-line"></i>Logout</button>
         </div>}
