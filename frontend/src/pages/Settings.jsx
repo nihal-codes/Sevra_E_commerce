@@ -16,12 +16,12 @@ const Settings = ({onMouseOver, onMouseLeave}) => {
           <i className="ri-edit-line"></i>
           <h2>Reset Password</h2>
         </button>
-        <button 
+        {/*<button 
         onClick={() => navigate("/forgot-password")}
         className="flex items-center rounded-lg gap-2 cursor-pointer transition-all duration-200 hover:bg-(--oatmeal)/50 px-2 py-1 w-full">
           <i className="ri-lock-unlock-line"></i>
           <h2>Forgot Password</h2>
-        </button>
+        </button>*/}
         <button 
         onClick={handleLogout}
         className="flex items-center rounded-lg gap-2 cursor-pointer transition-all duration-200 hover:bg-(--oatmeal)/50 px-2 py-1 w-full  text-red-600">
