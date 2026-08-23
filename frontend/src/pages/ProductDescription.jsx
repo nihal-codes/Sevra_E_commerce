@@ -10,6 +10,7 @@ import ProductTag from "../components/ProductTag"
 import DialogBox from "../components/DialogBox"
 import useAuthStore from "../store/AuthStore"
 import { getErrorMessage } from "../utils/errorMessage"
+import useGuestCartStore from "../store/GuestCartStore";
 
 const ProductDescription = () => {
   const [product, setProduct   ] = useState([])
@@ -21,9 +22,10 @@ const ProductDescription = () => {
   const [hoverRating, setHoverRating] = useState(0)
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  
 
   const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
-
+  const guestAddItem = useGuestCartStore((state) => state.addItem);
   const { id } = useParams();
 
   const getProduct = async() => {
@@ -73,24 +75,28 @@ const ProductDescription = () => {
   }
 
   const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      guestAddItem(id, quantity);
+      toast.success("Added to cart");
+      return;
+    }
     try {
       const response = await api.post("/cart", {
         productId: id,
         orderStatus: false,
         quantity: quantity
-      })
-      console.log(response.data)
-      if (response.status === 200) {
-        toast.error("Already added in cart")        
-      }
-      if (response.status === 201) {
-        toast.success("Added to cart successfully")
-      }
-    } catch (err) {
-      toast.error(getErrorMessage(err, "Unable to update cart"))
+    })
+    if (response.status === 200) {
+      toast.error("Already added in cart")        
+    }
+    if (response.status === 201) {
+      toast.success("Added to cart successfully")
+    }
+  } catch (err) {
+    toast.error(getErrorMessage(err, "Unable to update cart"))
     }
   }
-
+  
   const handleAddReview = async (data) => {
     try {
       await api.post("/reviews", {
