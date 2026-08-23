@@ -6,6 +6,8 @@ import api from "../api/api"
 import ProductCard from "./ProductCard";
 import useProductCatalog from "../hooks/useProductCatalog";
 import { getErrorMessage } from "../utils/errorMessage"
+import useAuthStore from "../store/AuthStore"; // add
+import useGuestCartStore from "../store/GuestCartStore"; // add
 
 const Product = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ const Product = () => {
   const {categories, subCategories, products, refetch } = useProductCatalog();
   const [categoryId, setCategoryId       ] = useState("");
   const [subCategoryId, setSubCategoryId ] = useState("");
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated); // add
+  const guestAddItem = useGuestCartStore((state) => state.addItem); //
   
   useEffect(() => {
     if (!subCategoryId) return;
@@ -28,6 +32,11 @@ const Product = () => {
   }, [subCategoryId, subCategories]);
 
   const handleAddToCart = async (id) => {
+    if (!isAuthenticated) {
+      guestAddItem(id, 1);
+      toast.success("Added to cart");
+      return;
+    }
     try {
       const response = await api.post("/cart", {
         productId: id,
