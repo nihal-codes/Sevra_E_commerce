@@ -6,7 +6,7 @@ import useAuthStore from "../store/AuthStore";
 import { useLocation } from "react-router-dom";
 import { useNavigate, NavLink } from "react-router-dom";
 import { getErrorMessage } from "../utils/errorMessage";
-import ResendVerification from "../components/ResendEmail";
+// import ResendVerification from "../components/ResendEmail";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -99,13 +99,13 @@ const Login = () => {
               </div>
 
               <input type="submit" value={isSubmitting ? "Signing in..." : "Login"} disabled={isSubmitting} className="w-full rounded-full border border-(--oatmeal) px-4 py-2 shadow-lg transition-all duration-150 hover:bg-(--oatmeal) active:scale-102"/>
-              <NavLink to="/forgot-password" className="text-sm text-(--truffle) hover:underline">
-                Forgot password?
+              {/*<NavLink to="/forgot-password" className="text-sm text-(--truffle) hover:underline">
+                Forgot password?*/}
               </NavLink>
             </form>
-            {(emailFromRegister || unverifiedEmail) && (
+            {/*(emailFromRegister || unverifiedEmail) && (
               <ResendVerification initialEmail={emailFromRegister || unverifiedEmail} />
-            )}
+            )*/}
           </div>
         </div>
       </div>
