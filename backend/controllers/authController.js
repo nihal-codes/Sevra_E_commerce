@@ -24,14 +24,14 @@ const register = async (req, res) => {
       fullName: fullName, email: email,
       password: hashedPassword,
       role: "user",
-      verified: false,
+      verified: true,
       verificationToken: vToken,
       verificationExpires: new Date(Date.now() + 1000*60*30) // expires in 30 minutes, 1000 used for milliseconds 
     })
     await newUser.save();
 
-    const verificationLink = `${process.env.FRONTEND_API_URL}/verify-email/${vToken}`
-
+    // const verificationLink = `${process.env.FRONTEND_API_URL}/verify-email/${vToken}`
+    /*
     await SendMail(
       email,
       "Verify your email",
@@ -64,9 +64,9 @@ const register = async (req, res) => {
         </p>
       `
     )
-
+    */
     res.status(201).json({
-      message: "Account Created. Verify your email"
+      message: "Account Created"
     })
   } catch (err) {
     res.status(500).json({
@@ -74,7 +74,7 @@ const register = async (req, res) => {
     })
   }
 }
-
+/*
 const verifyEmail = async(req, res) => {
   const { token } = req.params;
 
@@ -208,7 +208,7 @@ const forgotPassword = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
-
+*/
 const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -268,9 +268,11 @@ const login = async (req, res) => {
         message: "Invalid Credentials"
       })
     }
+    /*
     if (!existingUser.verified) {
       return res.status(403).json({message: "Please verify your email before logging in"})
     }
+    */
     const token = generateToken(
       existingUser._id,
       existingUser.role
