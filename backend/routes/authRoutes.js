@@ -3,8 +3,8 @@ const express = require("express")
 const router = express.Router();
 
 const {
-  register, login, verifyEmail, getCurrentUser, refreshToken, logout,
-  resendVerification, forgotPassword, resetPassword, changePassword
+  register, login, getCurrentUser, refreshToken, logout,
+  resetPassword, changePassword
 } = require("../controllers/authController");
 const verifyToken = require("../middleware/VerifyToken");
 
