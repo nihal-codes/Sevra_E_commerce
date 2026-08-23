@@ -6,6 +6,7 @@ import useAuthStore from "../store/AuthStore";
 import { useLocation } from "react-router-dom";
 import { useNavigate, NavLink } from "react-router-dom";
 import { getErrorMessage } from "../utils/errorMessage";
+import useGuestCartStore from "../store/GuestCartStore";
 // import ResendVerification from "../components/ResendEmail";
 
 const Login = () => {
@@ -23,6 +24,15 @@ const Login = () => {
       const role = response.data.role
       if (response.status === 200) {
         loginUser(role);
+        const guestItems = useGuestCartStore.getState().items;
+        if (guestItems.length) {
+          await Promise.all(
+            guestItems.map(item =>
+              api.post("/cart", { productId: item.productId, orderStatus: false, quantity: item.quantity })
+            )
+          );
+          useGuestCartStore.getState().clear();
+        }
         if (role === "admin") {
           navigate("/admin")
         }
