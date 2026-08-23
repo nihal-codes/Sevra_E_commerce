@@ -11,10 +11,10 @@ import 'remixicon/fonts/remixicon.css'
 import Register from "./pages/Register"
 import { Toaster } from "react-hot-toast"
 import useAuthStore from "./store/AuthStore"
-import VerifyEmail from "./pages/VerifyEmail"
+// import VerifyEmail from "./pages/VerifyEmail"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductDescription from "./pages/ProductDescription"
-import ForgotPassword from "./pages/ForgotPassword"
+// import ForgotPassword from "./pages/ForgotPassword"
 import ResetPassword from "./pages/ResetPassword"
 
 const router = createBrowserRouter([
@@ -54,10 +54,10 @@ const router = createBrowserRouter([
     path: "/login",
     element:<Login />
   },
-  {
+  /*{
     path: "/forgot-password",
     element: <ForgotPassword />
-  },
+  },*/
   {
     path: "/reset-password",
     element: <ResetPassword />
@@ -66,10 +66,10 @@ const router = createBrowserRouter([
     path: "/reset-password/:token",
     element: <ResetPassword />
   },
-  {
+  /*{
     path: "/verify-email/:token",
     element: <VerifyEmail />
-  },
+  },*/
   {
     path: "*",
     element: <div className="min-h-screen flex items-center justify-center">Page not found</div>
