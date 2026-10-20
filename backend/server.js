@@ -18,8 +18,14 @@ const app = express()
 
 connectDB();
 
+const allowedOrigins = [
+  process.env.FRONTEND_API_URL,
+  "https://localhost",
+  "capacitor://localhost",
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_API_URL,
+  origin: allowedOrigins,
   credentials: true,
 }));
 

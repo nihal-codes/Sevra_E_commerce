@@ -7,6 +7,12 @@ const SendMail = require("../utils/SendEmail");
 const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
 
+const authCookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+};
+
 const register = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -283,16 +289,12 @@ const login = async (req, res) => {
     );
 
     res.cookie("accessToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      ...authCookieOptions,
       maxAge: 15*60*1000
     });
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      ...authCookieOptions,
       maxAge: 7*24*60*60*1000
     });
 
@@ -361,9 +363,7 @@ const refreshToken = async (req, res) => {
             user.role
         );
         res.cookie("accessToken", newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            ...authCookieOptions,
             maxAge: 15 * 60 * 1000
         });
         return res.status(200).json({
@@ -377,16 +377,8 @@ const refreshToken = async (req, res) => {
 };
 
 const logout = async(req, res) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none"
-  });
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none"
-  });
+  res.clearCookie("accessToken", authCookieOptions);
+  res.clearCookie("refreshToken", authCookieOptions);
 
   return res.status(200).json({
     message: "Logout successful"
