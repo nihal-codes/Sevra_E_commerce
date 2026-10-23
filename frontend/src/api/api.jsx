@@ -4,8 +4,8 @@ import useAuthStore from "../store/AuthStore";
 let refreshRequest;
 
 const api = axios.create({
-    baseURL: "/api",
-    withCredentials: true,
+  baseURL: import.meta.env.VITE_API_URL || "/api",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(

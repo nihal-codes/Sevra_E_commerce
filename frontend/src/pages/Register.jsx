@@ -1,4 +1,4 @@
-import axios from "axios"
+import api from "../api/api"
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { useNavigate, NavLink } from "react-router-dom";
@@ -12,7 +12,7 @@ const Register = () => {
 
   const reg = async(data) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, data)
+      const response = await api.post("/register", data);
       console.log(response.data)
       if (response.status === 201) {
           navigate("/login", {

@@ -8,31 +8,42 @@ export default function useProductCatalog() {
   const [subCategories, setSubCategories ] = useState([]);
   const [products, setProducts           ] = useState([]);
 
-  const getCategories = useCallback(async() => {
+  const getCategories = useCallback(async () => {
     try {
-      const response = await api.get("/categories")
-      setCategories(response?.data.categories)
+      const response = await api.get("/categories");
+      setCategories(
+        Array.isArray(response?.data?.categories)
+          ? response.data.categories
+          : []
+      );
     } catch (err) {
-      toast.error(getErrorMessage(err, "Unable to load categories"))
+      toast.error(getErrorMessage(err, "Unable to load categories"));
     }
   }, []);
 
-  const getSubCategories = useCallback(async() => {
+  const getSubCategories = useCallback(async () => {
     try {
-      const response = await api.get("/subcategories")
-      setSubCategories(response?.data.subCategories)
+      const response = await api.get("/subcategories");
+      setSubCategories(
+        Array.isArray(response?.data?.subCategories)
+          ? response.data.subCategories
+          : []
+      );
     } catch (err) {
-      toast.error(getErrorMessage(err, "Unable to load subcategories"))
+      toast.error(getErrorMessage(err, "Unable to load subcategories"));
     }
   }, []);
 
-  const getProducts = useCallback(async() => {
+  const getProducts = useCallback(async () => {
     try {
-      const response = await api.get("/products")
-      setProducts(response?.data.products)
-    }
-    catch (err) {
-      toast.error(getErrorMessage(err, "Unable to load products"))
+      const response = await api.get("/products");
+      setProducts(
+        Array.isArray(response?.data?.products)
+          ? response.data.products
+          : []
+      );
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Unable to load products"));
     }
   }, []);
 

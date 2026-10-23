@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+local.properties
+.env
+.env.*
+!.env.example
+
+android/.gradle/
+android/local.properties
+android/**/build/
